@@ -1,6 +1,11 @@
+import dependencies.Deps
+
 buildscript {
     ext {
         compose_version = '1.0.1'
+    }
+    dependencies {
+        classpath Deps.Hilt.gradlePlugin
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
