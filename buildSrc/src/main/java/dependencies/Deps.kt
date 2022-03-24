@@ -3,6 +3,12 @@ package dependencies
 object Deps {
 
     object AndroidX {
+
+        object Constraint {
+            private const val version = "1.0.0"
+            const val core = "androidx.constraintlayout:constraintlayout-compose:${version}"
+        }
+
         object Lifecycle {
             private const val version = "2.4.0"
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
@@ -24,6 +30,8 @@ object Deps {
 
     object Accompanist {
         const val version = "0.23.0"
+
+        const val uiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
         const val swiperRefresh = "com.google.accompanist:accompanist-swiperefresh:$version"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
