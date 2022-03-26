@@ -1,15 +1,17 @@
 package com.example.keepmemo.ui.home
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun HomeRoute(
-    homeViewModel: HomeViewModel,
-    openDrawer: () -> Unit = {},
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    openDrawer: () -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     // UiState of the HomeScreen
@@ -17,6 +19,9 @@ fun HomeRoute(
     HomeRoute(
         uiState = uiState,
         openDrawer = openDrawer,
+        listPaneChange = { listPane ->
+            homeViewModel.updateListPane(listPane)
+        },
         scaffoldState = scaffoldState
     )
 }
@@ -25,9 +30,18 @@ fun HomeRoute(
 fun HomeRoute(
     uiState: HomeUiState,
     openDrawer: () -> Unit,
+    listPaneChange: (HomeListPane) -> Unit,
     scaffoldState: ScaffoldState
-) = HomeScreen(
-    keepList = uiState.keepMemoList,
-    openDrawer = openDrawer,
-    scaffoldState = scaffoldState
-)
+) {
+    val keepListLazyListState = rememberLazyListState()
+    HomeScreen(
+        listPane = uiState.homeListPane,
+        keepList = uiState.keepMemoList,
+        openDrawer = openDrawer,
+        listPaneChange = listPaneChange,
+        keepListLazyListState = keepListLazyListState,
+        isShowTopAppBar = true,
+        isShowBottomAppBar = true,
+        scaffoldState = scaffoldState
+    )
+}

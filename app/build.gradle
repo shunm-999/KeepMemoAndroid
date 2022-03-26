@@ -60,8 +60,8 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
+    implementation 'androidx.activity:activity-compose:1.4.0'
 
     implementation Deps.Accompanist.uiController
     implementation Deps.Accompanist.swiperRefresh
@@ -74,6 +74,7 @@ dependencies {
     implementation Deps.AndroidX.Navigation.navigation
     implementation Deps.AndroidX.Paging.runtime
     implementation Deps.AndroidX.Paging.jetpackCompose
+    implementation Deps.AndroidX.Icons.extended
     implementation Deps.Hilt.android
     implementation Deps.Hilt.Navigation.navigation
     kapt Deps.Hilt.compiler
