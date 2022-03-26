@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">KeepMemo</string>
+    <string name="home_memo_appbar_title">メモを検索</string>
 </resources>

@@ -26,6 +26,11 @@ object Deps {
             const val runtime = "androidx.paging:paging-runtime:$version"
             const val jetpackCompose = "androidx.paging:paging-compose:1.0.0-alpha14"
         }
+
+        object Icons {
+            private const val version = "1.1.1"
+            const val extended = "androidx.compose.material:material-icons-extended:$version"
+        }
     }
 
     object Accompanist {

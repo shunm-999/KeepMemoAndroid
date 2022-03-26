@@ -14,7 +14,13 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+enum class HomeListPane {
+    One,
+    Two
+}
+
 data class HomeUiState(
+    val homeListPane: HomeListPane = HomeListPane.One,
     val keepMemoList: List<Keep> = emptyList(),
     val isLoading: Boolean = false
 )
@@ -24,8 +30,10 @@ class HomeViewModel @Inject constructor(
     private val keepMemoListUseCase: KeepMemoListUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState(isLoading = true))
+    private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+
+    private val _homeListPane = MutableStateFlow(HomeListPane.One)
 
     private val _memoList = keepMemoListUseCase.invokeKeepMemoList()
 
@@ -35,18 +43,24 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             combine(
                 _memoList,
+                _homeListPane,
                 _isLoading
-            ) { memoList, loading ->
+            ) { memoList, homeListPane, loading ->
                 HomeUiState(
                     keepMemoList = when (memoList) {
                         is Result.Success -> memoList.data
                         is Result.Error -> emptyList()
                     },
+                    homeListPane = homeListPane,
                     isLoading = loading
                 )
             }.collect {
                 _uiState.value = it
             }
         }
+    }
+
+    fun updateListPane(homeListPane: HomeListPane) {
+        _homeListPane.value = homeListPane
     }
 }
