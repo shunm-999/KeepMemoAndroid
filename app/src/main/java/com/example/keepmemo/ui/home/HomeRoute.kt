@@ -12,6 +12,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun HomeRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
     openDrawer: () -> Unit,
+    navigateToAddKeep: () -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     // UiState of the HomeScreen
@@ -22,6 +23,7 @@ fun HomeRoute(
         listPaneChange = { listPane ->
             homeViewModel.updateListPane(listPane)
         },
+        navigateToAddKeep = navigateToAddKeep,
         scaffoldState = scaffoldState
     )
 }
@@ -31,6 +33,7 @@ fun HomeRoute(
     uiState: HomeUiState,
     openDrawer: () -> Unit,
     listPaneChange: (HomeListPane) -> Unit,
+    navigateToAddKeep: () -> Unit,
     scaffoldState: ScaffoldState
 ) {
     val keepListLazyListState = rememberLazyListState()
@@ -39,6 +42,7 @@ fun HomeRoute(
         keepList = uiState.keepMemoList,
         openDrawer = openDrawer,
         listPaneChange = listPaneChange,
+        navigateToAddKeep = navigateToAddKeep,
         keepListLazyListState = keepListLazyListState,
         isShowTopAppBar = true,
         isShowBottomAppBar = true,

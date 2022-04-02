@@ -9,9 +9,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.keepmemo.ui.theme.KeepMemoTheme
 import com.google.accompanist.insets.ProvideWindowInsets
@@ -33,15 +35,19 @@ fun KeepDemoApp() {
 
             val navController = rememberNavController()
             val navigationActions = rememberKeepMemoNavigationActions(navController)
-            val drawerState = rememberDrawerState(DrawerValue.Closed)
 
+            val drawerState = rememberDrawerState(DrawerValue.Closed)
             val coroutineScope = rememberCoroutineScope()
+
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
 
             ModalDrawer(
                 drawerContent = {
                     // TODO ドロワーの実装
                 },
-                drawerState = drawerState
+                drawerState = drawerState,
+                gesturesEnabled = currentRoute in listOf(KeepMemoNavigation.Home.route)
             ) {
                 Surface(
                     modifier = Modifier
