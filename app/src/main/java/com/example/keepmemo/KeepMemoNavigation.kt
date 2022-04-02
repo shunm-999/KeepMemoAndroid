@@ -8,7 +8,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 sealed class KeepMemoNavigation(val route: String) {
-    object Home : KeepMemoNavigation("memoList")
+    object Home : KeepMemoNavigation("home")
+    object AddOrEditKeep : KeepMemoNavigation("addOrEditKeep?keepId={keepId}") {
+        const val QUERY_KET_KEEP_ID = "keepId"
+        fun createRoute(keepId: Long) = "addOrEditKeep?$QUERY_KET_KEEP_ID={$keepId}"
+    }
 }
 
 @Composable
@@ -27,5 +31,8 @@ class KeepMemoNavigationActions(navController: NavController) {
             launchSingleTop = true
             restoreState = true
         }
+    }
+    val navigateToAddKeep: () -> Unit = {
+        navController.navigate(KeepMemoNavigation.AddOrEditKeep.route)
     }
 }
