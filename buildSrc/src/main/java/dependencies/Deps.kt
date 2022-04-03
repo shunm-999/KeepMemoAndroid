@@ -60,6 +60,11 @@ object Deps {
         }
     }
 
+    object Timber {
+        private const val version = "5.0.1"
+        const val core = "com.jakewharton.timber:timber:$version"
+    }
+
     object Ktlint {
         private const val version = "0.44.0"
         const val pinterest = "com.pinterest:ktlint:$version"

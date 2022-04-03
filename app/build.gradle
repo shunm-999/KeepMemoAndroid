@@ -80,6 +80,7 @@ dependencies {
     kapt Deps.Hilt.compiler
     implementation Deps.Coil.coilCompose
     ktlint Deps.Ktlint.pinterest
+    implementation Deps.Timber.core
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

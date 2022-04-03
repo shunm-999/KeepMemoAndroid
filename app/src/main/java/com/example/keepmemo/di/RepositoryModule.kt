@@ -1,7 +1,7 @@
 package com.example.keepmemo.di
 
-import com.example.keepmemo.data.repository.memolist.FakeKeepMemoListRepositoryImpl
-import com.example.keepmemo.data.repository.memolist.KeepMemoListRepositoryInterface
+import com.example.keepmemo.data.repository.memolist.FakeKeepRepositoryImpl
+import com.example.keepmemo.data.repository.memolist.KeepRepositoryInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,9 +17,9 @@ object RepositoryModule {
     @FakeMemoListRepository
     @Singleton
     @Provides
-    fun provideKeepMemoListRepository(
+    fun provideKeepRepository(
         @IODispatcher ioDispatcher: CoroutineDispatcher
-    ): KeepMemoListRepositoryInterface = FakeKeepMemoListRepositoryImpl(
+    ): KeepRepositoryInterface = FakeKeepRepositoryImpl(
         ioDispatcher = ioDispatcher
     )
 }

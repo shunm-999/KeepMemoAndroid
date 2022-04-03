@@ -1,8 +1,8 @@
 package com.example.keepmemo.di
 
-import com.example.keepmemo.data.repository.memolist.KeepMemoListRepositoryInterface
+import com.example.keepmemo.data.repository.memolist.KeepRepositoryInterface
 import com.example.keepmemo.domain.AddKeepUseCase
-import com.example.keepmemo.domain.KeepMemoListUseCase
+import com.example.keepmemo.domain.KeepListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,17 +15,17 @@ object UseCaseModule {
 
     @ActivityRetainedScoped
     @Provides
-    fun provideKeepMemoListUseCase(
-        @FakeMemoListRepository keepMemoListRepository: KeepMemoListRepositoryInterface
-    ): KeepMemoListUseCase {
-        return KeepMemoListUseCase(keepMemoListRepository)
+    fun provideKeepListUseCase(
+        @FakeMemoListRepository keepRepository: KeepRepositoryInterface
+    ): KeepListUseCase {
+        return KeepListUseCase(keepRepository)
     }
 
     @ActivityRetainedScoped
     @Provides
     fun provideAddKeepUseCase(
-        @FakeMemoListRepository keepMemoListRepository: KeepMemoListRepositoryInterface
+        @FakeMemoListRepository keepRepository: KeepRepositoryInterface
     ): AddKeepUseCase {
-        return AddKeepUseCase(keepMemoListRepository)
+        return AddKeepUseCase(keepRepository)
     }
 }

@@ -27,7 +27,8 @@ fun KeepMemoNavGraph(
         composable(KeepMemoNavigation.Home.route) {
             HomeRoute(
                 openDrawer = openDrawer,
-                navigateToAddKeep = navigationActions.navigateToAddKeep
+                navigateToAddKeep = navigationActions.navigateToAddKeep,
+                navigateToEditKeep = navigationActions.navigateToEditKeep
             )
         }
         composable(
