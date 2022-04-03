@@ -2,6 +2,7 @@ package com.example.keepmemo.ui.home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -24,6 +25,7 @@ import com.example.keepmemo.ui.theme.KeepMemoTheme
 fun KeepCard(
     title: String,
     body: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val titleRef = "title"
@@ -34,6 +36,7 @@ fun KeepCard(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .clickable(onClick = onClick)
     ) {
         val constraints = decoupledConstraintsKeepCard(
             titleRef = titleRef,
@@ -103,7 +106,8 @@ fun KeepCardPreview() {
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
-            """.trimIndent()
+            """.trimIndent(),
+            onClick = {}
         )
     }
 }

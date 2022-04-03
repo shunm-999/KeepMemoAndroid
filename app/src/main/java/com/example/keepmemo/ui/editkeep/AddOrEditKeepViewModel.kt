@@ -3,7 +3,9 @@ package com.example.keepmemo.ui.editkeep
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.keepmemo.data.Result
 import com.example.keepmemo.domain.AddKeepUseCase
+import com.example.keepmemo.domain.KeepListUseCase
 import com.example.keepmemo.model.Keep
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -25,6 +27,7 @@ data class AddOrEditKeepUiState(
 class AddOrEditViewModel @AssistedInject constructor(
     @Assisted("targetKeepId") private val targetKeepId: Long,
     @Assisted("editTime") editTime: Long = System.currentTimeMillis(),
+    private val keepListUseCase: KeepListUseCase,
     private val addKeepUseCase: AddKeepUseCase
 ) : ViewModel() {
 
@@ -37,7 +40,18 @@ class AddOrEditViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            val targetKeep = Keep.EMPTY // TODO
+            val targetKeep = if (targetKeepId < 0) {
+                Keep.EMPTY
+            } else {
+                when (val result = keepListUseCase.invokeKeep(targetKeepId)) {
+                    is Result.Success -> result.data
+                    is Result.Error -> Keep.EMPTY
+                }
+            }
+
+            _title.value = targetKeep.title
+            _body.value = targetKeep.body
+            
             fetchUiState(targetKeep)
         }
     }

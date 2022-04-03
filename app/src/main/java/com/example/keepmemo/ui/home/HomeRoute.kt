@@ -13,6 +13,7 @@ fun HomeRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
     openDrawer: () -> Unit,
     navigateToAddKeep: () -> Unit,
+    navigateToEditKeep: (Long) -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     // UiState of the HomeScreen
@@ -24,6 +25,7 @@ fun HomeRoute(
             homeViewModel.updateListPane(listPane)
         },
         navigateToAddKeep = navigateToAddKeep,
+        navigateToEditKeep = navigateToEditKeep,
         scaffoldState = scaffoldState
     )
 }
@@ -34,6 +36,7 @@ fun HomeRoute(
     openDrawer: () -> Unit,
     listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
+    navigateToEditKeep: (Long) -> Unit,
     scaffoldState: ScaffoldState
 ) {
     val keepListLazyListState = rememberLazyListState()
@@ -43,6 +46,7 @@ fun HomeRoute(
         openDrawer = openDrawer,
         listPaneChange = listPaneChange,
         navigateToAddKeep = navigateToAddKeep,
+        navigateToEditKeep = navigateToEditKeep,
         keepListLazyListState = keepListLazyListState,
         isShowTopAppBar = true,
         isShowBottomAppBar = true,

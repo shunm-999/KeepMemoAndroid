@@ -11,31 +11,51 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 
-class FakeKeepMemoListRepositoryImpl(
+class FakeKeepRepositoryImpl(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
-) : KeepMemoListRepositoryInterface {
+) : KeepRepositoryInterface {
 
-    private val _keepList = MutableStateFlow(testData)
+    private val _keepMap = MutableStateFlow(testDataMap)
+
+    override fun getKeep(keepId: Long): Result<Keep> {
+        return try {
+            val keep = _keepMap.value[keepId] ?: throw IllegalStateException("Keep is not found")
+            Result.Success(keep)
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
 
     override fun observeKeepMemoList(): Flow<Result<List<Keep>>> {
-        return _keepList.transform {
-            emit(Result.Success(it) as Result<List<Keep>>)
+        return _keepMap.transform {
+            emit(Result.Success(it.values.sortedBy { keep -> keep.id }) as Result<List<Keep>>)
         }.catch {
             emit(Result.Error(IllegalStateException("keep not found")))
         }.flowOn(ioDispatcher)
     }
 
     override fun saveKeep(keep: Keep): Result<Unit> {
-        _keepList.update {
-            it.toMutableList().apply {
-                add(keep)
+        _keepMap.update {
+            val newId = if (keep.id == Keep.EMPTY.id) {
+                it.keys.maxOf { key -> key } + 1L
+            } else {
+                keep.id
+            }
+            mutableMapOf<Long, Keep>().apply {
+                putAll(it)
+                put(
+                    newId,
+                    keep.copy(
+                        id = newId
+                    )
+                )
             }
         }
         return Result.Success(Unit)
     }
 }
 
-private val testData = listOf<Keep>(
+private val testDataMap = listOf<Keep>(
     Keep(
         id = 1, title = "title1",
         body = """
@@ -69,4 +89,10 @@ private val testData = listOf<Keep>(
         body3body3body3body3body3body3body3body3body3body3body3
         """.trimIndent()
     )
-)
+).let { keepList ->
+    mutableMapOf<Long, Keep>().apply {
+        keepList.forEach { keep ->
+            this[keep.id] = keep
+        }
+    }
+}

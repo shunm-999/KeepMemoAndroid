@@ -3,7 +3,7 @@ package com.example.keepmemo.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.keepmemo.data.Result
-import com.example.keepmemo.domain.KeepMemoListUseCase
+import com.example.keepmemo.domain.KeepListUseCase
 import com.example.keepmemo.model.Keep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +27,7 @@ data class HomeUiState(
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val keepMemoListUseCase: KeepMemoListUseCase
+    private val keepListUseCase: KeepListUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
 
     private val _homeListPane = MutableStateFlow(HomeListPane.One)
 
-    private val _memoList = keepMemoListUseCase.invokeKeepMemoList()
+    private val _memoList = keepListUseCase.invokeKeepMemoList()
 
     private val _isLoading = MutableStateFlow(false)
 

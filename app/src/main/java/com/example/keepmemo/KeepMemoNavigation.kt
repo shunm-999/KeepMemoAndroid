@@ -11,7 +11,7 @@ sealed class KeepMemoNavigation(val route: String) {
     object Home : KeepMemoNavigation("home")
     object AddOrEditKeep : KeepMemoNavigation("addOrEditKeep?keepId={keepId}") {
         const val QUERY_KET_KEEP_ID = "keepId"
-        fun createRoute(keepId: Long) = "addOrEditKeep?$QUERY_KET_KEEP_ID={$keepId}"
+        fun createRoute(keepId: Long) = "addOrEditKeep?$QUERY_KET_KEEP_ID=$keepId"
     }
 }
 
@@ -34,5 +34,8 @@ class KeepMemoNavigationActions(navController: NavController) {
     }
     val navigateToAddKeep: () -> Unit = {
         navController.navigate(KeepMemoNavigation.AddOrEditKeep.route)
+    }
+    val navigateToEditKeep: (keepId: Long) -> Unit = { keepId ->
+        navController.navigate(KeepMemoNavigation.AddOrEditKeep.createRoute(keepId = keepId))
     }
 }

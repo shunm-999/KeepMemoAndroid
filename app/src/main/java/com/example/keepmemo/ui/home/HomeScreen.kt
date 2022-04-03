@@ -55,6 +55,7 @@ fun HomeScreen(
     openDrawer: () -> Unit,
     listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
+    navigateToEditKeep: (Long) -> Unit,
     keepListLazyListState: LazyListState,
     scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier
@@ -96,6 +97,7 @@ fun HomeScreen(
             listPane = listPane,
             keepList = keepList,
             keepListLazyListState = keepListLazyListState,
+            navigateToEditKeep = navigateToEditKeep,
             modifier = contentModifier
         )
     }
@@ -106,6 +108,7 @@ fun HomeScreenContent(
     listPane: HomeListPane,
     keepList: List<Keep>,
     keepListLazyListState: LazyListState,
+    navigateToEditKeep: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier) {
@@ -113,13 +116,15 @@ fun HomeScreenContent(
             HomeListPane.One -> {
                 KeepListOneLine(
                     keepList = keepList,
-                    keepListLazyListState = keepListLazyListState
+                    keepListLazyListState = keepListLazyListState,
+                    navigateToEditKeep = navigateToEditKeep
                 )
             }
             HomeListPane.Two -> {
                 KeepListTwoGrid(
                     keepList = keepList,
-                    keepListLazyListState = keepListLazyListState
+                    keepListLazyListState = keepListLazyListState,
+                    navigateToEditKeep = navigateToEditKeep
                 )
             }
         }
@@ -130,6 +135,7 @@ fun HomeScreenContent(
 fun KeepListOneLine(
     keepList: List<Keep>,
     keepListLazyListState: LazyListState,
+    navigateToEditKeep: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -141,7 +147,10 @@ fun KeepListOneLine(
         items(keepList) { keep ->
             KeepCard(
                 title = keep.title,
-                body = keep.body
+                body = keep.body,
+                onClick = {
+                    navigateToEditKeep(keep.id)
+                }
             )
         }
     }
@@ -152,6 +161,7 @@ fun KeepListOneLine(
 fun KeepListTwoGrid(
     keepList: List<Keep>,
     keepListLazyListState: LazyListState,
+    navigateToEditKeep: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -165,7 +175,10 @@ fun KeepListTwoGrid(
         items(keepList) { keep ->
             KeepCard(
                 title = keep.title,
-                body = keep.body
+                body = keep.body,
+                onClick = {
+                    navigateToEditKeep(keep.id)
+                }
             )
         }
     }
@@ -270,6 +283,7 @@ fun HomeScreenPreview() {
             openDrawer = {},
             listPaneChange = {},
             navigateToAddKeep = {},
+            navigateToEditKeep = {},
             keepListLazyListState = rememberLazyListState(),
             scaffoldState = rememberScaffoldState()
         )
