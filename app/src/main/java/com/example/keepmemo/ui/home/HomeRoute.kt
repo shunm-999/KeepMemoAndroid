@@ -42,7 +42,7 @@ fun HomeRoute(
     val keepListLazyListState = rememberLazyListState()
     HomeScreen(
         listPane = uiState.homeListPane,
-        keepList = uiState.keepMemoList,
+        memoList = uiState.memoList,
         openDrawer = openDrawer,
         listPaneChange = listPaneChange,
         navigateToAddKeep = navigateToAddKeep,

@@ -1,29 +1,32 @@
 package com.example.keepmemo.di
 
-import com.example.keepmemo.data.repository.memolist.FakeKeepRepositoryImpl
-import com.example.keepmemo.data.repository.memolist.KeepRepositoryInterface
+import com.example.keepmemo.data.db.AppDatabase
+import com.example.keepmemo.data.db.dao.KeepDao
+import com.example.keepmemo.data.db.dao.MemoDao
+import com.example.keepmemo.data.repository.memolist.MemoRepositoryImpl
+import com.example.keepmemo.data.repository.memolist.MemoRepositoryInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
-    @FakeMemoListRepository
     @Singleton
     @Provides
-    fun provideKeepRepository(
-        @IODispatcher ioDispatcher: CoroutineDispatcher
-    ): KeepRepositoryInterface = FakeKeepRepositoryImpl(
-        ioDispatcher = ioDispatcher
+    fun provideMemoRepository(
+        @IODispatcher ioDispatcher: CoroutineDispatcher,
+        appDatabase: AppDatabase,
+        keepDao: KeepDao,
+        memoDao: MemoDao
+    ): MemoRepositoryInterface = MemoRepositoryImpl(
+        ioDispatcher = ioDispatcher,
+        appDatabase = appDatabase,
+        keepDao = keepDao,
+        memoDao = memoDao
     )
 }
-
-@Retention(AnnotationRetention.BINARY)
-@Qualifier
-annotation class FakeMemoListRepository

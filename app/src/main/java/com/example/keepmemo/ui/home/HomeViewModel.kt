@@ -3,8 +3,8 @@ package com.example.keepmemo.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.keepmemo.data.Result
-import com.example.keepmemo.domain.KeepListUseCase
-import com.example.keepmemo.model.Keep
+import com.example.keepmemo.domain.MemoUseCase
+import com.example.keepmemo.model.Memo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,13 +21,13 @@ enum class HomeListPane {
 
 data class HomeUiState(
     val homeListPane: HomeListPane = HomeListPane.One,
-    val keepMemoList: List<Keep> = emptyList(),
+    val memoList: List<Memo> = emptyList(),
     val isLoading: Boolean = false
 )
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val keepListUseCase: KeepListUseCase
+    private val memoUseCase: MemoUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -35,19 +35,17 @@ class HomeViewModel @Inject constructor(
 
     private val _homeListPane = MutableStateFlow(HomeListPane.One)
 
-    private val _memoList = keepListUseCase.invokeKeepMemoList()
-
     private val _isLoading = MutableStateFlow(false)
 
     init {
         viewModelScope.launch {
             combine(
-                _memoList,
+                memoUseCase.invokeMemoList(),
                 _homeListPane,
                 _isLoading
             ) { memoList, homeListPane, loading ->
                 HomeUiState(
-                    keepMemoList = when (memoList) {
+                    memoList = when (memoList) {
                         is Result.Success -> memoList.data
                         is Result.Error -> emptyList()
                     },
