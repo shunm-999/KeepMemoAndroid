@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.keepmemo.data.Result
-import com.example.keepmemo.domain.AddKeepUseCase
-import com.example.keepmemo.domain.KeepListUseCase
+import com.example.keepmemo.domain.MemoUseCase
 import com.example.keepmemo.model.Keep
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -17,21 +16,22 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-data class AddOrEditKeepUiState(
-    val targetKeep: Keep = Keep.EMPTY,
-    val title: String = "",
-    val body: String = "",
-    val editTime: Long = System.currentTimeMillis()
-)
+sealed interface AddOrEditKeepUiState {
+    object Loading : AddOrEditKeepUiState
+    data class INITIALIZED(
+        val title: String = "",
+        val body: String = "",
+        val editTime: Long = System.currentTimeMillis()
+    ) : AddOrEditKeepUiState
+}
 
-class AddOrEditViewModel @AssistedInject constructor(
-    @Assisted("targetKeepId") private val targetKeepId: Long,
+class AddOrEditMemoViewModel @AssistedInject constructor(
+    @Assisted("targetId") private val targetId: Long,
     @Assisted("editTime") editTime: Long = System.currentTimeMillis(),
-    private val keepListUseCase: KeepListUseCase,
-    private val addKeepUseCase: AddKeepUseCase
+    private val memoUseCase: MemoUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(AddOrEditKeepUiState())
+    private val _uiState = MutableStateFlow<AddOrEditKeepUiState>(AddOrEditKeepUiState.Loading)
     val uiState: StateFlow<AddOrEditKeepUiState> = _uiState.asStateFlow()
 
     private val _title = MutableStateFlow("")
@@ -40,30 +40,29 @@ class AddOrEditViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            val targetKeep = if (targetKeepId < 0) {
+            val targetKeep = if (targetId < 0) {
                 Keep.EMPTY
             } else {
-                when (val result = keepListUseCase.invokeKeep(targetKeepId)) {
-                    is Result.Success -> result.data
+                when (val result = memoUseCase.invokeMemo(targetId)) {
+                    is Result.Success -> result.data.keep
                     is Result.Error -> Keep.EMPTY
                 }
             }
 
             _title.value = targetKeep.title
             _body.value = targetKeep.body
-            
-            fetchUiState(targetKeep)
+
+            fetchUiState()
         }
     }
 
-    private suspend fun fetchUiState(targetKeep: Keep) {
+    private suspend fun fetchUiState() {
         combine(
             _title,
             _body,
             _editTime
         ) { title, body, editTime ->
-            AddOrEditKeepUiState(
-                targetKeep = targetKeep,
+            AddOrEditKeepUiState.INITIALIZED(
                 title = title,
                 body = body,
                 editTime = editTime
@@ -82,32 +81,43 @@ class AddOrEditViewModel @AssistedInject constructor(
     }
 
     fun saveKeep() {
-        val keep = Keep(
-            id = targetKeepId,
-            title = _title.value,
-            body = _body.value
-        )
-        addKeepUseCase.invokeAddKeep(keep)
+        viewModelScope.launch {
+            val title = _title.value
+            val body = _body.value
+
+            if (targetId > 0) {
+                memoUseCase.invokeUpdateMemo(
+                    memoId = targetId,
+                    title = title,
+                    body = body
+                )
+            } else {
+                memoUseCase.invokeAddMemo(
+                    title = title,
+                    body = body
+                )
+            }
+        }
     }
 
     @AssistedFactory
     interface Factory {
         fun create(
-            @Assisted("targetKeepId") targetKeepId: Long,
+            @Assisted("targetId") targetId: Long,
             @Assisted("editTime") editTime: Long
-        ): AddOrEditViewModel
+        ): AddOrEditMemoViewModel
     }
 
     companion object {
         fun provideFactory(
             assistedFactory: Factory,
-            targetKeepId: Long,
+            targetId: Long,
             editTime: Long
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
                 return assistedFactory.create(
-                    targetKeepId = targetKeepId,
+                    targetId = targetId,
                     editTime = editTime
                 ) as T
             }

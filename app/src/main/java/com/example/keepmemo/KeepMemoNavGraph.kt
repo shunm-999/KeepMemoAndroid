@@ -34,17 +34,17 @@ fun KeepMemoNavGraph(
         composable(
             KeepMemoNavigation.AddOrEditKeep.route,
             arguments = listOf(
-                navArgument(KeepMemoNavigation.AddOrEditKeep.QUERY_KET_KEEP_ID) {
+                navArgument(KeepMemoNavigation.AddOrEditKeep.QUERY_TARGET_ID) {
                     type = NavType.LongType
                     defaultValue = -1L
                 }
             )
         ) { backStackEntry ->
-            val keepId: Long =
-                backStackEntry.arguments?.getLong(KeepMemoNavigation.AddOrEditKeep.QUERY_KET_KEEP_ID)
+            val targetId: Long =
+                backStackEntry.arguments?.getLong(KeepMemoNavigation.AddOrEditKeep.QUERY_TARGET_ID)
                     ?: -1L
             AddOrEditKeepRoute(
-                targetKeepId = keepId,
+                targetId = targetId,
                 editTime = System.currentTimeMillis(),
                 onBackPressed = {
                     navController.popBackStack()

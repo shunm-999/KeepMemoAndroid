@@ -22,6 +22,14 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
     }
 
     buildTypes {
@@ -67,6 +75,7 @@ dependencies {
     implementation Deps.Accompanist.swiperRefresh
     implementation Deps.Accompanist.pager
     implementation Deps.Accompanist.insets
+
     implementation Deps.AndroidX.Constraint.core
     implementation Deps.AndroidX.Lifecycle.runtime
     implementation Deps.AndroidX.Lifecycle.viewmodel
@@ -75,6 +84,11 @@ dependencies {
     implementation Deps.AndroidX.Paging.runtime
     implementation Deps.AndroidX.Paging.jetpackCompose
     implementation Deps.AndroidX.Icons.extended
+    implementation Deps.AndroidX.Room.runtime
+    implementation Deps.AndroidX.Room.ktx
+    annotationProcessor Deps.AndroidX.Room.compiler
+    kapt Deps.AndroidX.Room.compiler
+
     implementation Deps.Hilt.android
     implementation Deps.Hilt.Navigation.navigation
     kapt Deps.Hilt.compiler

@@ -6,7 +6,6 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.keepmemo.di.MainActivityViewModelFactoryProvider
@@ -14,35 +13,37 @@ import dagger.hilt.android.EntryPointAccessors
 
 @Composable
 fun AddOrEditKeepRoute(
-    targetKeepId: Long,
+    targetId: Long,
     editTime: Long,
-    addOrEditViewModel: AddOrEditViewModel = addOrEditKeepViewModel(
-        targetKeepId = targetKeepId,
+    addOrEditMemoViewModel: AddOrEditMemoViewModel = addOrEditKeepViewModel(
+        targetId = targetId,
         editTime = editTime
     ),
     onBackPressed: () -> Unit,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    val uiState by addOrEditViewModel.uiState.collectAsState()
-    AddOrEditKeepRoute(
-        uiState = uiState,
-        onTitleChange = { title -> addOrEditViewModel.updateTitle(title) },
-        onBodyChange = { body -> addOrEditViewModel.updateBody(body) },
-        onBackPressed = {
-            addOrEditViewModel.saveKeep()
+    val uiState = addOrEditMemoViewModel.uiState.collectAsState().value
+    if (uiState is AddOrEditKeepUiState.INITIALIZED) {
+        AddOrEditKeepRoute(
+            uiState = uiState,
+            onTitleChange = { title -> addOrEditMemoViewModel.updateTitle(title) },
+            onBodyChange = { body -> addOrEditMemoViewModel.updateBody(body) },
+            onBackPressed = {
+                addOrEditMemoViewModel.saveKeep()
+                onBackPressed()
+            },
+            scaffoldState = scaffoldState
+        )
+        BackHandler(true) {
+            addOrEditMemoViewModel.saveKeep()
             onBackPressed()
-        },
-        scaffoldState = scaffoldState
-    )
-    BackHandler(true) {
-        addOrEditViewModel.saveKeep()
-        onBackPressed()
+        }
     }
 }
 
 @Composable
 fun AddOrEditKeepRoute(
-    uiState: AddOrEditKeepUiState,
+    uiState: AddOrEditKeepUiState.INITIALIZED,
     onTitleChange: (String) -> Unit,
     onBodyChange: (String) -> Unit,
     onBackPressed: () -> Unit,
@@ -60,18 +61,18 @@ fun AddOrEditKeepRoute(
 
 @Composable
 private fun addOrEditKeepViewModel(
-    targetKeepId: Long,
+    targetId: Long,
     editTime: Long
-): AddOrEditViewModel {
+): AddOrEditMemoViewModel {
     val factory = EntryPointAccessors.fromActivity(
         LocalContext.current as Activity,
         MainActivityViewModelFactoryProvider::class.java
     ).addOrEditKeepViewModelFactory()
 
     return viewModel(
-        factory = AddOrEditViewModel.provideFactory(
+        factory = AddOrEditMemoViewModel.provideFactory(
             factory,
-            targetKeepId = targetKeepId,
+            targetId = targetId,
             editTime = editTime
         )
     )

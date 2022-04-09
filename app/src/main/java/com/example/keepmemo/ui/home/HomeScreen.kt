@@ -43,13 +43,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.R
 import com.example.keepmemo.model.Keep
+import com.example.keepmemo.model.Memo
 import com.example.keepmemo.ui.ktx.isScrolled
 import com.example.keepmemo.ui.theme.KeepMemoTheme
 
 @Composable
 fun HomeScreen(
     listPane: HomeListPane,
-    keepList: List<Keep>,
+    memoList: List<Memo>,
     isShowTopAppBar: Boolean,
     isShowBottomAppBar: Boolean,
     openDrawer: () -> Unit,
@@ -95,7 +96,7 @@ fun HomeScreen(
         val contentModifier = Modifier.padding(innerPadding)
         HomeScreenContent(
             listPane = listPane,
-            keepList = keepList,
+            memoList = memoList,
             keepListLazyListState = keepListLazyListState,
             navigateToEditKeep = navigateToEditKeep,
             modifier = contentModifier
@@ -106,7 +107,7 @@ fun HomeScreen(
 @Composable
 fun HomeScreenContent(
     listPane: HomeListPane,
-    keepList: List<Keep>,
+    memoList: List<Memo>,
     keepListLazyListState: LazyListState,
     navigateToEditKeep: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -114,15 +115,15 @@ fun HomeScreenContent(
     Surface(modifier = modifier) {
         when (listPane) {
             HomeListPane.One -> {
-                KeepListOneLine(
-                    keepList = keepList,
+                MemoListOneLine(
+                    memoList = memoList,
                     keepListLazyListState = keepListLazyListState,
                     navigateToEditKeep = navigateToEditKeep
                 )
             }
             HomeListPane.Two -> {
-                KeepListTwoGrid(
-                    keepList = keepList,
+                MemoListTwoGrid(
+                    memoList = memoList,
                     keepListLazyListState = keepListLazyListState,
                     navigateToEditKeep = navigateToEditKeep
                 )
@@ -132,8 +133,8 @@ fun HomeScreenContent(
 }
 
 @Composable
-fun KeepListOneLine(
-    keepList: List<Keep>,
+fun MemoListOneLine(
+    memoList: List<Memo>,
     keepListLazyListState: LazyListState,
     navigateToEditKeep: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -144,12 +145,12 @@ fun KeepListOneLine(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         state = keepListLazyListState
     ) {
-        items(keepList) { keep ->
+        items(memoList) { memo ->
             KeepCard(
-                title = keep.title,
-                body = keep.body,
+                title = memo.keep.title,
+                body = memo.keep.body,
                 onClick = {
-                    navigateToEditKeep(keep.id)
+                    navigateToEditKeep(memo.id)
                 }
             )
         }
@@ -158,8 +159,8 @@ fun KeepListOneLine(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun KeepListTwoGrid(
-    keepList: List<Keep>,
+fun MemoListTwoGrid(
+    memoList: List<Memo>,
     keepListLazyListState: LazyListState,
     navigateToEditKeep: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -172,12 +173,12 @@ fun KeepListTwoGrid(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(keepList) { keep ->
+        items(memoList) { memo ->
             KeepCard(
-                title = keep.title,
-                body = keep.body,
+                title = memo.keep.title,
+                body = memo.keep.body,
                 onClick = {
-                    navigateToEditKeep(keep.id)
+                    navigateToEditKeep(memo.id)
                 }
             )
         }
@@ -261,21 +262,27 @@ fun HomeScreenPreview() {
     KeepMemoTheme {
         HomeScreen(
             listPane = HomeListPane.One,
-            keepList = listOf(
-                Keep(
-                    id = 1,
-                    title = "title1",
-                    body = "body1"
+            memoList = listOf(
+                Memo.EMPTY.copy(
+                    keep = Keep(
+                        id = 1,
+                        title = "title1",
+                        body = "body1",
+                    )
                 ),
-                Keep(
-                    id = 2,
-                    title = "title2",
-                    body = "body2"
+                Memo.EMPTY.copy(
+                    keep = Keep(
+                        id = 2,
+                        title = "title2",
+                        body = "body2",
+                    )
                 ),
-                Keep(
-                    id = 3,
-                    title = "title3",
-                    body = "body3"
+                Memo.EMPTY.copy(
+                    keep = Keep(
+                        id = 3,
+                        title = "title3",
+                        body = "body3",
+                    )
                 ),
             ),
             isShowTopAppBar = true,
