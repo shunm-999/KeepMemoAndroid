@@ -2,8 +2,12 @@ package com.example.keepmemo.ui.home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,22 +25,39 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.example.keepmemo.ui.theme.KeepMemoTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun KeepCard(
     title: String,
     body: String,
     onClick: () -> Unit,
+    onLongClick: () -> Unit,
+    isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
     val titleRef = "title"
     val bodyRef = "body"
     Card(
-        border = BorderStroke(1.dp, MaterialTheme.colors.onSurface),
+        border = if (isSelected) {
+            BorderStroke(
+                3.dp,
+                MaterialTheme.colors.primary
+            )
+        } else {
+            BorderStroke(
+                1.dp,
+                MaterialTheme.colors.onSurface
+            )
+        },
         shape = RoundedCornerShape(8.dp),
+        elevation = if (isSelected) 8.dp else 1.dp,
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .clickable(onClick = onClick)
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick
+            )
     ) {
         val constraints = decoupledConstraintsKeepCard(
             titleRef = titleRef,
@@ -96,9 +117,8 @@ private fun decoupledConstraintsKeepCard(
 @Composable
 fun KeepCardPreview() {
     KeepMemoTheme {
-        KeepCard(
-            title = "タイトル",
-            body = """
+        val title = "タイトル"
+        val body = """
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
@@ -106,8 +126,23 @@ fun KeepCardPreview() {
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
                 メモですメモですメモですメモですメモですメモですメモですメモですメモです
-            """.trimIndent(),
-            onClick = {}
-        )
+            """.trimIndent()
+        Column {
+            KeepCard(
+                title = title,
+                body = body,
+                onClick = {},
+                onLongClick = {},
+                isSelected = false
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            KeepCard(
+                title = title,
+                body = body,
+                onClick = {},
+                onLongClick = {},
+                isSelected = true
+            )
+        }
     }
 }
