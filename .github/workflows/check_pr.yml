@@ -22,7 +22,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-ruby@v1
         with:
-          ruby-versions: ${{ matrix.ruby }}
+          ruby-version: ${{ matrix.ruby }}
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Cache Gradle
         uses: actions/cache@v2
         id: cache_gradle
