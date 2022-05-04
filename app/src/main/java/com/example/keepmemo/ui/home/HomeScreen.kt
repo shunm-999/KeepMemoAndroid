@@ -51,12 +51,15 @@ import com.example.keepmemo.ui.theme.KeepMemoTheme
 fun HomeScreen(
     listPane: HomeListPane,
     memoList: List<Memo>,
+    selectedMemoIdList: Set<Long>,
     isShowTopAppBar: Boolean,
     isShowBottomAppBar: Boolean,
     openDrawer: () -> Unit,
     listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
+    addToSelectedIdList: (Long) -> Unit,
+    removeFromSelectedIdList: (Long) -> Unit,
     keepListLazyListState: LazyListState,
     scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier
@@ -97,8 +100,11 @@ fun HomeScreen(
         HomeScreenContent(
             listPane = listPane,
             memoList = memoList,
+            selectedMemoIdList = selectedMemoIdList,
             keepListLazyListState = keepListLazyListState,
             navigateToEditKeep = navigateToEditKeep,
+            addToSelectedIdList = addToSelectedIdList,
+            removeFromSelectedIdList = removeFromSelectedIdList,
             modifier = contentModifier
         )
     }
@@ -108,8 +114,11 @@ fun HomeScreen(
 fun HomeScreenContent(
     listPane: HomeListPane,
     memoList: List<Memo>,
+    selectedMemoIdList: Set<Long>,
     keepListLazyListState: LazyListState,
     navigateToEditKeep: (Long) -> Unit,
+    addToSelectedIdList: (Long) -> Unit,
+    removeFromSelectedIdList: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier) {
@@ -117,15 +126,21 @@ fun HomeScreenContent(
             HomeListPane.One -> {
                 MemoListOneLine(
                     memoList = memoList,
+                    selectedMemoIdList = selectedMemoIdList,
                     keepListLazyListState = keepListLazyListState,
-                    navigateToEditKeep = navigateToEditKeep
+                    navigateToEditKeep = navigateToEditKeep,
+                    addToSelectedIdList = addToSelectedIdList,
+                    removeFromSelectedIdList = removeFromSelectedIdList
                 )
             }
             HomeListPane.Two -> {
                 MemoListTwoGrid(
                     memoList = memoList,
+                    selectedMemoIdList = selectedMemoIdList,
                     keepListLazyListState = keepListLazyListState,
-                    navigateToEditKeep = navigateToEditKeep
+                    navigateToEditKeep = navigateToEditKeep,
+                    addToSelectedIdList = addToSelectedIdList,
+                    removeFromSelectedIdList = removeFromSelectedIdList
                 )
             }
         }
@@ -135,8 +150,11 @@ fun HomeScreenContent(
 @Composable
 fun MemoListOneLine(
     memoList: List<Memo>,
+    selectedMemoIdList: Set<Long>,
     keepListLazyListState: LazyListState,
     navigateToEditKeep: (Long) -> Unit,
+    addToSelectedIdList: (Long) -> Unit,
+    removeFromSelectedIdList: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -146,12 +164,21 @@ fun MemoListOneLine(
         state = keepListLazyListState
     ) {
         items(memoList) { memo ->
+            val isSelected = selectedMemoIdList.contains(memo.id)
             KeepCard(
                 title = memo.keep.title,
                 body = memo.keep.body,
                 onClick = {
                     navigateToEditKeep(memo.id)
-                }
+                },
+                onLongClick = {
+                    if (isSelected) {
+                        removeFromSelectedIdList(memo.id)
+                    } else {
+                        addToSelectedIdList(memo.id)
+                    }
+                },
+                isSelected = isSelected
             )
         }
     }
@@ -161,8 +188,11 @@ fun MemoListOneLine(
 @Composable
 fun MemoListTwoGrid(
     memoList: List<Memo>,
+    selectedMemoIdList: Set<Long>,
     keepListLazyListState: LazyListState,
     navigateToEditKeep: (Long) -> Unit,
+    addToSelectedIdList: (Long) -> Unit,
+    removeFromSelectedIdList: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -174,12 +204,21 @@ fun MemoListTwoGrid(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(memoList) { memo ->
+            val isSelected = selectedMemoIdList.contains(memo.id)
             KeepCard(
                 title = memo.keep.title,
                 body = memo.keep.body,
                 onClick = {
                     navigateToEditKeep(memo.id)
-                }
+                },
+                onLongClick = {
+                    if (isSelected) {
+                        removeFromSelectedIdList(memo.id)
+                    } else {
+                        addToSelectedIdList(memo.id)
+                    }
+                },
+                isSelected = isSelected
             )
         }
     }
@@ -265,32 +304,35 @@ fun HomeScreenPreview() {
             memoList = listOf(
                 Memo.EMPTY.copy(
                     keep = Keep(
-                        id = 1,
+                        id = 1L,
                         title = "title1",
                         body = "body1",
                     )
                 ),
                 Memo.EMPTY.copy(
                     keep = Keep(
-                        id = 2,
+                        id = 2L,
                         title = "title2",
                         body = "body2",
                     )
                 ),
                 Memo.EMPTY.copy(
                     keep = Keep(
-                        id = 3,
+                        id = 3L,
                         title = "title3",
                         body = "body3",
                     )
                 ),
             ),
+            selectedMemoIdList = setOf(1L),
             isShowTopAppBar = true,
             isShowBottomAppBar = true,
             openDrawer = {},
             listPaneChange = {},
             navigateToAddKeep = {},
             navigateToEditKeep = {},
+            addToSelectedIdList = {},
+            removeFromSelectedIdList = {},
             keepListLazyListState = rememberLazyListState(),
             scaffoldState = rememberScaffoldState()
         )

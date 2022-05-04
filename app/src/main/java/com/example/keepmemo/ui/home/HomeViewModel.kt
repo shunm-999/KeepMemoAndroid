@@ -22,6 +22,7 @@ enum class HomeListPane {
 data class HomeUiState(
     val homeListPane: HomeListPane = HomeListPane.One,
     val memoList: List<Memo> = emptyList(),
+    val selectedMemoIdList: Set<Long> = emptySet(),
     val isLoading: Boolean = false
 )
 
@@ -35,20 +36,24 @@ class HomeViewModel @Inject constructor(
 
     private val _homeListPane = MutableStateFlow(HomeListPane.One)
 
+    private val _selectedMemoIdList = MutableStateFlow(mutableSetOf<Long>())
+
     private val _isLoading = MutableStateFlow(false)
 
     init {
         viewModelScope.launch {
             combine(
                 memoUseCase.invokeMemoList(),
+                _selectedMemoIdList,
                 _homeListPane,
                 _isLoading
-            ) { memoList, homeListPane, loading ->
+            ) { memoList, selectedMemoIdList, homeListPane, loading ->
                 HomeUiState(
                     memoList = when (memoList) {
                         is Result.Success -> memoList.data
                         is Result.Error -> emptyList()
                     },
+                    selectedMemoIdList = selectedMemoIdList,
                     homeListPane = homeListPane,
                     isLoading = loading
                 )
@@ -60,5 +65,19 @@ class HomeViewModel @Inject constructor(
 
     fun updateListPane(homeListPane: HomeListPane) {
         _homeListPane.value = homeListPane
+    }
+
+    fun addSelectedMemoId(memoId: Long) {
+        _selectedMemoIdList.value = mutableSetOf<Long>().apply {
+            addAll(_selectedMemoIdList.value)
+            add(memoId)
+        }
+    }
+
+    fun removeSelectedMemoId(memoId: Long) {
+        _selectedMemoIdList.value = mutableSetOf<Long>().apply {
+            addAll(_selectedMemoIdList.value)
+            remove(memoId)
+        }
     }
 }

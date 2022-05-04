@@ -26,6 +26,12 @@ fun HomeRoute(
         },
         navigateToAddKeep = navigateToAddKeep,
         navigateToEditKeep = navigateToEditKeep,
+        addToSelectedIdList = { memoId ->
+            homeViewModel.addSelectedMemoId(memoId)
+        },
+        removeFromSelectedIdList = { memoId ->
+            homeViewModel.removeSelectedMemoId(memoId)
+        },
         scaffoldState = scaffoldState
     )
 }
@@ -37,16 +43,21 @@ fun HomeRoute(
     listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
+    addToSelectedIdList: (Long) -> Unit,
+    removeFromSelectedIdList: (Long) -> Unit,
     scaffoldState: ScaffoldState
 ) {
     val keepListLazyListState = rememberLazyListState()
     HomeScreen(
         listPane = uiState.homeListPane,
         memoList = uiState.memoList,
+        selectedMemoIdList = uiState.selectedMemoIdList,
         openDrawer = openDrawer,
         listPaneChange = listPaneChange,
         navigateToAddKeep = navigateToAddKeep,
         navigateToEditKeep = navigateToEditKeep,
+        addToSelectedIdList = addToSelectedIdList,
+        removeFromSelectedIdList = removeFromSelectedIdList,
         keepListLazyListState = keepListLazyListState,
         isShowTopAppBar = true,
         isShowBottomAppBar = true,
