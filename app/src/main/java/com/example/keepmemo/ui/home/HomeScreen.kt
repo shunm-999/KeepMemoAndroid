@@ -46,6 +46,7 @@ import com.example.keepmemo.model.Keep
 import com.example.keepmemo.model.Memo
 import com.example.keepmemo.ui.ktx.isScrolled
 import com.example.keepmemo.ui.theme.KeepMemoTheme
+import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -195,6 +196,9 @@ fun MemoListTwoGrid(
     removeFromSelectedIdList: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    while (true) {
+        Timber.d("aaaa")
+    }
     LazyVerticalGrid(
         modifier = modifier,
         state = keepListLazyListState,
