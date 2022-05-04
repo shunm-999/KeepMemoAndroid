@@ -205,7 +205,7 @@ fun MemoListTwoGrid(
     ) {
         items(memoList) { memo ->
             val isSelected = selectedMemoIdList.contains(memo.id)
-            KeepCard(
+                KeepCard(
                 title = memo.keep.title,
                 body = memo.keep.body,
                 onClick = {
