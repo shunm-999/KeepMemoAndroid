@@ -20,7 +20,7 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - uses: actions/checkout@v2
-      - uses: actions/setup-ruby@1
+      - uses: actions/setup-ruby@v1
         with:
           ruby-versions: ${{ matrix.ruby }}
       - name: Cache Gradle
