@@ -120,6 +120,8 @@ jobs:
           distribution: 'zulu'
           java-version: 11
           cache: "gradle"
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Run unit test
         run: |
           ./gradlew --no-daemon app:testDebugUnitTest
