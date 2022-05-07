@@ -108,3 +108,29 @@ jobs:
         with:
           job-title: 'Android Lint'
           github-token: ${{secrets.GITHUB_TOKEN}}
+  unit_test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 11
+          cache: "gradle"
+      - name: Run unit test
+        run: |
+          ./gradlew --no-daemon app:testDebugUnitTest
+      - name: Publish Test Report
+        if: cancelled() != true
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: '**/build/test-results/*/TEST-*.xml'
+      - name: notify result
+        if: always()
+        uses: ./.github/workflows/composite/notify-result-action
+        with:
+          job-title: 'Unit Test'
+          github-token: ${{secrets.GITHUB_TOKEN}}

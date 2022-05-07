@@ -64,18 +64,16 @@ configurations {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'androidx.activity:activity-compose:1.4.0'
-
     implementation Deps.Accompanist.uiController
     implementation Deps.Accompanist.swiperRefresh
     implementation Deps.Accompanist.pager
     implementation Deps.Accompanist.insets
 
+    implementation Deps.AndroidX.core
+    implementation Deps.AndroidX.Compose.ui
+    implementation Deps.AndroidX.Compose.material
+    implementation Deps.AndroidX.Compose.uiToolingPreview
+    implementation Deps.AndroidX.Activity.compose
     implementation Deps.AndroidX.Constraint.core
     implementation Deps.AndroidX.Lifecycle.runtime
     implementation Deps.AndroidX.Lifecycle.viewmodel
@@ -96,11 +94,17 @@ dependencies {
     ktlint Deps.Ktlint.pinterest
     implementation Deps.Timber.core
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    testImplementation Deps.JUnit.junit
+    testImplementation Deps.AndroidX.Test.core
+    testImplementation Deps.AndroidX.Test.runner
+    testImplementation Deps.AndroidX.Test.rules
+    testImplementation Deps.AndroidX.Test.junit
+    testImplementation Deps.AndroidX.Test.truth
+
+    androidTestImplementation Deps.AndroidX.Test.jUnit
+    androidTestImplementation Deps.AndroidX.Test.espresso
+    androidTestImplementation Deps.AndroidX.Compose.Test.uiTestJunit4
+    debugImplementation Deps.AndroidX.Compose.Test.uiTooling
 }
 
 // ktlint settings

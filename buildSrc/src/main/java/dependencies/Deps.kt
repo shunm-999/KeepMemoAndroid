@@ -4,6 +4,21 @@ object Deps {
 
     object AndroidX {
 
+        private const val version = "1.7.0"
+        const val core = "androidx.core:core-ktx:$version"
+
+        object Compose {
+            private const val version = "1.1.1"
+            const val ui = "androidx.compose.ui:ui:$version"
+            const val material = "androidx.compose.material:material:$version"
+            const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:$version"
+
+            object Test {
+                const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4:$version"
+                const val uiTooling = "androidx.compose.ui:ui-tooling:$version"
+            }
+        }
+
         object Constraint {
             private const val version = "1.0.0"
             const val core = "androidx.constraintlayout:constraintlayout-compose:${version}"
@@ -14,6 +29,11 @@ object Deps {
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
             const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$version"
             const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+        }
+
+        object Activity {
+            private const val version = "1.4.0"
+            const val compose = "androidx.activity:activity-compose:$version"
         }
 
         object Navigation {
@@ -37,6 +57,19 @@ object Deps {
             const val runtime = "androidx.room:room-runtime:$version"
             const val compiler = "androidx.room:room-compiler:$version"
             const val ktx = "androidx.room:room-ktx:$version"
+        }
+
+        object Test {
+            const val jUnit = "androidx.test.ext:junit:1.1.3"
+            const val espresso = "androidx.test.espresso:espresso-core:3.4.0"
+
+            private const val version = "1.2.0"
+
+            const val core = "androidx.test:core:$version"
+            const val runner = "androidx.test:runner:$version"
+            const val rules = "androidx.test:rules:$version"
+            const val junit = "androidx.test.ext:junit:1.1.1"
+            const val truth = "androidx.test.ext:truth:$version"
         }
     }
 
@@ -65,6 +98,11 @@ object Deps {
             private const val version = "1.0.0"
             const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
         }
+    }
+
+    object JUnit {
+        private const val version = "4.13.2"
+        const val junit = "junit:junit:$version"
     }
 
     object Timber {
