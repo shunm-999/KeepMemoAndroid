@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.keepmemo.ui.editkeep.AddOrEditKeepRoute
 import com.example.keepmemo.ui.home.HomeRoute
+import com.example.keepmemo.ui.license.OpenLicenseRoute
 
 @Composable
 fun KeepMemoNavGraph(
@@ -30,6 +31,11 @@ fun KeepMemoNavGraph(
                 navigateToAddKeep = navigationActions.navigateToAddKeep,
                 navigateToEditKeep = navigationActions.navigateToEditKeep
             )
+        }
+        composable(KeepMemoNavigation.OpenLicense.route) {
+            OpenLicenseRoute(onBackPressed = {
+                navController.popBackStack()
+            })
         }
         composable(
             KeepMemoNavigation.AddOrEditKeep.route,

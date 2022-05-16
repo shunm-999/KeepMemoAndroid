@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.keepmemo.ui.component.AppDrawer
 import com.example.keepmemo.ui.theme.KeepMemoTheme
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsPadding
@@ -40,11 +41,20 @@ fun KeepDemoApp() {
             val coroutineScope = rememberCoroutineScope()
 
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
+            val currentRoute =
+                navBackStackEntry?.destination?.route ?: KeepMemoNavigation.Home.route
 
             ModalDrawer(
                 drawerContent = {
-                    // TODO ドロワーの実装
+                    AppDrawer(
+                        currentRoute = currentRoute,
+                        navigateToHome = navigationActions.navigateToHome,
+                        navigateToLicense = navigationActions.navigationToLicense,
+                        closeDrawer = { coroutineScope.launch { drawerState.close() } },
+                        modifier = Modifier
+                            .statusBarsPadding()
+                            .navigationBarsPadding()
+                    )
                 },
                 drawerState = drawerState,
                 gesturesEnabled = currentRoute in listOf(KeepMemoNavigation.Home.route)

@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -61,6 +64,7 @@ fun HomeScreen(
     addToSelectedIdList: (Long) -> Unit,
     removeFromSelectedIdList: (Long) -> Unit,
     keepListLazyListState: LazyListState,
+    keepListLazyGridState: LazyGridState,
     scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier
 ) {
@@ -102,6 +106,7 @@ fun HomeScreen(
             memoList = memoList,
             selectedMemoIdList = selectedMemoIdList,
             keepListLazyListState = keepListLazyListState,
+            keepListLazyGridState = keepListLazyGridState,
             navigateToEditKeep = navigateToEditKeep,
             addToSelectedIdList = addToSelectedIdList,
             removeFromSelectedIdList = removeFromSelectedIdList,
@@ -116,6 +121,7 @@ fun HomeScreenContent(
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
     keepListLazyListState: LazyListState,
+    keepListLazyGridState: LazyGridState,
     navigateToEditKeep: (Long) -> Unit,
     addToSelectedIdList: (Long) -> Unit,
     removeFromSelectedIdList: (Long) -> Unit,
@@ -137,7 +143,7 @@ fun HomeScreenContent(
                 MemoListTwoGrid(
                     memoList = memoList,
                     selectedMemoIdList = selectedMemoIdList,
-                    keepListLazyListState = keepListLazyListState,
+                    keepListLazyGridState = keepListLazyGridState,
                     navigateToEditKeep = navigateToEditKeep,
                     addToSelectedIdList = addToSelectedIdList,
                     removeFromSelectedIdList = removeFromSelectedIdList
@@ -189,7 +195,7 @@ fun MemoListOneLine(
 fun MemoListTwoGrid(
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
-    keepListLazyListState: LazyListState,
+    keepListLazyGridState: LazyGridState,
     navigateToEditKeep: (Long) -> Unit,
     addToSelectedIdList: (Long) -> Unit,
     removeFromSelectedIdList: (Long) -> Unit,
@@ -197,8 +203,8 @@ fun MemoListTwoGrid(
 ) {
     LazyVerticalGrid(
         modifier = modifier,
-        state = keepListLazyListState,
-        cells = GridCells.Fixed(2),
+        state = keepListLazyGridState,
+        columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -334,6 +340,7 @@ fun HomeScreenPreview() {
             addToSelectedIdList = {},
             removeFromSelectedIdList = {},
             keepListLazyListState = rememberLazyListState(),
+            keepListLazyGridState = rememberLazyGridState(),
             scaffoldState = rememberScaffoldState()
         )
     }
