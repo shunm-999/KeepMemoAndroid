@@ -13,6 +13,8 @@ sealed class KeepMemoNavigation(val route: String) {
         const val QUERY_TARGET_ID = "targetId"
         fun createRoute(targetId: Long) = "addOrEditKeep?$QUERY_TARGET_ID=$targetId"
     }
+
+    object OpenLicense : KeepMemoNavigation("openLicense")
 }
 
 @Composable
@@ -31,6 +33,9 @@ class KeepMemoNavigationActions(navController: NavController) {
             launchSingleTop = true
             restoreState = true
         }
+    }
+    val navigationToLicense: () -> Unit = {
+        navController.navigate(KeepMemoNavigation.OpenLicense.route)
     }
     val navigateToAddKeep: () -> Unit = {
         navController.navigate(KeepMemoNavigation.AddOrEditKeep.route)

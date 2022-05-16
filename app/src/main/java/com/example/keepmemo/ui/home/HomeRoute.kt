@@ -1,5 +1,6 @@
 package com.example.keepmemo.ui.home
 
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
@@ -48,6 +49,7 @@ fun HomeRoute(
     scaffoldState: ScaffoldState
 ) {
     val keepListLazyListState = rememberLazyListState()
+    val keepListLazyGridState = rememberLazyGridState()
     HomeScreen(
         listPane = uiState.homeListPane,
         memoList = uiState.memoList,
@@ -59,6 +61,7 @@ fun HomeRoute(
         addToSelectedIdList = addToSelectedIdList,
         removeFromSelectedIdList = removeFromSelectedIdList,
         keepListLazyListState = keepListLazyListState,
+        keepListLazyGridState = keepListLazyGridState,
         isShowTopAppBar = true,
         isShowBottomAppBar = true,
         scaffoldState = scaffoldState

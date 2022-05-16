@@ -90,6 +90,7 @@ dependencies {
     implementation Deps.Accompanist.swiperRefresh
     implementation Deps.Accompanist.pager
     implementation Deps.Accompanist.insets
+    implementation Deps.Accompanist.webview
 
     implementation Deps.AndroidX.core
     implementation Deps.AndroidX.Compose.ui
