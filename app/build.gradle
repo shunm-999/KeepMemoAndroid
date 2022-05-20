@@ -1,0 +1,150 @@
+import dependencies.Deps
+import dependencies.Versions
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.example.keepmemo"
+        minSdk 21
+        targetSdk 31
+        versionCode Versions.versionCode
+        versionName Versions.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile = file("../debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        release {
+            def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
+            def allFilesFromDir = new File(tmpFilePath).listFiles()
+
+            if (allFilesFromDir != null) {
+                def keystoreFile = allFilesFromDir.first()
+                keystoreFile.renameTo("keystore/upload-keystore.jks")
+            }
+
+            storeFile = file("keystore/upload-keystore.jks")
+            storePassword System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+configurations {
+    ktlint
+}
+
+dependencies {
+
+    implementation Deps.Accompanist.uiController
+    implementation Deps.Accompanist.swiperRefresh
+    implementation Deps.Accompanist.pager
+    implementation Deps.Accompanist.insets
+    implementation Deps.Accompanist.webview
+
+    implementation Deps.AndroidX.core
+    implementation Deps.AndroidX.Compose.ui
+    implementation Deps.AndroidX.Compose.material
+    implementation Deps.AndroidX.Compose.uiToolingPreview
+    implementation Deps.AndroidX.Activity.compose
+    implementation Deps.AndroidX.Constraint.core
+    implementation Deps.AndroidX.Lifecycle.runtime
+    implementation Deps.AndroidX.Lifecycle.viewmodel
+    implementation Deps.AndroidX.Lifecycle.viewModelCompose
+    implementation Deps.AndroidX.Navigation.navigation
+    implementation Deps.AndroidX.Paging.runtime
+    implementation Deps.AndroidX.Paging.jetpackCompose
+    implementation Deps.AndroidX.Icons.extended
+    implementation Deps.AndroidX.Room.runtime
+    implementation Deps.AndroidX.Room.ktx
+    annotationProcessor Deps.AndroidX.Room.compiler
+    kapt Deps.AndroidX.Room.compiler
+
+    implementation Deps.Hilt.android
+    implementation Deps.Hilt.Navigation.navigation
+    kapt Deps.Hilt.compiler
+    implementation Deps.Coil.coilCompose
+    ktlint Deps.Ktlint.pinterest
+    implementation Deps.Timber.core
+
+    testImplementation Deps.JUnit.junit
+    testImplementation Deps.AndroidX.Test.core
+    testImplementation Deps.AndroidX.Test.runner
+    testImplementation Deps.AndroidX.Test.rules
+    testImplementation Deps.AndroidX.Test.junit
+    testImplementation Deps.AndroidX.Test.truth
+
+    androidTestImplementation Deps.AndroidX.Test.jUnit
+    androidTestImplementation Deps.AndroidX.Test.espresso
+    androidTestImplementation Deps.AndroidX.Compose.Test.uiTestJunit4
+    debugImplementation Deps.AndroidX.Compose.Test.uiTooling
+}
+
+// ktlint settings
+task ktlintCheck(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "src/**/*.kt", "android", "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/reports/ktlint/ktlint-result.xml"
+    ignoreExitValue true
+}
+check.dependsOn ktlintCheck
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.pinterest.ktlint.Main"
+    args "-F", "src/**/*.kt", "android", "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/reports/ktlintFotmat/ktlint-format-result.xml"
+    ignoreExitValue true
+}
