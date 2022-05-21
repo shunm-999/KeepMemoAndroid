@@ -65,3 +65,8 @@ autolabeler:
   - label: 'github'
     files:
       - '.github/**/*'
+  - label: 'dependencies'
+    files:
+      - '**/Deps.kt'
+      - 'build.gradle'
+      - 'app/build.gradle'
