@@ -3,6 +3,7 @@ name: git-pr-release
 on:
   push:
     branches:
+      - release
       - release/**
       - hotfix/**
 
