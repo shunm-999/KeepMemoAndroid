@@ -5,9 +5,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.keepmemo.R
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 
 @Composable
 fun HomeRoute(
@@ -15,6 +20,7 @@ fun HomeRoute(
     openDrawer: () -> Unit,
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
+    addKeepEvent: String,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     // UiState of the HomeScreen
@@ -24,6 +30,9 @@ fun HomeRoute(
         openDrawer = openDrawer,
         listPaneChange = { listPane ->
             homeViewModel.updateListPane(listPane)
+        },
+        onMessageDismiss = { id ->
+            homeViewModel.onShowMessage(id)
         },
         navigateToAddKeep = navigateToAddKeep,
         navigateToEditKeep = navigateToEditKeep,
@@ -35,12 +44,22 @@ fun HomeRoute(
         },
         scaffoldState = scaffoldState
     )
+
+    LaunchedEffect(addKeepEvent) {
+        snapshotFlow { addKeepEvent }
+            .distinctUntilChanged()
+            .filter { it.isNotEmpty() }
+            .collect {
+                homeViewModel.showMessage(R.string.snackbar_message_add_keep)
+            }
+    }
 }
 
 @Composable
 fun HomeRoute(
     uiState: HomeUiState,
     openDrawer: () -> Unit,
+    onMessageDismiss: (Long) -> Unit,
     listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
@@ -51,10 +70,12 @@ fun HomeRoute(
     val keepListLazyListState = rememberLazyListState()
     val keepListLazyGridState = rememberLazyGridState()
     HomeScreen(
+        uiMessages = uiState.uiMessages,
         listPane = uiState.homeListPane,
         memoList = uiState.memoList,
         selectedMemoIdList = uiState.selectedMemoIdList,
         openDrawer = openDrawer,
+        onMessageDismiss = onMessageDismiss,
         listPaneChange = listPaneChange,
         navigateToAddKeep = navigateToAddKeep,
         navigateToEditKeep = navigateToEditKeep,
