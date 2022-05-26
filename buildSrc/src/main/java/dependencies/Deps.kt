@@ -12,6 +12,7 @@ object Deps {
             const val ui = "androidx.compose.ui:ui:$version"
             const val material = "androidx.compose.material:material:$version"
             const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:$version"
+            const val livedata = "androidx.compose.runtime:runtime-livedata:$version"
 
             object Test {
                 const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4:$version"

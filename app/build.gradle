@@ -97,6 +97,7 @@ dependencies {
     implementation Deps.AndroidX.Compose.ui
     implementation Deps.AndroidX.Compose.material
     implementation Deps.AndroidX.Compose.uiToolingPreview
+    implementation Deps.AndroidX.Compose.livedata
     implementation Deps.AndroidX.Activity.compose
     implementation Deps.AndroidX.Constraint.core
     implementation Deps.AndroidX.Lifecycle.runtime

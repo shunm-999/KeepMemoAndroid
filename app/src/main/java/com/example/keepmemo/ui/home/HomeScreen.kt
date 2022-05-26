@@ -36,6 +36,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Splitscreen
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,17 +51,21 @@ import androidx.compose.ui.unit.dp
 import com.example.keepmemo.R
 import com.example.keepmemo.model.Keep
 import com.example.keepmemo.model.Memo
+import com.example.keepmemo.ui.component.KeepMemoSnackbarHost
 import com.example.keepmemo.ui.ktx.isScrolled
 import com.example.keepmemo.ui.theme.KeepMemoTheme
+import com.example.keepmemo.ui.utils.UiMessage
 
 @Composable
 fun HomeScreen(
+    uiMessages: List<UiMessage>,
     listPane: HomeListPane,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
     isShowTopAppBar: Boolean,
     isShowBottomAppBar: Boolean,
     openDrawer: () -> Unit,
+    onMessageDismiss: (Long) -> Unit,
     listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
@@ -70,7 +78,7 @@ fun HomeScreen(
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
-        snackbarHost = {},
+        snackbarHost = { KeepMemoSnackbarHost(hostState = it) },
         topBar = {
             if (isShowTopAppBar) {
                 HomeTopAppBar(
@@ -112,6 +120,22 @@ fun HomeScreen(
             removeFromSelectedIdList = removeFromSelectedIdList,
             modifier = contentModifier
         )
+    }
+
+    if (uiMessages.isNotEmpty()) {
+        val uiMessage = remember(uiMessages) {
+            uiMessages[0]
+        }
+
+        val uiMessageText: String = stringResource(uiMessage.messageId)
+        val onMessageDismissState by rememberUpdatedState(onMessageDismiss)
+
+        LaunchedEffect(uiMessageText, scaffoldState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = uiMessageText
+            )
+            onMessageDismissState(uiMessage.id)
+        }
     }
 }
 
@@ -306,6 +330,7 @@ private fun HomeBottomBar(
 fun HomeScreenPreview() {
     KeepMemoTheme {
         HomeScreen(
+            uiMessages = emptyList<UiMessage>(),
             listPane = HomeListPane.One,
             memoList = listOf(
                 Memo.EMPTY.copy(
@@ -334,6 +359,7 @@ fun HomeScreenPreview() {
             isShowTopAppBar = true,
             isShowBottomAppBar = true,
             openDrawer = {},
+            onMessageDismiss = {},
             listPaneChange = {},
             navigateToAddKeep = {},
             navigateToEditKeep = {},

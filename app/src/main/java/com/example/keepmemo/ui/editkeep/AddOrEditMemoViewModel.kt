@@ -12,7 +12,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -80,23 +79,21 @@ class AddOrEditMemoViewModel @AssistedInject constructor(
         _body.value = body
     }
 
-    fun saveKeep() {
-        viewModelScope.launch {
-            val title = _title.value
-            val body = _body.value
+    suspend fun saveKeep(): Result<Unit> {
+        val title = _title.value
+        val body = _body.value
 
-            if (targetId > 0) {
-                memoUseCase.invokeUpdateMemo(
-                    memoId = targetId,
-                    title = title,
-                    body = body
-                )
-            } else {
-                memoUseCase.invokeAddMemo(
-                    title = title,
-                    body = body
-                )
-            }
+        return if (targetId > 0) {
+            memoUseCase.invokeUpdateMemo(
+                memoId = targetId,
+                title = title,
+                body = body
+            )
+        } else {
+            memoUseCase.invokeAddMemo(
+                title = title,
+                body = body
+            )
         }
     }
 

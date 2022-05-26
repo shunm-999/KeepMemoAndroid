@@ -1,6 +1,8 @@
 package com.example.keepmemo
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalDrawer
@@ -18,8 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.keepmemo.ui.component.AppDrawer
 import com.example.keepmemo.ui.theme.KeepMemoTheme
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 

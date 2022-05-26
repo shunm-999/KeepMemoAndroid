@@ -8,4 +8,7 @@
 
     <string name="title_home">ホーム</string>
     <string name="title_license">オープンライセンス</string>
+
+    <!-- Snackbarのメッセージ -->
+    <string name="snackbar_message_add_keep">メモを保存しました</string>
 </resources>
