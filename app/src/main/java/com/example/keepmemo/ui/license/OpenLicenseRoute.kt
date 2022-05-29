@@ -14,7 +14,7 @@ fun OpenLicenseRoute(
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     val uiState by openLicenseViewModel.uiState.collectAsState()
-    HomeRoute(
+    OpenLicenseRoute(
         uiState = uiState,
         onBackPressed = onBackPressed,
         scaffoldState = scaffoldState
@@ -22,7 +22,7 @@ fun OpenLicenseRoute(
 }
 
 @Composable
-private fun HomeRoute(
+private fun OpenLicenseRoute(
     uiState: OpenLicenseUiState,
     onBackPressed: () -> Unit,
     scaffoldState: ScaffoldState

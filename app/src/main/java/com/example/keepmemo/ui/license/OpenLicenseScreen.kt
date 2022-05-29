@@ -14,11 +14,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.keepmemo.R
 import com.google.accompanist.web.WebView
+import com.google.accompanist.web.WebViewState
 import com.google.accompanist.web.rememberWebViewState
 
 @Composable
@@ -28,11 +27,15 @@ fun OpenLicenseScreen(
     scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier
 ) {
+
+    val state = rememberWebViewState(url = url)
+
     Scaffold(
         scaffoldState = scaffoldState,
         snackbarHost = {},
         topBar = {
             OpenLicenseAppBar(
+                title = state.pageTitle ?: "",
                 elevation = 0.dp,
                 onBackPressed = onBackPressed
             )
@@ -41,7 +44,7 @@ fun OpenLicenseScreen(
     ) { innerPadding ->
         val contentModifier = Modifier.padding(innerPadding)
         OpenLicenseScreenContent(
-            url = url,
+            state = state,
             modifier = contentModifier
         )
     }
@@ -49,25 +52,25 @@ fun OpenLicenseScreen(
 
 @Composable
 fun OpenLicenseScreenContent(
-    url: String,
+    state: WebViewState,
     modifier: Modifier = Modifier
 ) {
     Surface(
         modifier = modifier
     ) {
-        val state = rememberWebViewState(url = url)
         WebView(state = state, modifier = Modifier.fillMaxSize())
     }
 }
 
 @Composable
 private fun OpenLicenseAppBar(
+    title: String,
     onBackPressed: () -> Unit,
     elevation: Dp
 ) {
     TopAppBar(
         title = {
-            Text(text = stringResource(id = R.string.open_license_appbar_title))
+            Text(text = title)
         },
         navigationIcon = {
             IconButton(onClick = onBackPressed) {
