@@ -75,9 +75,10 @@ object Deps {
     }
 
     object Accompanist {
-        const val version = "0.24.8-beta"
+        private const val version = "0.24.8-beta"
 
         const val uiController = "com.google.accompanist:accompanist-systemuicontroller:$version"
+        const val permissions = "com.google.accompanist:accompanist-permissions:$version"
         const val swiperRefresh = "com.google.accompanist:accompanist-swiperefresh:$version"
         const val insets = "com.google.accompanist:accompanist-insets:$version"
         const val pager = "com.google.accompanist:accompanist-pager:$version"
