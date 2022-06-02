@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.license
+package com.example.keepmemo.ui.screens.license
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -25,8 +25,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.keepmemo.ui.component.AppDrawer
 import com.example.keepmemo.ui.component.CustomAlertDialog
 import com.example.keepmemo.ui.component.DialogType
-import com.example.keepmemo.ui.launch.LaunchScreen
-import com.example.keepmemo.ui.launch.MainActivityViewModel
+import com.example.keepmemo.ui.screens.launch.LaunchScreen
+import com.example.keepmemo.ui.screens.launch.MainActivityViewModel
 import com.example.keepmemo.ui.theme.KeepMemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState

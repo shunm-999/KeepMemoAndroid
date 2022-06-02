@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.launch
+package com.example.keepmemo.ui.screens.launch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

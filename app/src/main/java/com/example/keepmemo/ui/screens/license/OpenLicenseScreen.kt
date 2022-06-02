@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.license
+package com.example.keepmemo.ui.screens.license
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

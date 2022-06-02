@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.editkeep
+package com.example.keepmemo.ui.screens.editkeep
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

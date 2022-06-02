@@ -11,10 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.keepmemo.ui.editkeep.AddOrEditKeepRoute
-import com.example.keepmemo.ui.editkeep.AddOrEditKeepRouteEvent
-import com.example.keepmemo.ui.home.HomeRoute
-import com.example.keepmemo.ui.license.OpenLicenseRoute
+import com.example.keepmemo.ui.screens.editkeep.AddOrEditKeepRoute
+import com.example.keepmemo.ui.screens.editkeep.AddOrEditKeepRouteEvent
+import com.example.keepmemo.ui.screens.home.HomeRoute
+import com.example.keepmemo.ui.screens.license.OpenLicenseRoute
 
 @Composable
 fun KeepMemoNavGraph(

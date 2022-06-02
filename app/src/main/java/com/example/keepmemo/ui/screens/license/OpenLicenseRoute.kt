@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.license
+package com.example.keepmemo.ui.screens.license
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
