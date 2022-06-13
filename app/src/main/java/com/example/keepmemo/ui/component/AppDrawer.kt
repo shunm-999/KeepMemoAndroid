@@ -18,6 +18,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NoteAlt
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ fun AppDrawer(
     currentRoute: String,
     navigateToHome: () -> Unit,
     navigateToLicense: () -> Unit,
+    navigateToAlarm: () -> Unit,
     closeDrawer: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -58,6 +60,15 @@ fun AppDrawer(
             isSelected = TextUtils.equals(currentRoute, KeepMemoNavigation.OpenLicense.route),
             action = {
                 navigateToLicense()
+                closeDrawer()
+            }
+        )
+        DrawerButton(
+            icon = Icons.Filled.Alarm,
+            label = stringResource(id = R.string.title_alarm),
+            isSelected = TextUtils.equals(currentRoute, KeepMemoNavigation.Alarm.route),
+            action = {
+                navigateToAlarm()
                 closeDrawer()
             }
         )
@@ -152,6 +163,7 @@ fun PreviewAppDrawer() {
                 currentRoute = KeepMemoNavigation.Home.route,
                 navigateToHome = {},
                 navigateToLicense = {},
+                navigateToAlarm = {},
                 closeDrawer = { }
             )
         }

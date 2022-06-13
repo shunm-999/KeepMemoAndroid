@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.keepmemo.ui.screens.alarm.AlarmRoute
 import com.example.keepmemo.ui.screens.editkeep.AddOrEditKeepRoute
 import com.example.keepmemo.ui.screens.editkeep.AddOrEditKeepRouteEvent
 import com.example.keepmemo.ui.screens.home.HomeRoute
@@ -84,6 +85,11 @@ fun KeepMemoNavGraph(
                     }
                     navController.popBackStack()
                 }
+            )
+        }
+        composable(KeepMemoNavigation.Alarm.route) {
+            AlarmRoute(
+                openDrawer = openDrawer
             )
         }
     }
