@@ -1,5 +1,6 @@
 package com.example.keepmemo
 
+import android.Manifest
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -25,11 +26,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.keepmemo.ui.component.AppDrawer
 import com.example.keepmemo.ui.component.CustomAlertDialog
 import com.example.keepmemo.ui.component.DialogType
-import com.example.keepmemo.ui.launch.LaunchScreen
-import com.example.keepmemo.ui.launch.MainActivityViewModel
+import com.example.keepmemo.ui.screens.launch.LaunchScreen
+import com.example.keepmemo.ui.screens.launch.MainActivityViewModel
 import com.example.keepmemo.ui.theme.KeepMemoTheme
+import com.example.keepmemo.util.DeviceUtil
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
@@ -57,21 +60,22 @@ fun KeepDemoApp(
             LaunchScreen.MAIN -> {
                 var openDialog by remember { mutableStateOf(true) }
 
-                val storagePermissionState = rememberMultiplePermissionsState(
-                    permissions = listOf(
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                if (DeviceUtil.isSorOver()) {
+                    val storagePermissionState = rememberPermissionState(
+                        Manifest.permission.SCHEDULE_EXACT_ALARM
                     )
-                )
-                if (storagePermissionState.allPermissionsGranted) {
-                    KeepMemoAppContent()
-                } else {
-                    if (openDialog) {
-                        CustomAlertDialog(dialogType = DialogType.STORAGE_PERMISSIONS) {
-                            openDialog = false
-                            storagePermissionState.launchMultiplePermissionRequest()
+                    if (storagePermissionState.status.isGranted) {
+                        KeepMemoAppContent()
+                    } else {
+                        if (openDialog) {
+                            CustomAlertDialog(dialogType = DialogType.STORAGE_PERMISSIONS) {
+                                openDialog = false
+                                storagePermissionState.launchPermissionRequest()
+                            }
                         }
                     }
+                } else {
+                    KeepMemoAppContent()
                 }
             }
         }
@@ -101,6 +105,7 @@ private fun KeepMemoAppContent() {
                 currentRoute = currentRoute,
                 navigateToHome = navigationActions.navigateToHome,
                 navigateToLicense = navigationActions.navigationToLicense,
+                navigateToAlarm = navigationActions.navigationToAlarm,
                 closeDrawer = { coroutineScope.launch { drawerState.close() } },
                 modifier = Modifier
                     .statusBarsPadding()

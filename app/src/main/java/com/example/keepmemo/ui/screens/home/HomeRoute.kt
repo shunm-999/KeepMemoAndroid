@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.home
+package com.example.keepmemo.ui.screens.home
 
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState

@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.editkeep
+package com.example.keepmemo.ui.screens.editkeep
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column

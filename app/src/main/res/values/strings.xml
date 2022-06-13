@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">KeepMemo</string>
     <string name="home_memo_appbar_title">メモを検索</string>
+    <string name="alarm_appbar_title">アラーム</string>
     <string name="open_license_appbar_title">オープンライセンス</string>
 
     <string name="placeholder_keep_title">タイトル</string>
@@ -8,6 +9,7 @@
 
     <string name="title_home">ホーム</string>
     <string name="title_license">オープンライセンス</string>
+    <string name="title_alarm">アラーム</string>
 
     <!-- Snackbarのメッセージ -->
     <string name="snackbar_message_add_keep">メモを保存しました</string>

@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.home
+package com.example.keepmemo.ui.screens.home
 
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
