@@ -33,7 +33,7 @@ class AlertServiceWrapper : Service() {
     lateinit var telephonyManager: TelephonyManager
 
     private val inCallState: Flow<Boolean> by lazy {
-        if (DeviceUtil.isOreoOver()) {
+        if (DeviceUtil.isSOrOver()) {
             telephonyManager.observeCallState(applicationContext.mainExecutor)
         } else {
             telephonyManager.observePhoneState()

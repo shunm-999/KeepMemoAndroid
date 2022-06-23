@@ -8,5 +8,5 @@ object DeviceUtil {
 
     fun isOreoOver(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
-    fun isSorOver(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    fun isSOrOver(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 }

@@ -60,7 +60,7 @@ fun KeepDemoApp(
             LaunchScreen.MAIN -> {
                 var openDialog by remember { mutableStateOf(true) }
 
-                if (DeviceUtil.isSorOver()) {
+                if (DeviceUtil.isSOrOver()) {
                     val storagePermissionState = rememberPermissionState(
                         Manifest.permission.SCHEDULE_EXACT_ALARM
                     )
