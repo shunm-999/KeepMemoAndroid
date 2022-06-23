@@ -122,4 +122,15 @@ object Deps {
         const val version = "1.2.8"
         const val licenseTools = "com.cookpad.android.plugin.license-tools"
     }
+
+    object Hyperion {
+        private const val version = "0.9.27"
+        const val core = "com.willowtreeapps.hyperion:hyperion-core:${version}"
+        const val attr = "com.willowtreeapps.hyperion:hyperion-attr:${version}"
+        const val measurement = "com.willowtreeapps.hyperion:hyperion-measurement:${version}"
+        const val preferences = "com.willowtreeapps.hyperion:hyperion-shared-preferences:${version}"
+        const val recorder = "com.willowtreeapps.hyperion:hyperion-recorder:${version}"
+        const val crash = "com.willowtreeapps.hyperion:hyperion-crash:${version}"
+        const val timber = "com.willowtreeapps.hyperion:hyperion-timber:${version}"
+    }
 }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">KeepMemo</string>
     <string name="home_memo_appbar_title">メモを検索</string>
     <string name="alarm_appbar_title">アラーム</string>
@@ -22,4 +22,14 @@
     <string name="dialog_message_application_privacy_policy">利用規約に同意してください</string>
     <string name="dialog_title_storage_permission">メディアのアクセス許可</string>
     <string name="dialog_message_storage_permission">本アプリを使用するためには、ストレージの権限を許可していただく必要があります</string>
+
+    <!-- 通知 -->
+    <string name="notification_channel_high_prio">Big popup with snooze and dismiss buttons</string>
+    <string name="notification_channel_default_prio">Notification for a snoozed alarm</string>
+    <string name="notification_channel_low_prio">Expired alarm notification</string>
+
+    <string name="alarm_notify_text">Snooze or dismiss alarm.</string>
+    <string name="alarm_alert_snooze_text">Snooze</string>
+    <string name="alarm_alert_dismiss_text">Dismiss</string>
+    <string name="alarm_alert_snooze_set">Snoozing for <xliff:g id="minutes">%d</xliff:g> minutes.</string>
 </resources>

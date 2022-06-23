@@ -4,5 +4,9 @@ import android.os.Build
 
 object DeviceUtil {
 
-    fun isSorOver(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    fun isMarshmallowOver(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+
+    fun isOreoOver(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+    fun isSOrOver(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 }
