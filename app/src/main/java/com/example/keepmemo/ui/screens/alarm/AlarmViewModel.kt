@@ -3,7 +3,8 @@ package com.example.keepmemo.ui.screens.alarm
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.keepmemo.domain.AlarmUseCase
+import com.example.keepmemo.domain.AlarmListUseCase
+import com.example.keepmemo.domain.SetupAlarmUseCase
 import com.example.keepmemo.model.Alarm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ data class AlarmUiState(
 
 @HiltViewModel
 class AlarmViewModel @Inject constructor(
-    private val alarmUseCase: AlarmUseCase
+    private val alarmUseCase: AlarmListUseCase,
+    private val setupAlarmUseCase: SetupAlarmUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AlarmUiState())
@@ -41,6 +43,6 @@ class AlarmViewModel @Inject constructor(
     }
 
     fun setAlarmClock(context: Context, id: Long) {
-        alarmUseCase.setAlarmClock(context)
+        setupAlarmUseCase.setAlarmClock()
     }
 }
