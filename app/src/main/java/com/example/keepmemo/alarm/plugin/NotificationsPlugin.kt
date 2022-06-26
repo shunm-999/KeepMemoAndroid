@@ -8,10 +8,10 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.example.keepmemo.MainActivity
 import com.example.keepmemo.R
-import com.example.keepmemo.alarm.EnclosingService
-import com.example.keepmemo.alarm.PluginAlarmData
 import com.example.keepmemo.alarm.interfaces.Intents
 import com.example.keepmemo.alarm.interfaces.PresentationToModelIntents
+import com.example.keepmemo.alarm.service.EnclosingService
+import com.example.keepmemo.alarm.service.PluginAlarmData
 import com.example.keepmemo.util.CHANNEL_ID_HIGH_PRIO
 import com.example.keepmemo.util.DeviceUtil
 import com.example.keepmemo.util.notificationBuilder

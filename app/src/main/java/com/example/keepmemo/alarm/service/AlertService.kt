@@ -1,14 +1,16 @@
-package com.example.keepmemo.alarm
+package com.example.keepmemo.alarm.service
 
 import android.app.Notification
 import com.example.keepmemo.alarm.interfaces.Intents
 import com.example.keepmemo.alarm.model.Alarmtone
 import com.example.keepmemo.alarm.plugin.NotificationsPlugin
+import com.example.keepmemo.alarm.plugin.PlayerPlugin
 import com.example.keepmemo.alarm.util.Wakelocks
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.util.Calendar
 
 data class PluginAlarmData(val id: Int, val alarmtone: Alarmtone, val label: String)
@@ -76,6 +78,7 @@ class AlertService @AssistedInject constructor(
     private val wakelocks: Wakelocks,
     @Assisted private val inCall: Flow<Boolean>,
     @Assisted private val notificationsPlugin: NotificationsPlugin,
+    @Assisted private val playerPlugin: PlayerPlugin,
     @Assisted private val enclosingService: EnclosingService
 ) {
 
@@ -90,6 +93,13 @@ class AlertService @AssistedInject constructor(
         wakelocks.acquireServiceLock()
         // TODO 仮置き
         showNotifications(emptyMap())
+        playerPlugin.go(
+            PluginAlarmData(-1, Alarmtone.Default, "label"),
+            prealarm = false,
+            targetVolume = flow {
+                emit(TargetVolume.FADED_IN_FAST)
+            }
+        )
     }
 
     fun onStartCommand(event: Event): Boolean {
@@ -119,6 +129,7 @@ class AlertService @AssistedInject constructor(
         fun create(
             inCall: Flow<Boolean>,
             notificationsPlugin: NotificationsPlugin,
+            playerPlugin: PlayerPlugin,
             enclosingService: EnclosingService
         ): AlertService
     }

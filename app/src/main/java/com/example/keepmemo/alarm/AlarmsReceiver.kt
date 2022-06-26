@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.keepmemo.alarm.service.AlertServicePusher
+import com.example.keepmemo.alarm.service.Event
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
