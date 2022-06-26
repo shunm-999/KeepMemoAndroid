@@ -3,7 +3,6 @@ package com.example.keepmemo.alarm.service
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
-import com.example.keepmemo.alarm.Event
 import com.example.keepmemo.alarm.interfaces.Intents
 import com.example.keepmemo.alarm.util.WakeLockManager
 import dagger.hilt.android.qualifiers.ApplicationContext

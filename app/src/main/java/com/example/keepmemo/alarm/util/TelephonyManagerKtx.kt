@@ -1,6 +1,7 @@
 package com.example.keepmemo.alarm.util
 
 import android.os.Build
+import android.os.Looper
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
@@ -13,6 +14,7 @@ import java.util.concurrent.Executor
 @Suppress("DEPRECATION")
 fun TelephonyManager.observePhoneState(): Flow<Boolean> {
     return callbackFlow<Boolean> {
+        Looper.prepare()
         val listener =
             object : PhoneStateListener() {
                 @Deprecated(
@@ -24,10 +26,12 @@ fun TelephonyManager.observePhoneState(): Flow<Boolean> {
             }
 
         trySend(callState != TelephonyManager.CALL_STATE_IDLE)
+        Looper.loop()
 
         listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
         awaitClose {
             listen(listener, PhoneStateListener.LISTEN_NONE)
+            Looper.myLooper()?.quitSafely()
         }
     }
 }

@@ -6,11 +6,10 @@ import android.content.Intent
 import android.os.IBinder
 import android.telephony.TelephonyManager
 import com.example.keepmemo.R
-import com.example.keepmemo.alarm.AlertService
-import com.example.keepmemo.alarm.EnclosingService
-import com.example.keepmemo.alarm.Event
 import com.example.keepmemo.alarm.interfaces.Intents
+import com.example.keepmemo.alarm.plugin.AlarmPlayerWrapper
 import com.example.keepmemo.alarm.plugin.NotificationsPlugin
+import com.example.keepmemo.alarm.plugin.PlayerPlugin
 import com.example.keepmemo.alarm.util.WakeLockManager
 import com.example.keepmemo.alarm.util.observeCallState
 import com.example.keepmemo.alarm.util.observePhoneState
@@ -20,6 +19,7 @@ import com.example.keepmemo.util.notificationBuilder
 import com.example.keepmemo.util.oreo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,6 +45,20 @@ class AlertServiceWrapper : Service() {
     private val notificationsPlugin by lazy {
         notificationsPluginFactory.create(
             enclosingService = enclosingService
+        )
+    }
+
+    // TODO 仮置き
+    private val playerPlugin by lazy {
+        PlayerPlugin(
+            playerFactory = {
+                AlarmPlayerWrapper(applicationContext)
+            },
+            preAlarmVolume = flow {
+                emit(5)
+            },
+            fadeInTimeInMillis = 3000,
+            inCall = inCallState
         )
     }
 
@@ -81,6 +95,7 @@ class AlertServiceWrapper : Service() {
         alertServiceFactory.create(
             inCall = inCallState,
             notificationsPlugin = notificationsPlugin,
+            playerPlugin = playerPlugin,
             enclosingService = enclosingService
         )
     }
