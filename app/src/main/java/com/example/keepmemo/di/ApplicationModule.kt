@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
 import android.os.PowerManager
-import android.os.Vibrator
 import android.telephony.TelephonyManager
 import com.example.keepmemo.alarm.AlarmSetterImpl
 import com.example.keepmemo.alarm.AlarmSetterInterface
@@ -13,6 +12,10 @@ import com.example.keepmemo.alarm.ISetAlarmStrategy
 import com.example.keepmemo.alarm.KitKatSetter
 import com.example.keepmemo.alarm.MarshmallowSetter
 import com.example.keepmemo.alarm.OreoSetter
+import com.example.keepmemo.alarm.util.OreoVibratorUtil
+import com.example.keepmemo.alarm.util.PreOreoVibratorUtil
+import com.example.keepmemo.alarm.util.SVibratorUtil
+import com.example.keepmemo.alarm.util.VibratorUtilInterface
 import com.example.keepmemo.alarm.util.WakeLockManager
 import com.example.keepmemo.alarm.util.Wakelocks
 import com.example.keepmemo.util.DeviceUtil
@@ -31,12 +34,6 @@ object ApplicationModule {
     @Provides
     fun provideAlarmManager(@ApplicationContext context: Context): AlarmManager {
         return context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    }
-
-    @Singleton
-    @Provides
-    fun provideVibrator(@ApplicationContext context: Context): Vibrator {
-        return context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     }
 
     @Singleton
@@ -94,5 +91,17 @@ object ApplicationModule {
             alarmManager = alarmManager,
             setAlarmStrategy = setAlarmStrategy
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideVibratorUtil(
+        @ApplicationContext context: Context
+    ): VibratorUtilInterface {
+        return when {
+            DeviceUtil.isSOrOver() -> SVibratorUtil(context)
+            DeviceUtil.isOreoOver() -> OreoVibratorUtil(context)
+            else -> PreOreoVibratorUtil(context)
+        }
     }
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -38,7 +39,7 @@ class PlayerPlugin(
         get() = SupervisorJob() + Dispatchers.IO
 
     private var player: Player? = null
-    private val job: Job? = null
+    private var job: Job? = null
 
     override fun go(
         alarm: PluginAlarmData,
@@ -48,7 +49,7 @@ class PlayerPlugin(
         job?.cancel()
         player = playerFactory()
 
-        return launch {
+        val _job = launch {
             launch {
                 inCall.collect { inCall ->
                     if (inCall) {
@@ -61,8 +62,8 @@ class PlayerPlugin(
             launch {
                 targetVolume.flatMapLatest { volume ->
                     when (volume) {
-                        TargetVolume.MUTED -> flow<Float> {
-                            emit(0f)
+                        TargetVolume.MUTED -> {
+                            { 0f }.asFlow()
                         }
                         TargetVolume.FADED_IN -> fadeInSlow(prealarm)
                         TargetVolume.FADED_IN_FAST -> fadeIn(FAST_FADE_IN_TIME, prealarm)
@@ -72,6 +73,8 @@ class PlayerPlugin(
                 }
             }
         }
+        job = _job
+        return _job
     }
 
     private fun fadeInSlow(preAlarm: Boolean): Flow<Float> {
