@@ -10,6 +10,7 @@ import com.example.keepmemo.alarm.interfaces.Intents
 import com.example.keepmemo.alarm.plugin.AlarmPlayerWrapper
 import com.example.keepmemo.alarm.plugin.NotificationsPlugin
 import com.example.keepmemo.alarm.plugin.PlayerPlugin
+import com.example.keepmemo.alarm.plugin.VibratorPlugin
 import com.example.keepmemo.alarm.util.WakeLockManager
 import com.example.keepmemo.alarm.util.observeCallState
 import com.example.keepmemo.alarm.util.observePhoneState
@@ -19,7 +20,7 @@ import com.example.keepmemo.util.notificationBuilder
 import com.example.keepmemo.util.oreo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.asFlow
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,11 +55,18 @@ class AlertServiceWrapper : Service() {
             playerFactory = {
                 AlarmPlayerWrapper(applicationContext)
             },
-            preAlarmVolume = flow {
-                emit(5)
-            },
+            preAlarmVolume = { 5 }.asFlow(),
             fadeInTimeInMillis = 3000,
             inCall = inCallState
+        )
+    }
+
+    @Inject
+    lateinit var vibratorPluginFactory: VibratorPlugin.Factory
+    private val vibratorPlugin by lazy {
+        vibratorPluginFactory.create(
+            fadeInTimeInMillis = 3000,
+            vibrateEnabled = { true }.asFlow()
         )
     }
 
@@ -95,7 +103,10 @@ class AlertServiceWrapper : Service() {
         alertServiceFactory.create(
             inCall = inCallState,
             notificationsPlugin = notificationsPlugin,
-            playerPlugin = playerPlugin,
+            plugins = listOf(
+                playerPlugin,
+                vibratorPlugin
+            ),
             enclosingService = enclosingService
         )
     }
@@ -109,10 +120,10 @@ class AlertServiceWrapper : Service() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         if (DeviceUtil.isOreoOver()) {
             stopForeground(true)
         }
+        super.onDestroy()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
