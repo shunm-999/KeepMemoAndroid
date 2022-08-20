@@ -15,7 +15,6 @@ sealed class KeepMemoNavigation(val route: String) {
     }
 
     object OpenLicense : KeepMemoNavigation("openLicense")
-    object Alarm : KeepMemoNavigation("alarm")
 }
 
 @Composable
@@ -43,8 +42,5 @@ class KeepMemoNavigationActions(navController: NavController) {
     }
     val navigateToEditKeep: (targetId: Long) -> Unit = { targetId ->
         navController.navigate(KeepMemoNavigation.AddOrEditKeep.createRoute(targetId = targetId))
-    }
-    val navigationToAlarm: () -> Unit = {
-        navController.navigate(KeepMemoNavigation.Alarm.route)
     }
 }

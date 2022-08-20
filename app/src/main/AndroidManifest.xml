@@ -38,27 +38,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Model -->
-        <receiver
-            android:name=".alarm.AlarmsReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="${applicationId}.ACTION_FIRED" />
-                <action android:name="${applicationId}.ACTION_SNOOZED_FIRED" />
-                <action android:name="${applicationId}.ACTION_SOUND_EXPIRED" />
-                <action android:name="${applicationId}.ACTION_CANCEL_NOTIFICATION" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.TIME_SET" />
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".alarm.service.AlertServiceWrapper"
-            android:exported="false"
-            android:foregroundServiceType="mediaPlayback" />
     </application>
 
 </manifest>

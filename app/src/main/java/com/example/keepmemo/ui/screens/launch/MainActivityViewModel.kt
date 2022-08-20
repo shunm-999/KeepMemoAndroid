@@ -25,9 +25,6 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
 
     private val _launchScreen = MutableStateFlow<LaunchScreen>(LaunchScreen.SPLASH)
 
-    private val _isFullScreen = MutableStateFlow(false)
-    val isFullScreen: StateFlow<Boolean> = _isFullScreen
-
     init {
         viewModelScope.launch {
             _launchScreen.collect { launchScreen ->
@@ -38,9 +35,5 @@ class MainActivityViewModel @Inject constructor() : ViewModel() {
 
     fun onSplashCompleted() {
         _launchScreen.value = LaunchScreen.MAIN
-    }
-
-    fun setIsFullScreen(isFullScreen: Boolean) {
-        _isFullScreen.value = isFullScreen
     }
 }
