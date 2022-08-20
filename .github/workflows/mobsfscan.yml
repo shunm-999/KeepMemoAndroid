@@ -1,0 +1,23 @@
+name: mobsfscan
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: mobsfscan
+        uses: MobSF/mobsfscan@main
+        with:
+          args: '. --json'
+      - name: notify result
+        if: always()
+        uses: ./.github/workflows/composite/notify-result-action
+        with:
+          job-title: 'mobsfscan'
+          github-token: ${{secrets.GITHUB_TOKEN}}
