@@ -1,7 +1,6 @@
 package com.example.keepmemo.di
 
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryInterface
-import com.example.keepmemo.domain.AlarmListUseCase
 import com.example.keepmemo.domain.MemoUseCase
 import dagger.Module
 import dagger.Provides
@@ -19,11 +18,5 @@ object UseCaseModule {
         memoRepository: MemoRepositoryInterface
     ): MemoUseCase {
         return MemoUseCase(memoRepository)
-    }
-
-    @ActivityRetainedScoped
-    @Provides
-    fun provideAlarmUseCase(): AlarmListUseCase {
-        return AlarmListUseCase()
     }
 }

@@ -6,19 +6,6 @@ import android.content.Context
 import android.media.AudioManager
 import android.os.PowerManager
 import android.telephony.TelephonyManager
-import com.example.keepmemo.alarm.AlarmSetterImpl
-import com.example.keepmemo.alarm.AlarmSetterInterface
-import com.example.keepmemo.alarm.ISetAlarmStrategy
-import com.example.keepmemo.alarm.KitKatSetter
-import com.example.keepmemo.alarm.MarshmallowSetter
-import com.example.keepmemo.alarm.OreoSetter
-import com.example.keepmemo.alarm.util.OreoVibratorUtil
-import com.example.keepmemo.alarm.util.PreOreoVibratorUtil
-import com.example.keepmemo.alarm.util.SVibratorUtil
-import com.example.keepmemo.alarm.util.VibratorUtilInterface
-import com.example.keepmemo.alarm.util.WakeLockManager
-import com.example.keepmemo.alarm.util.Wakelocks
-import com.example.keepmemo.util.DeviceUtil
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -58,50 +45,5 @@ object ApplicationModule {
     @Provides
     fun provideAudioManager(@ApplicationContext context: Context): AudioManager {
         return context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    }
-
-    @Singleton
-    @Provides
-    fun provideWakeLocks(powerManager: PowerManager): Wakelocks {
-        return WakeLockManager(powerManager)
-    }
-
-    @Singleton
-    @Provides
-    fun provideSetAlarmStrategy(
-        @ApplicationContext context: Context,
-        alarmManager: AlarmManager
-    ): ISetAlarmStrategy {
-        return when {
-            DeviceUtil.isOreoOver() -> OreoSetter(context, alarmManager)
-            DeviceUtil.isMarshmallowOver() -> MarshmallowSetter(alarmManager)
-            else -> KitKatSetter(alarmManager)
-        }
-    }
-
-    @Singleton
-    @Provides
-    fun provideAlarmSetter(
-        @ApplicationContext context: Context,
-        alarmManager: AlarmManager,
-        setAlarmStrategy: ISetAlarmStrategy
-    ): AlarmSetterInterface {
-        return AlarmSetterImpl(
-            context = context,
-            alarmManager = alarmManager,
-            setAlarmStrategy = setAlarmStrategy
-        )
-    }
-
-    @Singleton
-    @Provides
-    fun provideVibratorUtil(
-        @ApplicationContext context: Context
-    ): VibratorUtilInterface {
-        return when {
-            DeviceUtil.isSOrOver() -> SVibratorUtil(context)
-            DeviceUtil.isOreoOver() -> OreoVibratorUtil(context)
-            else -> PreOreoVibratorUtil(context)
-        }
     }
 }
