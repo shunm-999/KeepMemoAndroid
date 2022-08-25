@@ -1,6 +1,3 @@
-import dependencies.Deps
-import dependencies.Versions
-
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -16,8 +13,8 @@ android {
         applicationId "com.example.keepmemo"
         minSdk 21
         targetSdk 31
-        versionCode Versions.versionCode
-        versionName Versions.versionName
+        versionCode version_code
+        versionName version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -72,7 +69,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion libs.versions.compose.core.get()
     }
     packagingOptions {
         resources {
@@ -87,50 +84,31 @@ configurations {
 
 dependencies {
 
-    implementation Deps.Accompanist.uiController
-    implementation Deps.Accompanist.permissions
-    implementation Deps.Accompanist.swiperRefresh
-    implementation Deps.Accompanist.pager
-    implementation Deps.Accompanist.insets
-    implementation Deps.Accompanist.webview
+    implementation libs.bundles.compose.accompanist
 
-    implementation Deps.AndroidX.core
-    implementation Deps.AndroidX.Compose.ui
-    implementation Deps.AndroidX.Compose.material
-    implementation Deps.AndroidX.Compose.uiToolingPreview
-    implementation Deps.AndroidX.Compose.livedata
-    implementation Deps.AndroidX.Activity.compose
-    implementation Deps.AndroidX.Constraint.core
-    implementation Deps.AndroidX.Lifecycle.runtime
-    implementation Deps.AndroidX.Lifecycle.viewmodel
-    implementation Deps.AndroidX.Lifecycle.viewModelCompose
-    implementation Deps.AndroidX.Navigation.navigation
-    implementation Deps.AndroidX.Paging.runtime
-    implementation Deps.AndroidX.Paging.jetpackCompose
-    implementation Deps.AndroidX.Icons.extended
-    implementation Deps.AndroidX.Room.runtime
-    implementation Deps.AndroidX.Room.ktx
-    annotationProcessor Deps.AndroidX.Room.compiler
-    kapt Deps.AndroidX.Room.compiler
+    implementation libs.androidx.core
+    implementation libs.bundles.compose.core
+    implementation libs.bundles.androidx.lifecycle
+    implementation libs.compose.navigation
+    implementation libs.androidx.paging.runtime
+    implementation libs.compose.paging
+    implementation libs.compose.coil
 
-    implementation Deps.Hilt.android
-    implementation Deps.Hilt.Navigation.navigation
-    kapt Deps.Hilt.compiler
-    implementation Deps.Coil.coilCompose
-    ktlint Deps.Ktlint.pinterest
-    implementation Deps.Timber.core
+    implementation libs.room.runtime
+    implementation libs.room.ktx
+    annotationProcessor libs.room.compiler
+    kapt libs.room.compiler
 
-    testImplementation Deps.JUnit.junit
-    testImplementation Deps.AndroidX.Test.core
-    testImplementation Deps.AndroidX.Test.runner
-    testImplementation Deps.AndroidX.Test.rules
-    testImplementation Deps.AndroidX.Test.junit
-    testImplementation Deps.AndroidX.Test.truth
+    implementation libs.hilt.android
+    implementation libs.hilt.navigation
+    kapt libs.hilt.compiler
+    ktlint libs.ktlint.pinterest
+    implementation libs.timber
 
-    androidTestImplementation Deps.AndroidX.Test.jUnit
-    androidTestImplementation Deps.AndroidX.Test.espresso
-    androidTestImplementation Deps.AndroidX.Compose.Test.uiTestJunit4
-    debugImplementation Deps.AndroidX.Compose.Test.uiTooling
+    testImplementation libs.bundles.unit.test
+
+    androidTestImplementation libs.bundles.android.test
+    debugImplementation libs.compose.test.ui.tooling
 }
 
 // ktlint settings
