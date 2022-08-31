@@ -25,6 +25,7 @@ CI/CDには、Github Actionsを使用し、下記の作業を自動化してい�
 
 |  ライブラリ名  |  用途  |
 | ---- | ---- |
+|  Kotlin Flow  |  非同期処理  |
 |  Jetpack Compose  |  UIの構築  |
 |  Jetpack Compose Navigation  |  画面遷移  |
 |  Jetpack Compose Accompanist  |  権限の要求 / WebViewの表示など  |
