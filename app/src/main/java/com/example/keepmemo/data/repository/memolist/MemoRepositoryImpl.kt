@@ -25,7 +25,7 @@ class MemoRepositoryImpl(
 ) : MemoRepositoryInterface {
 
     override suspend fun observeMemoList(): Flow<Result<List<Memo>>> {
-        return memoDao.select().map {
+        return memoDao.selectOrderByIndex().map {
             val memoList = RoomEntityConverter.convertToMemo(it)
             Result.Success(memoList)
         }.catch { e ->

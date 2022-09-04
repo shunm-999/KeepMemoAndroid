@@ -14,7 +14,7 @@ interface MemoDao {
 
     @Transaction
     @Query("SELECT * FROM memo ORDER BY memo_index")
-    fun select(): Flow<List<MemoWithKeepEntityImpl>>
+    fun selectOrderByIndex(): Flow<List<MemoWithKeepEntityImpl>>
 
     @Transaction
     @Query("SELECT * FROM memo WHERE id=:id")
