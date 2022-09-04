@@ -17,6 +17,7 @@ room = "2.4.2"
 hilt-core = "2.39"
 
 androidx-test = "1.2.0"
+coroutine-test = "1.6.4"
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -99,6 +100,9 @@ androidx-test-truth = { module = "androidx.test.ext:truth", version.ref = "andro
 
 androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", version = "3.4.0" }
 
+# Coroutine Test
+kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine-test" }
+
 [bundles]
 androidx-lifecycle = [
     "androidx-lifecycle-runtime",
@@ -130,10 +134,17 @@ unit-test = [
     "androidx-test-rules",
     "androidx-test-junit",
     "androidx-test-truth",
+    "kotlin-coroutine-test"
 ]
 
 android-test = [
+    "junit",
+    "androidx-test-core",
+    "androidx-test-runner",
+    "androidx-test-rules",
     "androidx-test-junit",
+    "androidx-test-truth",
     "androidx-test-espresso",
-    "compose-uiToolingPreview"
+    "compose-uiToolingPreview",
+    "kotlin-coroutine-test"
 ]
