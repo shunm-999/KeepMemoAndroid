@@ -5,7 +5,6 @@ import com.example.keepmemo.data.db.dao.KeepDao
 import com.example.keepmemo.data.db.entity.KeepEntityImpl
 import com.example.keepmemo.db.DBTest
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -18,10 +17,20 @@ class KeepMemoDaoTest {
     abstract class KeepMemoDaoTestSetup : DBTest() {
 
         companion object {
+
+            fun createDummy(id: Long): KeepEntityImpl {
+                return KeepEntityImpl(
+                    id = id,
+                    title = "title",
+                    body = "body",
+                    updateDate = System.currentTimeMillis()
+                )
+            }
+
             fun createDummy(range: LongRange): List<KeepEntityImpl> {
                 return range.map { id ->
                     KeepEntityImpl(
-                        id = 0,
+                        id = id,
                         title = "title$id",
                         body = "body$id",
                         updateDate = System.currentTimeMillis()
@@ -42,7 +51,6 @@ class KeepMemoDaoTest {
     @RunWith(AndroidJUnit4::class)
     class BlankRecord : KeepMemoDaoTestSetup() {
 
-        @OptIn(ExperimentalCoroutinesApi::class)
         @Test
         fun 挿入した件数と同じ件数が返ってくる() = runBlocking {
             val keepEntityDummyList = createDummy(1L..10L)
@@ -52,6 +60,39 @@ class KeepMemoDaoTest {
 
             val actual = keepDao.select().first().size
             assertThat(actual).isEqualTo(10)
+        }
+
+        @Test
+        fun 挿入したKeepをId指定で取得できる() = runBlocking {
+            val keepEntityDummy = createDummy(id = 1)
+            assertThat(keepDao.selectById(1)).isNull()
+            keepDao.insert(keepEntityDummy)
+            assertThat(keepDao.selectById(1)).isEqualTo(keepEntityDummy)
+        }
+
+        @Test
+        fun 存在しないId指定でNullが変える() = runBlocking {
+            val keepEntityDummy = createDummy(id = 1)
+            keepDao.insert(keepEntityDummy)
+            assertThat(keepDao.selectById(2)).isNull()
+        }
+
+        @Test
+        fun すでに存在するIdでinsertする場合は_上書きする() = runBlocking {
+            val keepEntityDummy = createDummy(id = 1)
+            keepDao.insert(keepEntityDummy.copy(title = "title before"))
+            assertThat(keepDao.selectById(1)?.title).isEqualTo("title before")
+            keepDao.insert(keepEntityDummy.copy(title = "title after"))
+            assertThat(keepDao.selectById(1)?.title).isEqualTo("title after")
+        }
+
+        @Test
+        fun すでに存在するIdでupdateする場合は_上書きする() = runBlocking {
+            val keepEntityDummy = createDummy(id = 1)
+            keepDao.insert(keepEntityDummy.copy(title = "title before"))
+            assertThat(keepDao.selectById(1)?.title).isEqualTo("title before")
+            keepDao.update(keepEntityDummy.copy(title = "title after"))
+            assertThat(keepDao.selectById(1)?.title).isEqualTo("title after")
         }
     }
 }

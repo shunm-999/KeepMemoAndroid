@@ -15,7 +15,7 @@ interface KeepDao {
     fun select(): Flow<List<KeepEntityImpl>>
 
     @Query("SELECT * FROM keep WHERE id=:id")
-    fun selectById(id: Long): KeepEntityImpl
+    fun selectById(id: Long): KeepEntityImpl?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(keepEntityImpl: KeepEntityImpl): Long
