@@ -13,5 +13,3 @@ assignees: shunm-999
 
 ## タスク
 - [ ] XXXX
-- [ ] XXXX
-- [ ] XXXX
