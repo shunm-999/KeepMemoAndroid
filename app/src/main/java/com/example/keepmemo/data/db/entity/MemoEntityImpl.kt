@@ -3,10 +3,21 @@ package com.example.keepmemo.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 
-@Entity(tableName = "memo")
+@Entity(
+    tableName = "memo",
+    foreignKeys = [
+        ForeignKey(
+            entity = KeepEntityImpl::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("keep_id"),
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class MemoEntityImpl(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
