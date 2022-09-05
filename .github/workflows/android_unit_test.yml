@@ -1,12 +1,7 @@
 name: android unit test
 
 on:
-  pull_request:
-    branches:
-      - 'main'
-      - 'develop'
-      - 'feature/**'
-      - 'release/**'
+  workflow_dispatch:
 jobs:
   android_test:
     runs-on: macos-latest
