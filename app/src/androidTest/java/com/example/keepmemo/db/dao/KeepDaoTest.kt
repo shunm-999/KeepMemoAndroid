@@ -13,8 +13,8 @@ import org.junit.experimental.runners.Enclosed
 import org.junit.runner.RunWith
 
 @RunWith(Enclosed::class)
-class KeepMemoDaoTest {
-    abstract class KeepMemoDaoTestSetup : DBTest() {
+class KeepDaoTest {
+    abstract class KeepDaoTestSetup : DBTest() {
 
         companion object {
 
@@ -49,10 +49,10 @@ class KeepMemoDaoTest {
     }
 
     @RunWith(AndroidJUnit4::class)
-    class BlankRecord : KeepMemoDaoTestSetup() {
+    class BlankRecord : KeepDaoTestSetup() {
 
         @Test
-        fun 挿入した件数と同じ件数が返ってくる() = runBlocking {
+        fun 挿入した件数と同じ件数が取得できる() = runBlocking {
             val keepEntityDummyList = createDummy(1L..10L)
             keepEntityDummyList.forEach {
                 keepDao.insert(it)
