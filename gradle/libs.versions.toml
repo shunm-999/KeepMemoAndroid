@@ -4,7 +4,7 @@ android-gradle = "7.1.1"
 cookpad-license-tools = "1.2.8"
 
 androidx-core = "1.7.0"
-androidx-constraint = "1.0.0"
+androidx-constraint = "1.0.1"
 androidx-lifecycle = "2.4.0"
 
 compose-core = "1.2.0-beta01"
