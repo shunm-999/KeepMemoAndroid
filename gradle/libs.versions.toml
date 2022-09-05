@@ -52,7 +52,7 @@ compose-constraint = { module = "androidx.constraintlayout:constraintlayout-comp
 # Compose Lifecycle
 compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-accompanist" }
 # Compose Activity
-compose-activity = { module = "androidx.activity:activity-compose", version = "1.4.0" }
+compose-activity = { module = "androidx.activity:activity-compose", version = "1.5.1" }
 # Compose Icons
 compose-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-icons" }
 
