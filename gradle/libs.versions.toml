@@ -16,7 +16,7 @@ room = "2.4.2"
 
 hilt-core = "2.39"
 
-androidx-test = "1.2.0"
+androidx-test = "1.4.0"
 coroutine-test = "1.6.4"
 
 [plugins]
