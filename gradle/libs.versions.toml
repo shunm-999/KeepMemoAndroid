@@ -86,7 +86,7 @@ hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version = 
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
 # Ktlint
-ktlint-pinterest = { module = "com.pinterest:ktlint", version = "0.44.0" }
+ktlint-pinterest = { module = "com.pinterest:ktlint", version = "0.47.0" }
 
 # Junit
 junit = { module = "junit:junit", version = "4.13.2" }
