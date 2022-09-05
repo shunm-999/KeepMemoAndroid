@@ -5,7 +5,7 @@ cookpad-license-tools = "1.2.8"
 
 androidx-core = "1.8.0"
 androidx-constraint = "1.0.1"
-androidx-lifecycle = "2.4.0"
+androidx-lifecycle = "2.5.1"
 
 compose-core = "1.2.0-beta01"
 compose-accompanist = "0.24.8-beta"
