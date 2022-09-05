@@ -9,12 +9,14 @@ import androidx.room.Relation
 
 @Entity(
     tableName = "memo",
-    foreignKeys = [ForeignKey(
-        entity = KeepEntityImpl::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("keep_id"),
-        onDelete = ForeignKey.CASCADE
-    )]
+    foreignKeys = [
+        ForeignKey(
+            entity = KeepEntityImpl::class,
+            parentColumns = arrayOf("id"),
+            childColumns = arrayOf("keep_id"),
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
 data class MemoEntityImpl(
     @PrimaryKey(autoGenerate = true)
