@@ -76,7 +76,6 @@ fun AddOrEditKeepScreenContent(
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier) {
-
         val focusManager = LocalFocusManager.current
         val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -155,7 +154,7 @@ fun AddOrEditKeepScreenPreview() {
             onTitleChange = {},
             onBodyChange = {},
             onBackPressed = {},
-            scaffoldState = rememberScaffoldState(),
+            scaffoldState = rememberScaffoldState()
         )
     }
 }

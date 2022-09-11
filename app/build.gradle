@@ -76,6 +76,9 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 configurations {
@@ -106,6 +109,7 @@ dependencies {
     implementation libs.timber
 
     testImplementation libs.bundles.unit.test
+    kaptTest libs.hilt.testing.compiler
 
     androidTestImplementation libs.bundles.android.test
     debugImplementation libs.compose.test.ui.tooling

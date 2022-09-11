@@ -93,7 +93,7 @@ fun HomeScreen(
             if (isShowBottomAppBar) {
                 HomeBottomBar(
                     modifier = Modifier.clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp)),
-                    cutoutShape = CircleShape,
+                    cutoutShape = CircleShape
                 )
             }
         },
@@ -262,7 +262,7 @@ private fun HomeTopAppBar(
     elevation: Dp,
     listPane: HomeListPane,
     openDrawer: () -> Unit,
-    listPaneChange: (HomeListPane) -> Unit,
+    listPaneChange: (HomeListPane) -> Unit
 ) {
     TopAppBar(
         title = {
@@ -309,7 +309,7 @@ private fun HomeTopAppBar(
 @Composable
 private fun HomeBottomBar(
     modifier: Modifier = Modifier,
-    cutoutShape: Shape? = null,
+    cutoutShape: Shape? = null
 ) {
     BottomAppBar(
         modifier = modifier,
@@ -337,23 +337,23 @@ fun HomeScreenPreview() {
                     keep = Keep(
                         id = 1L,
                         title = "title1",
-                        body = "body1",
+                        body = "body1"
                     )
                 ),
                 Memo.EMPTY.copy(
                     keep = Keep(
                         id = 2L,
                         title = "title2",
-                        body = "body2",
+                        body = "body2"
                     )
                 ),
                 Memo.EMPTY.copy(
                     keep = Keep(
                         id = 3L,
                         title = "title3",
-                        body = "body3",
+                        body = "body3"
                     )
-                ),
+                )
             ),
             selectedMemoIdList = setOf(1L),
             isShowTopAppBar = true,

@@ -1,6 +1,5 @@
 package com.example.keepmemo.di
 
-import com.example.keepmemo.data.db.AppDatabase
 import com.example.keepmemo.data.db.dao.KeepDao
 import com.example.keepmemo.data.db.dao.MemoDao
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryImpl
@@ -20,12 +19,10 @@ object RepositoryModule {
     @Provides
     fun provideMemoRepository(
         @IODispatcher ioDispatcher: CoroutineDispatcher,
-        appDatabase: AppDatabase,
         keepDao: KeepDao,
         memoDao: MemoDao
     ): MemoRepositoryInterface = MemoRepositoryImpl(
         ioDispatcher = ioDispatcher,
-        appDatabase = appDatabase,
         keepDao = keepDao,
         memoDao = memoDao
     )

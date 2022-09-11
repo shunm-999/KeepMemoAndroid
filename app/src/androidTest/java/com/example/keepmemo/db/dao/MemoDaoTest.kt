@@ -25,7 +25,7 @@ class MemoDaoTest {
                 id: Long,
                 keepId: Long,
                 memoIndex: Long,
-                isPinned: Boolean,
+                isPinned: Boolean
             ): MemoEntityImpl {
                 return MemoEntityImpl(
                     id = id,
@@ -52,7 +52,7 @@ class MemoDaoTest {
     class BlankRecord : MemoDaoTestSetup() {
 
         @Test(expected = SQLiteConstraintException::class)
-        fun Keep0件でMemoは挿入できない() = runBlocking {
+        fun `Keep0件でMemoは挿入できない`() = runBlocking {
             (1L..2L).map {
                 createDummy(
                     id = it,
@@ -66,7 +66,7 @@ class MemoDaoTest {
         }
 
         @Test
-        fun 挿入した件数と同じ件数取得できる() = runBlocking {
+        fun `挿入した件数と同じ件数取得できる`() = runBlocking {
             val keepEntityImplList = (1L..3L).map { id ->
                 KeepEntityImpl(
                     id = id,

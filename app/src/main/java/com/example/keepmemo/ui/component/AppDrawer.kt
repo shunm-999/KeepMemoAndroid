@@ -115,7 +115,6 @@ private fun DrawerButton(
         color = backgroundColor,
         shape = MaterialTheme.shapes.small
     ) {
-
         TextButton(
             onClick = action,
             modifier = Modifier.fillMaxWidth()

@@ -11,7 +11,7 @@ object RoomEntityConverter {
         return Keep(
             id = keepEntityImpl.id,
             title = keepEntityImpl.title,
-            body = keepEntityImpl.body,
+            body = keepEntityImpl.body
         )
     }
 

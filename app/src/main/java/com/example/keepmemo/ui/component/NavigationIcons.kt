@@ -21,7 +21,7 @@ fun NavigationIcon(
     isSelected: Boolean,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
-    tintColor: Color? = null,
+    tintColor: Color? = null
 ) {
     val imageAlpha = if (isSelected) {
         1f

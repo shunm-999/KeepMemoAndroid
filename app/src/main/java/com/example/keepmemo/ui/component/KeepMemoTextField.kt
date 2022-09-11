@@ -42,9 +42,8 @@ fun KeepMemoInputTextField(
     isFocused: Boolean = false,
     focusManager: FocusManager = LocalFocusManager.current,
     focusRequester: FocusRequester = remember { FocusRequester() },
-    keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current,
+    keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
 ) {
-
     val textFieldValue = remember {
         mutableStateOf(TextFieldValue(text = value, selection = TextRange(value.length)))
     }

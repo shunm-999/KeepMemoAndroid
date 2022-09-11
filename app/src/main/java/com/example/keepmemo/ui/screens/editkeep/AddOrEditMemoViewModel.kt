@@ -94,6 +94,7 @@ class AddOrEditMemoViewModel @AssistedInject constructor(
                 title = title,
                 body = body
             )
+            return Result.Success(Unit)
         }
     }
 

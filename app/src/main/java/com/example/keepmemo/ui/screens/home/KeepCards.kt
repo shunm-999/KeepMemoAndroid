@@ -61,7 +61,7 @@ fun KeepCard(
     ) {
         val constraints = decoupledConstraintsKeepCard(
             titleRef = titleRef,
-            bodyRef = bodyRef,
+            bodyRef = bodyRef
         )
         ConstraintLayout(
             constraintSet = constraints,
@@ -92,7 +92,7 @@ fun KeepCard(
 
 private fun decoupledConstraintsKeepCard(
     titleRef: String,
-    bodyRef: String,
+    bodyRef: String
 ): ConstraintSet {
     return ConstraintSet {
         val title = createRefFor(titleRef)

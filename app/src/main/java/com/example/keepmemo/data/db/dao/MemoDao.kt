@@ -18,11 +18,11 @@ interface MemoDao {
 
     @Transaction
     @Query("SELECT * FROM memo WHERE id=:id")
-    fun selectById(id: Long): MemoWithKeepEntityImpl
+    fun selectById(id: Long): MemoWithKeepEntityImpl?
 
     @Query("SELECT MAX(memo_index) FROM memo")
     fun selectMaxIndex(): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(memoEntityImpl: MemoEntityImpl)
+    fun insert(memoEntityImpl: MemoEntityImpl): Long
 }

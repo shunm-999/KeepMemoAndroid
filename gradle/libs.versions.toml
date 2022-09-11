@@ -103,6 +103,13 @@ androidx-test-espresso = { module = "androidx.test.espresso:espresso-core", vers
 # Coroutine Test
 kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine-test" }
 
+# Android Hilt Test
+hilt-testing-core = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt-core" }
+hilt-testing-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-core" }
+
+# Robolectric Test
+robolectric-test = { module = "org.robolectric:robolectric", version = "4.8.2" }
+
 [bundles]
 androidx-lifecycle = [
     "androidx-lifecycle-runtime",
@@ -134,7 +141,8 @@ unit-test = [
     "androidx-test-rules",
     "androidx-test-junit",
     "androidx-test-truth",
-    "kotlin-coroutine-test"
+    "kotlin-coroutine-test",
+    "robolectric-test"
 ]
 
 android-test = [

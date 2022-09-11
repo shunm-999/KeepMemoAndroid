@@ -1,9 +1,7 @@
 package com.example.keepmemo.data.repository.memolist
 
-import androidx.room.withTransaction
 import com.example.keepmemo.common.converter.RoomEntityConverter
 import com.example.keepmemo.data.Result
-import com.example.keepmemo.data.db.AppDatabase
 import com.example.keepmemo.data.db.dao.KeepDao
 import com.example.keepmemo.data.db.dao.MemoDao
 import com.example.keepmemo.data.db.entity.KeepEntityImpl
@@ -19,7 +17,6 @@ import kotlinx.coroutines.withContext
 
 class MemoRepositoryImpl(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val appDatabase: AppDatabase,
     private val keepDao: KeepDao,
     private val memoDao: MemoDao
 ) : MemoRepositoryInterface {
@@ -37,16 +34,16 @@ class MemoRepositoryImpl(
         return try {
             val memo = withContext(ioDispatcher) {
                 memoDao.selectById(memoId)
-            }
+            } ?: return Result.Error(IllegalStateException("memoId $memoId is not found"))
             Result.Success(RoomEntityConverter.convertToMemo(memo))
         } catch (e: Exception) {
             Result.Error(e)
         }
     }
 
-    override suspend fun saveMemo(title: String, body: String): Result<Unit> {
-        return try {
-            appDatabase.withTransaction {
+    override suspend fun saveMemo(title: String, body: String): Result<Long> {
+        return withContext(ioDispatcher) {
+            try {
                 val keepEntityImpl = KeepEntityImpl(
                     id = 0,
                     title = title,
@@ -62,18 +59,21 @@ class MemoRepositoryImpl(
                     isPinned = false,
                     updateDate = System.currentTimeMillis()
                 )
-                memoDao.insert(memoEntityImpl)
+                val id = memoDao.insert(memoEntityImpl)
+                Result.Success(id)
+            } catch (e: Exception) {
+                Result.Error(e)
             }
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Result.Error(e)
         }
     }
 
     override suspend fun updateMemo(memoId: Long, title: String, body: String): Result<Unit> {
-        return try {
-            appDatabase.withTransaction {
-                val memoEntityImpl = memoDao.selectById(memoId)
+        return withContext(ioDispatcher) {
+            try {
+                val memoEntityImpl =
+                    memoDao.selectById(memoId) ?: return@withContext Result.Error(
+                        IllegalStateException("memoId $memoId is not found")
+                    )
                 val keepEntityImpl = KeepEntityImpl(
                     id = memoEntityImpl.keep.id,
                     title = title,
@@ -81,10 +81,10 @@ class MemoRepositoryImpl(
                     updateDate = System.currentTimeMillis()
                 )
                 keepDao.update(keepEntityImpl)
+                Result.Success(Unit)
+            } catch (e: Exception) {
+                Result.Error(e)
             }
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Result.Error(e)
         }
     }
 }
