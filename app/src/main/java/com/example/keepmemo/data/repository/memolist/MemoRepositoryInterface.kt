@@ -12,7 +12,7 @@ interface MemoRepositoryInterface {
     /**
      * 新規追加S
      */
-    suspend fun saveMemo(title: String, body: String): Result<Unit>
+    suspend fun saveMemo(title: String, body: String): Result<Long>
 
     suspend fun updateMemo(memoId: Long, title: String, body: String): Result<Unit>
 }

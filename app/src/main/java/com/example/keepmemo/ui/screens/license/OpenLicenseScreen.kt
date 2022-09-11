@@ -27,7 +27,6 @@ fun OpenLicenseScreen(
     scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier
 ) {
-
     val state = rememberWebViewState(url = url)
 
     Scaffold(

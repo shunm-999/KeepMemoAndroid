@@ -18,7 +18,7 @@ class MemoUseCase @Inject constructor(
         return memoRepository.observeMemoList()
     }
 
-    suspend fun invokeAddMemo(title: String, body: String): Result<Unit> {
+    suspend fun invokeAddMemo(title: String, body: String): Result<Long> {
         if (title.isEmpty() && body.isEmpty()) {
             return Result.Error(EmptyKeepException)
         }

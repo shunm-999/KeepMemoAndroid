@@ -30,7 +30,6 @@ fun KeepMemoNavGraph(
         modifier = modifier
     ) {
         composable(KeepMemoNavigation.Home.route) {
-
             val valueScreenResult = navController.currentBackStackEntry
                 ?.savedStateHandle
                 ?.getLiveData<String>("addOrEditKeep")?.observeAsState()
@@ -79,7 +78,8 @@ fun KeepMemoNavGraph(
                         navController.previousBackStackEntry
                             ?.savedStateHandle
                             ?.set(
-                                "addOrEditKeep", "added"
+                                "addOrEditKeep",
+                                "added"
                             )
                     }
                     navController.popBackStack()
