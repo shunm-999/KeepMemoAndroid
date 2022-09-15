@@ -49,8 +49,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.R
-import com.example.keepmemo.model.Keep
-import com.example.keepmemo.model.Memo
+import com.example.keepmemo.core.model.data.Keep
+import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.ui.component.KeepMemoSnackbarHost
 import com.example.keepmemo.ui.ktx.isScrolled
 import com.example.keepmemo.ui.theme.KeepMemoTheme
