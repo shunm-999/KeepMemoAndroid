@@ -123,7 +123,7 @@ task("ktlintCheck", JavaExec::class) {
         "--android",
         "--color",
         "--reporter=plain",
-        "--reporter=checkstyle,output=${buildDir}/reports/ktlint-results.xml",
+        "--reporter=checkstyle,output=${buildDir}/reports/ktlint/ktlint-result.xml",
     )
     isIgnoreExitValue = true
 }
