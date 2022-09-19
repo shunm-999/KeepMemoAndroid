@@ -68,5 +68,5 @@ autolabeler:
   - label: 'dependencies'
     files:
       - '**/Deps.kt'
-      - 'build.gradle'
-      - 'app/build.gradle'
+      - 'build.gradle.kts'
+      - 'app/build.gradle.kts'

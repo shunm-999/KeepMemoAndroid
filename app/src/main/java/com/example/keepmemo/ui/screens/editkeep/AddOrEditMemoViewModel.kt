@@ -3,9 +3,9 @@ package com.example.keepmemo.ui.screens.editkeep
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.data.Result
 import com.example.keepmemo.domain.MemoUseCase
-import com.example.keepmemo.model.Keep
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

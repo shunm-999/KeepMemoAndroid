@@ -1,4 +1,4 @@
-package com.example.keepmemo.model
+package com.example.keepmemo.core.model.data
 
 data class Keep(
     val id: Long,

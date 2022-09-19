@@ -14,7 +14,7 @@ import com.example.keepmemo.data.db.entity.MemoEntityImpl
         KeepEntityImpl::class,
         MemoEntityImpl::class
     ],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 

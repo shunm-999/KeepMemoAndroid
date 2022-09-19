@@ -1,9 +1,9 @@
 package com.example.keepmemo.domain
 
+import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.data.EmptyKeepException
 import com.example.keepmemo.data.Result
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryInterface
-import com.example.keepmemo.model.Memo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

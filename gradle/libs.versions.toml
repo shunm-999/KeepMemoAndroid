@@ -50,7 +50,7 @@ compose-livedata = { module = "androidx.compose.runtime:runtime-livedata", versi
 # Compose Constraint
 compose-constraint = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraint" }
 # Compose Lifecycle
-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-accompanist" }
+compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 # Compose Activity
 compose-activity = { module = "androidx.activity:activity-compose", version = "1.5.1" }
 # Compose Icons
@@ -110,6 +110,10 @@ hilt-testing-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 # Robolectric Test
 robolectric-test = { module = "org.robolectric:robolectric", version = "4.8.2" }
 
+# Dependencies of the included build-logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 [bundles]
 androidx-lifecycle = [
     "androidx-lifecycle-runtime",
@@ -128,10 +132,6 @@ compose-accompanist = [
     "compose-accompanist-insets",
     "compose-accompanist-pager",
     "compose-accompanist-webview",
-    "compose-constraint",
-    "compose-lifecycle-viewmodel",
-    "compose-activity",
-    "compose-icons-extended"
 ]
 
 unit-test = [

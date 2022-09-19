@@ -1,9 +1,9 @@
 package com.example.keepmemo.common.converter
 
+import com.example.keepmemo.core.model.data.Keep
+import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.data.db.entity.KeepEntityImpl
 import com.example.keepmemo.data.db.entity.MemoWithKeepEntityImpl
-import com.example.keepmemo.model.Keep
-import com.example.keepmemo.model.Memo
 
 object RoomEntityConverter {
 
