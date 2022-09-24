@@ -1,9 +1,8 @@
-package com.example.keepmemo.di
+package com.example.keepmemo.database
 
 import android.content.Context
-import com.example.keepmemo.data.db.AppDatabase
-import com.example.keepmemo.data.db.dao.KeepDao
-import com.example.keepmemo.data.db.dao.MemoDao
+import com.example.keepmemo.database.dao.KeepDao
+import com.example.keepmemo.database.dao.MemoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

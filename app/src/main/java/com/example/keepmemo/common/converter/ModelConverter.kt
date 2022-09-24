@@ -2,8 +2,8 @@ package com.example.keepmemo.common.converter
 
 import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.core.model.data.Memo
-import com.example.keepmemo.data.db.entity.KeepEntityImpl
-import com.example.keepmemo.data.db.entity.MemoEntityImpl
+import com.example.keepmemo.database.entity.KeepEntityImpl
+import com.example.keepmemo.database.entity.MemoEntityImpl
 
 object ModelConverter {
 
