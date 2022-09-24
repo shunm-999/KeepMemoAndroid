@@ -1,4 +1,4 @@
-package com.example.keepmemo.data.db.entity
+package com.example.keepmemo.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

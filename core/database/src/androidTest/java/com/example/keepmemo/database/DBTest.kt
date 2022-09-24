@@ -1,9 +1,8 @@
-package com.example.keepmemo.db
+package com.example.keepmemo.database
 
+import android.app.Application
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.example.keepmemo.KeepMemoApplication
-import com.example.keepmemo.data.db.AppDatabase
 import org.junit.Before
 
 abstract class DBTest {
@@ -17,7 +16,7 @@ abstract class DBTest {
 
     @Before
     open fun setUpParent() {
-        val context = ApplicationProvider.getApplicationContext<KeepMemoApplication>()
+        val context = ApplicationProvider.getApplicationContext<Application>()
 
         appDatabase = Room
             .databaseBuilder(

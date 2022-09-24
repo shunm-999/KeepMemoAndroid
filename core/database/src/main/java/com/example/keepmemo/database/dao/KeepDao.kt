@@ -1,11 +1,11 @@
-package com.example.keepmemo.data.db.dao
+package com.example.keepmemo.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.keepmemo.data.db.entity.KeepEntityImpl
+import com.example.keepmemo.database.entity.KeepEntityImpl
 import kotlinx.coroutines.flow.Flow
 
 @Dao

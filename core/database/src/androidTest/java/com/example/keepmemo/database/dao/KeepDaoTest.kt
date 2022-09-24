@@ -1,9 +1,8 @@
-package com.example.keepmemo.db.dao
+package com.example.keepmemo.database.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.keepmemo.data.db.dao.KeepDao
-import com.example.keepmemo.data.db.entity.KeepEntityImpl
-import com.example.keepmemo.db.DBTest
+import com.example.keepmemo.database.DBTest
+import com.example.keepmemo.database.entity.KeepEntityImpl
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

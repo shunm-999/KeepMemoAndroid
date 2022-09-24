@@ -1,4 +1,4 @@
-package com.example.keepmemo.data.db.entity
+package com.example.keepmemo.database.entity
 
 interface KeepEntityInterface {
     val id: Long

@@ -16,15 +16,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                )
-            }
-        }
     }
 
     buildTypes {
@@ -73,6 +64,7 @@ android {
 dependencies {
 
     implementation(project(":core:model"))
+    implementation(project(":core:database"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.paging.runtime)
@@ -87,11 +79,6 @@ dependencies {
     implementation(libs.compose.paging)
     implementation(libs.compose.coil)
     implementation(libs.compose.icons.extended)
-
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    annotationProcessor(libs.room.compiler)
-    kapt(libs.room.compiler)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)

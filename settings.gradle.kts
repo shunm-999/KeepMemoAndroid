@@ -14,6 +14,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "KeepMemo"
+includeBuild("build-logic")
 include(":app")
 include(":core:model")
-includeBuild("build-logic")
+include(":core:database")
