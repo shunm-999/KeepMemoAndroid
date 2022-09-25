@@ -1,9 +1,9 @@
 package com.example.keepmemo.di
 
+import com.example.keepmemo.core.database.dao.KeepDao
+import com.example.keepmemo.core.database.dao.MemoDao
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryImpl
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryInterface
-import com.example.keepmemo.database.dao.KeepDao
-import com.example.keepmemo.database.dao.MemoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

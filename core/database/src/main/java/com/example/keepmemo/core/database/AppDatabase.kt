@@ -1,13 +1,13 @@
-package com.example.keepmemo.database
+package com.example.keepmemo.core.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.keepmemo.database.dao.KeepDao
-import com.example.keepmemo.database.dao.MemoDao
-import com.example.keepmemo.database.entity.KeepEntityImpl
-import com.example.keepmemo.database.entity.MemoEntityImpl
+import com.example.keepmemo.core.database.dao.KeepDao
+import com.example.keepmemo.core.database.dao.MemoDao
+import com.example.keepmemo.core.database.entity.KeepEntityImpl
+import com.example.keepmemo.core.database.entity.MemoEntityImpl
 
 @Database(
     entities = [
