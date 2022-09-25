@@ -4,8 +4,8 @@ import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.data.EmptyKeepException
 import com.example.keepmemo.data.Result
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryInterface
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 class MemoUseCase @Inject constructor(
     private val memoRepository: MemoRepositoryInterface

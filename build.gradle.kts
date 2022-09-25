@@ -16,6 +16,7 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.cookpad.license.tools)
+    alias(libs.plugins.spotless) apply false
 }
 
 task("clean", Delete::class) {

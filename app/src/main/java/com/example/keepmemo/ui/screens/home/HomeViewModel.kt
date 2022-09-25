@@ -8,14 +8,14 @@ import com.example.keepmemo.data.Result
 import com.example.keepmemo.domain.MemoUseCase
 import com.example.keepmemo.ui.utils.UiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.UUID
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.UUID
-import javax.inject.Inject
 
 enum class HomeListPane {
     One,

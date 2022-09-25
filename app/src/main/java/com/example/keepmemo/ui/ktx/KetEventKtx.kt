@@ -1,6 +1,5 @@
 package com.example.keepmemo.ui.ktx
 
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
@@ -12,14 +11,13 @@ import androidx.compose.ui.input.key.type
 /**
  * Intercepts a key event rather than passing it on to children
  */
-@OptIn(ExperimentalComposeUiApi::class)
 fun Modifier.interceptKey(key: Key, onKeyEvent: () -> Unit): Modifier {
     return this.onPreviewKeyEvent {
-        if (it.key == key && it.type == KeyEventType.KeyUp) { // fire onKeyEvent on KeyUp to prevent duplicates
+        if (it.key == key && it.type == KeyEventType.KeyUp) {
             onKeyEvent()
             true
         } else {
-            it.key == key // only pass the key event to children if it's not the chosen key
+            it.key == key
         }
     }
 }
@@ -27,14 +25,13 @@ fun Modifier.interceptKey(key: Key, onKeyEvent: () -> Unit): Modifier {
 /**
  * Intercepts a key event rather than passing it on to children
  */
-@OptIn(ExperimentalComposeUiApi::class)
 fun Modifier.observeKeyEvent(key: Key, onKeyEvent: () -> Unit): Modifier {
     return this.onKeyEvent {
-        if (it.key == key && it.type == KeyEventType.KeyUp) { // fire onKeyEvent on KeyUp to prevent duplicates
+        if (it.key == key && it.type == KeyEventType.KeyUp) {
             onKeyEvent()
             true
         } else {
-            it.key == key // only pass the key event to children if it's not the chosen key
+            it.key == key
         }
     }
 }
