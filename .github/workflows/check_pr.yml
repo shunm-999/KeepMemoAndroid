@@ -19,6 +19,8 @@ jobs:
           distribution: 'zulu'
           java-version: 11
           cache: "gradle"
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
       - name: Run Spotless
         run: ./gradlew  --no-daemon spotlessKotlinApply
       - uses: reviewdog/action-suggester@v1
