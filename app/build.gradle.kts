@@ -1,6 +1,7 @@
 plugins {
     id("keepmemo.android.application.compose")
     id("keepmemo.android.application")
+    id("keepmemo.android.spotless")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
@@ -91,45 +92,4 @@ dependencies {
 
     androidTestImplementation(libs.bundles.android.test)
     debugImplementation(libs.compose.test.ui.tooling)
-}
-
-val ktlint by configurations.creating
-
-dependencies {
-    ktlint(libs.ktlint.pinterest)
-}
-
-// ktlint settings
-task("ktlintCheck", JavaExec::class) {
-    group = "verification"
-    description = "Check Kotlin code style."
-    main = "com.pinterest.ktlint.Main"
-    classpath = configurations.getByName("ktlint")
-    args(
-        "src/**/*.kt",
-        "--android",
-        "--color",
-        "--reporter=plain",
-        "--reporter=checkstyle,output=${buildDir}/reports/ktlint/ktlint-result.xml",
-    )
-    isIgnoreExitValue = true
-}
-
-tasks.named("check") {
-    dependsOn(ktlint)
-}
-
-task("ktlintFormat", JavaExec::class) {
-    group = "formatting"
-    description = "Fix Kotlin code style deviations."
-    main = "com.pinterest.ktlint.Main"
-    classpath = configurations.getByName("ktlint")
-    args(
-        "-F",
-        "src/**/*.kt",
-        "android",
-        "--reporter=plain",
-        "--reporter=checkstyle,output=${buildDir}/reports/ktlintFotmat/ktlint-format-result.xml"
-    )
-    isIgnoreExitValue = true
 }

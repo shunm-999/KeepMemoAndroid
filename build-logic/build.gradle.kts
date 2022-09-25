@@ -10,6 +10,7 @@ java {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.spotless.gradlePlugin)
 }
 gradlePlugin {
     plugins {
@@ -35,7 +36,11 @@ gradlePlugin {
         }
         register("androidTest") {
             id = "keepmemo.android.test"
-            implementationClass = "AndroidTestPlugin"
+            implementationClass = "com.example.build_logic.AndroidTestPlugin"
+        }
+        register("spotless") {
+            id = "keepmemo.android.spotless"
+            implementationClass = "com.example.build_logic.SpotlessPlugin"
         }
     }
 }

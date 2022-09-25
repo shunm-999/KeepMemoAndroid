@@ -19,11 +19,15 @@ hilt-core = "2.39"
 androidx-test = "1.4.0"
 coroutine-test = "1.6.4"
 
+ktlint = "0.43.0"
+spotless = "6.7.2"
+
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "android-gradle" }
 android-library = { id = "com.android.library", version.ref = "android-gradle" }
 cookpad-license-tools = { id = "com.cookpad.android.plugin.license-tools", version.ref = "cookpad-license-tools" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [libraries]
 # Androidx Core
@@ -85,8 +89,8 @@ hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version = 
 # Timber
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 
-# Ktlint
-ktlint-pinterest = { module = "com.pinterest:ktlint", version = "0.47.0" }
+# Code Formatter
+spotless-gradlePlugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
 
 # Junit
 junit = { module = "junit:junit", version = "4.13.2" }

@@ -1,5 +1,6 @@
 plugins {
     id("keepmemo.android.library")
+    id("keepmemo.android.spotless")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }

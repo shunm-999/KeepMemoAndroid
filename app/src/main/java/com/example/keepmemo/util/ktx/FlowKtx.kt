@@ -1,9 +1,9 @@
 package com.example.keepmemo.util.ktx
 
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.util.concurrent.TimeUnit
 
 fun intervalFlow(period: Long, unit: TimeUnit, takeWhile: (Long) -> Boolean): Flow<Long> {
     return flow<Long> {
