@@ -1,4 +1,4 @@
-package com.example.keepmemo.util.ktx
+package com.example.keepmemo.core.common.util.ktx
 
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.delay

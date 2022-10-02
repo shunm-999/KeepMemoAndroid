@@ -1,4 +1,4 @@
-package com.example.keepmemo.di.dao
+package com.example.keepmemo.core.data.testdoubles
 
 import com.example.keepmemo.core.database.dao.MemoDao
 import com.example.keepmemo.core.database.entity.KeepEntityImpl

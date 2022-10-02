@@ -1,15 +1,14 @@
-package com.example.keepmemo.repository
+package com.example.keepmemo.core.data.repository
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.keepmemo.core.common.result.Result
+import com.example.keepmemo.core.data.testdoubles.FakeKeepDao
+import com.example.keepmemo.core.data.testdoubles.FakeMemoDao
 import com.example.keepmemo.core.database.dao.KeepDao
 import com.example.keepmemo.core.database.dao.MemoDao
 import com.example.keepmemo.core.database.entity.KeepEntityImpl
 import com.example.keepmemo.core.database.entity.MemoEntityImpl
-import com.example.keepmemo.data.repository.memolist.MemoRepositoryImpl
-import com.example.keepmemo.di.dao.FakeKeepDao
-import com.example.keepmemo.di.dao.FakeMemoDao
-import com.example.keepmemo.testutil.MainDispatcherRule
+import com.example.keepmemo.core.testing.util.MainDispatcherRule
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +39,10 @@ class MemoRepositoryTest {
         keepEntityMapFlow = MutableStateFlow<MutableMap<Long, KeepEntityImpl>>(mutableMapOf())
         memoEntityMapFlow = MutableStateFlow<MutableMap<Long, MemoEntityImpl>>(mutableMapOf())
         keepDao = FakeKeepDao(keepEntityMapFlow)
-        memoDao = FakeMemoDao(keepEntityMapFlow, memoEntityMapFlow)
+        memoDao = FakeMemoDao(
+            keepEntityMapFlow,
+            memoEntityMapFlow
+        )
         memoRepositoryImpl = MemoRepositoryImpl(
             ioDispatcher = UnconfinedTestDispatcher(),
             keepDao = keepDao,

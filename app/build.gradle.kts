@@ -67,6 +67,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:model"))
     implementation(project(":core:database"))
+    implementation(project(":core:data"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.paging.runtime)

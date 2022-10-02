@@ -1,11 +1,11 @@
-package com.example.keepmemo.di
+package com.example.keepmemo.core.data.di
 
 import com.example.keepmemo.core.common.di.Dispatcher
 import com.example.keepmemo.core.common.di.KeepMemoDispatchers
+import com.example.keepmemo.core.data.repository.MemoRepositoryImpl
+import com.example.keepmemo.core.data.repository.MemoRepositoryInterface
 import com.example.keepmemo.core.database.dao.KeepDao
 import com.example.keepmemo.core.database.dao.MemoDao
-import com.example.keepmemo.data.repository.memolist.MemoRepositoryImpl
-import com.example.keepmemo.data.repository.memolist.MemoRepositoryInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

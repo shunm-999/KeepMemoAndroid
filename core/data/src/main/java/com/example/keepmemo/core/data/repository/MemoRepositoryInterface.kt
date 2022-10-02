@@ -1,4 +1,4 @@
-package com.example.keepmemo.data.repository.memolist
+package com.example.keepmemo.core.data.repository
 
 import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.core.model.data.Memo
