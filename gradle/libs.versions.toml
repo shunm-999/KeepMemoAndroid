@@ -1,5 +1,6 @@
 [versions]
 kotlin = "1.6.21"
+kotlinxCoroutines = "1.6.4"
 android-gradle = "7.1.1"
 cookpad-license-tools = "1.2.8"
 
@@ -30,6 +31,8 @@ cookpad-license-tools = { id = "com.cookpad.android.plugin.license-tools", versi
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 
 [libraries]
+# Kotlin Coroutines
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 # Androidx Core
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 

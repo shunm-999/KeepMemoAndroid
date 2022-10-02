@@ -1,13 +1,14 @@
 package com.example.keepmemo.data.repository.memolist
 
 import com.example.keepmemo.common.converter.RoomEntityConverter
+import com.example.keepmemo.core.common.di.Dispatcher
+import com.example.keepmemo.core.common.di.KeepMemoDispatchers
+import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.core.database.dao.KeepDao
 import com.example.keepmemo.core.database.dao.MemoDao
 import com.example.keepmemo.core.database.entity.KeepEntityImpl
 import com.example.keepmemo.core.database.entity.MemoEntityImpl
 import com.example.keepmemo.core.model.data.Memo
-import com.example.keepmemo.data.Result
-import com.example.keepmemo.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class MemoRepositoryImpl(
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(KeepMemoDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val keepDao: KeepDao,
     private val memoDao: MemoDao
 ) : MemoRepositoryInterface {

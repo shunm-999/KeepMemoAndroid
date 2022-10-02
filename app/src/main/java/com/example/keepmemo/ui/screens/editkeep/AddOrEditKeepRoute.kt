@@ -9,7 +9,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.keepmemo.data.Result
+import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.di.MainActivityViewModelFactoryProvider
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch

@@ -1,11 +1,11 @@
 package com.example.keepmemo.repository
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.core.database.dao.KeepDao
 import com.example.keepmemo.core.database.dao.MemoDao
 import com.example.keepmemo.core.database.entity.KeepEntityImpl
 import com.example.keepmemo.core.database.entity.MemoEntityImpl
-import com.example.keepmemo.data.Result
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryImpl
 import com.example.keepmemo.di.dao.FakeKeepDao
 import com.example.keepmemo.di.dao.FakeMemoDao
