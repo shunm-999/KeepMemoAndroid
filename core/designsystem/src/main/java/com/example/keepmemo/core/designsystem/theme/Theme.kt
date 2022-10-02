@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.theme
+package com.example.keepmemo.core.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

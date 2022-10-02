@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.component
+package com.example.keepmemo.core.designsystem.component
 
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import com.example.keepmemo.ui.ktx.interceptKey
+import com.example.keepmemo.core.designsystem.ktx.interceptKey
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

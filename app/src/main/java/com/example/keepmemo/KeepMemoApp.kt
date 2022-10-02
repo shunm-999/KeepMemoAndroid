@@ -19,12 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 import com.example.keepmemo.ui.component.AppDrawer
 import com.example.keepmemo.ui.component.CustomAlertDialog
 import com.example.keepmemo.ui.component.DialogType
 import com.example.keepmemo.ui.screens.launch.LaunchScreen
 import com.example.keepmemo.ui.screens.launch.MainActivityViewModel
-import com.example.keepmemo.ui.theme.KeepMemoTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch

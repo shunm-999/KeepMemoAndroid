@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
-import com.example.keepmemo.ui.theme.KeepMemoTheme
+import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

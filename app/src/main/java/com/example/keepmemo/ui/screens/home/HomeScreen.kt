@@ -49,12 +49,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.R
+import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
+import com.example.keepmemo.core.designsystem.ktx.isScrolled
+import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.core.model.data.Memo
-import com.example.keepmemo.ui.component.KeepMemoSnackbarHost
-import com.example.keepmemo.ui.ktx.isScrolled
-import com.example.keepmemo.ui.theme.KeepMemoTheme
-import com.example.keepmemo.ui.utils.UiMessage
+import com.example.keepmemo.core.model.data.UiMessage
 
 @Composable
 fun HomeScreen(

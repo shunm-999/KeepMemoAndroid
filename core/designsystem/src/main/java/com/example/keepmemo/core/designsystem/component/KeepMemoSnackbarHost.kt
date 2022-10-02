@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.component
+package com.example.keepmemo.core.designsystem.component
 
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.widthIn
