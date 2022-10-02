@@ -1,4 +1,4 @@
-package com.example.keepmemo.database
+package com.example.keepmemo.core.database
 
 import android.app.Application
 import androidx.room.Room

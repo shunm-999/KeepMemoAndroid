@@ -1,12 +1,12 @@
 package com.example.keepmemo.data.repository.memolist
 
 import com.example.keepmemo.common.converter.RoomEntityConverter
+import com.example.keepmemo.core.database.dao.KeepDao
+import com.example.keepmemo.core.database.dao.MemoDao
+import com.example.keepmemo.core.database.entity.KeepEntityImpl
+import com.example.keepmemo.core.database.entity.MemoEntityImpl
 import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.data.Result
-import com.example.keepmemo.database.dao.KeepDao
-import com.example.keepmemo.database.dao.MemoDao
-import com.example.keepmemo.database.entity.KeepEntityImpl
-import com.example.keepmemo.database.entity.MemoEntityImpl
 import com.example.keepmemo.di.IODispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

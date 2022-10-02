@@ -19,6 +19,10 @@ plugins {
     alias(libs.plugins.spotless) apply false
 }
 
+licenseTools {
+    ignoredProjects = setOf(":core:testing")
+}
+
 task("clean", Delete::class) {
     delete = setOf(rootProject.buildDir)
 }

@@ -1,7 +1,7 @@
 package com.example.keepmemo.di.dao
 
-import com.example.keepmemo.database.dao.KeepDao
-import com.example.keepmemo.database.entity.KeepEntityImpl
+import com.example.keepmemo.core.database.dao.KeepDao
+import com.example.keepmemo.core.database.entity.KeepEntityImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
