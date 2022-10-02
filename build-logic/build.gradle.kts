@@ -38,6 +38,10 @@ gradlePlugin {
             id = "keepmemo.android.test"
             implementationClass = "com.example.build_logic.AndroidTestPlugin"
         }
+        register("androidHilt") {
+            id = "keepmemo.android.hilt"
+            implementationClass = "com.example.build_logic.AndroidHiltPlugin"
+        }
         register("spotless") {
             id = "keepmemo.android.spotless"
             implementationClass = "com.example.build_logic.SpotlessPlugin"

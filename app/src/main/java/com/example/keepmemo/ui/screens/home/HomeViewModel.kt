@@ -3,8 +3,8 @@ package com.example.keepmemo.ui.screens.home
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.core.model.data.Memo
-import com.example.keepmemo.data.Result
 import com.example.keepmemo.domain.MemoUseCase
 import com.example.keepmemo.ui.utils.UiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel

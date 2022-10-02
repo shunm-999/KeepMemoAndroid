@@ -1,5 +1,7 @@
 package com.example.keepmemo.di
 
+import com.example.keepmemo.core.common.di.Dispatcher
+import com.example.keepmemo.core.common.di.KeepMemoDispatchers
 import com.example.keepmemo.core.database.dao.KeepDao
 import com.example.keepmemo.core.database.dao.MemoDao
 import com.example.keepmemo.data.repository.memolist.MemoRepositoryImpl
@@ -18,7 +20,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideMemoRepository(
-        @IODispatcher ioDispatcher: CoroutineDispatcher,
+        @Dispatcher(KeepMemoDispatchers.IO) ioDispatcher: CoroutineDispatcher,
         keepDao: KeepDao,
         memoDao: MemoDao
     ): MemoRepositoryInterface = MemoRepositoryImpl(

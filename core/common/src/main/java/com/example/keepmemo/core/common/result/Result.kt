@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.keepmemo.data
+package com.example.keepmemo.core.common.result
 
 /**
  * A generic class that holds a value or an exception

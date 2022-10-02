@@ -1,7 +1,7 @@
 package com.example.keepmemo.data.repository.memolist
 
+import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.core.model.data.Memo
-import com.example.keepmemo.data.Result
 import kotlinx.coroutines.flow.Flow
 
 interface MemoRepositoryInterface {

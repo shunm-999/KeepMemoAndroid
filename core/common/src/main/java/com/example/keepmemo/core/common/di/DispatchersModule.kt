@@ -1,10 +1,9 @@
-package com.example.keepmemo.di
+package com.example.keepmemo.core.common.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Qualifier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -13,18 +12,10 @@ import kotlinx.coroutines.Dispatchers
 class DispatchersModule {
 
     @Provides
-    @DefaultDispatcher
+    @Dispatcher(KeepMemoDispatchers.DEFAULT)
     fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 
     @Provides
-    @IODispatcher
+    @Dispatcher(KeepMemoDispatchers.IO)
     fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 }
-
-@Retention(AnnotationRetention.BINARY)
-@Qualifier
-annotation class DefaultDispatcher
-
-@Retention(AnnotationRetention.BINARY)
-@Qualifier
-annotation class IODispatcher
