@@ -8,12 +8,12 @@ plugins {
 dependencies {
     implementation(project(":core:model"))
 
-    implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation)
+    api(libs.hilt.android)
+    api(libs.hilt.navigation)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.timber)
+    api(libs.timber)
 
-    implementation(libs.bundles.unit.test)
+    api(libs.bundles.unit.test)
     kapt(libs.hilt.testing.compiler)
 }
