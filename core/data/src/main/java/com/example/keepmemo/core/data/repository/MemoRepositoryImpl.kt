@@ -1,9 +1,9 @@
-package com.example.keepmemo.data.repository.memolist
+package com.example.keepmemo.core.data.repository
 
-import com.example.keepmemo.common.converter.RoomEntityConverter
 import com.example.keepmemo.core.common.di.Dispatcher
 import com.example.keepmemo.core.common.di.KeepMemoDispatchers
 import com.example.keepmemo.core.common.result.Result
+import com.example.keepmemo.core.data.RoomEntityConverter
 import com.example.keepmemo.core.database.dao.KeepDao
 import com.example.keepmemo.core.database.dao.MemoDao
 import com.example.keepmemo.core.database.entity.KeepEntityImpl

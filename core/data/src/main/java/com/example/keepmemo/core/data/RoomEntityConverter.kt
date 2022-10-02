@@ -1,4 +1,4 @@
-package com.example.keepmemo.common.converter
+package com.example.keepmemo.core.data
 
 import com.example.keepmemo.core.database.entity.KeepEntityImpl
 import com.example.keepmemo.core.database.entity.MemoWithKeepEntityImpl
