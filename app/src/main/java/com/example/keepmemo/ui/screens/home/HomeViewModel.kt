@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.core.model.data.Memo
+import com.example.keepmemo.core.model.data.UiMessage
 import com.example.keepmemo.domain.MemoUseCase
-import com.example.keepmemo.ui.utils.UiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject

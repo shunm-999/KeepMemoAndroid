@@ -29,8 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.R
-import com.example.keepmemo.ui.component.KeepMemoInputTextField
-import com.example.keepmemo.ui.theme.KeepMemoTheme
+import com.example.keepmemo.core.designsystem.component.KeepMemoInputTextField
+import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 
 @Composable
 fun AddOrEditKeepScreen(

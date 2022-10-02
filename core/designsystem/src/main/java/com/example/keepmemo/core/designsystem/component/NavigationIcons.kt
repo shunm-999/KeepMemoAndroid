@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.component
+package com.example.keepmemo.core.designsystem.component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.keepmemo.ui.theme.KeepMemoTheme
+import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 
 @Composable
 fun NavigationIcon(

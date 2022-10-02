@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.ktx
+package com.example.keepmemo.core.designsystem.ktx
 
 import androidx.compose.foundation.lazy.LazyListState
 
