@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ダイアログ -->
+    <string name="dialog_button_yes">はい</string>
+    <string name="dialog_button_close">閉じる</string>
+
+    <string name="dialog_title_application_privacy_policy">利用規約</string>
+    <string name="dialog_message_application_privacy_policy">利用規約に同意してください</string>
+    <string name="dialog_title_storage_permission">メディアのアクセス許可</string>
+    <string name="dialog_message_storage_permission">本アプリを使用するためには、ストレージの権限を許可していただく必要があります</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.component
+package com.example.keepmemo.ui
 
 import android.content.res.Configuration
 import android.text.TextUtils
@@ -36,7 +36,7 @@ import com.example.keepmemo.core.designsystem.component.NavigationIcon
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 
 @Composable
-fun AppDrawer(
+fun KeepMemoAppDrawer(
     currentRoute: String,
     navigateToHome: () -> Unit,
     navigateToLicense: () -> Unit,
@@ -150,7 +150,7 @@ private fun DrawerButton(
 fun PreviewAppDrawer() {
     KeepMemoTheme {
         Surface {
-            AppDrawer(
+            KeepMemoAppDrawer(
                 currentRoute = HomeDestination.route,
                 navigateToHome = {},
                 navigateToLicense = {},

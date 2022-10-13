@@ -1,4 +1,4 @@
-package com.example.keepmemo.ui.screens.home
+package com.example.keepmemo.core.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke

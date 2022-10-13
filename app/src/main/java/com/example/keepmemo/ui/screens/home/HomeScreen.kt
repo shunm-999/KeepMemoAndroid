@@ -55,6 +55,7 @@ import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.core.model.data.UiMessage
+import com.example.keepmemo.core.ui.KeepCard
 
 @Composable
 fun HomeScreen(
