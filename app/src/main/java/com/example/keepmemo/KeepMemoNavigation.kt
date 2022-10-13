@@ -6,15 +6,24 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.keepmemo.core.navigation.KeepMemoDestination
 
-sealed class KeepMemoNavigation(val route: String) {
-    object Home : KeepMemoNavigation("home")
-    object AddOrEditKeep : KeepMemoNavigation("addOrEditKeep?targetId={targetId}") {
-        const val QUERY_TARGET_ID = "targetId"
-        fun createRoute(targetId: Long) = "addOrEditKeep?$QUERY_TARGET_ID=$targetId"
-    }
+object HomeDestination : KeepMemoDestination {
+    override val route: String = "home"
+    override val destination: String = "home"
+}
 
-    object OpenLicense : KeepMemoNavigation("openLicense")
+object AddOrEditKeepDestination : KeepMemoDestination {
+    const val QUERY_TARGET_ID = "targetId"
+
+    override val route: String = "addOrEditKeep?$QUERY_TARGET_ID={targetId}"
+    override val destination: String = "addOrEditKeep?$QUERY_TARGET_ID={targetId}"
+    fun createRoute(targetId: Long) = "addOrEditKeep?$QUERY_TARGET_ID=$targetId"
+}
+
+object OpenLicenseDestination : KeepMemoDestination {
+    override val route: String = "openLicense"
+    override val destination: String = "openLicense"
 }
 
 @Composable
@@ -26,7 +35,7 @@ fun rememberKeepMemoNavigationActions(
 
 class KeepMemoNavigationActions(navController: NavController) {
     val navigateToHome: () -> Unit = {
-        navController.navigate(KeepMemoNavigation.Home.route) {
+        navController.navigate(HomeDestination.route) {
             popUpTo(navController.graph.findStartDestination().id) {
                 // saveState = true
             }
@@ -35,12 +44,12 @@ class KeepMemoNavigationActions(navController: NavController) {
         }
     }
     val navigationToLicense: () -> Unit = {
-        navController.navigate(KeepMemoNavigation.OpenLicense.route)
+        navController.navigate(OpenLicenseDestination.route)
     }
     val navigateToAddKeep: () -> Unit = {
-        navController.navigate(KeepMemoNavigation.AddOrEditKeep.route)
+        navController.navigate(AddOrEditKeepDestination.route)
     }
     val navigateToEditKeep: (targetId: Long) -> Unit = { targetId ->
-        navController.navigate(KeepMemoNavigation.AddOrEditKeep.createRoute(targetId = targetId))
+        navController.navigate(AddOrEditKeepDestination.createRoute(targetId = targetId))
     }
 }

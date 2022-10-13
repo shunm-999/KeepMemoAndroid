@@ -18,6 +18,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NoteAlt
 import androidx.compose.runtime.Composable
@@ -28,7 +29,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.keepmemo.KeepMemoNavigation
+import com.example.keepmemo.HomeDestination
+import com.example.keepmemo.OpenLicenseDestination
 import com.example.keepmemo.R
 import com.example.keepmemo.core.designsystem.component.NavigationIcon
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
@@ -47,16 +49,16 @@ fun AppDrawer(
         DrawerButton(
             icon = Icons.Filled.Home,
             label = stringResource(id = R.string.title_home),
-            isSelected = TextUtils.equals(currentRoute, KeepMemoNavigation.Home.route),
+            isSelected = TextUtils.equals(currentRoute, HomeDestination.route),
             action = {
                 navigateToHome()
                 closeDrawer()
             }
         )
         DrawerButton(
-            icon = Icons.Filled.Home,
+            icon = Icons.Filled.Description,
             label = stringResource(id = R.string.title_license),
-            isSelected = TextUtils.equals(currentRoute, KeepMemoNavigation.OpenLicense.route),
+            isSelected = TextUtils.equals(currentRoute, OpenLicenseDestination.route),
             action = {
                 navigateToLicense()
                 closeDrawer()
@@ -149,7 +151,7 @@ fun PreviewAppDrawer() {
     KeepMemoTheme {
         Surface {
             AppDrawer(
-                currentRoute = KeepMemoNavigation.Home.route,
+                currentRoute = HomeDestination.route,
                 navigateToHome = {},
                 navigateToLicense = {},
                 closeDrawer = { }

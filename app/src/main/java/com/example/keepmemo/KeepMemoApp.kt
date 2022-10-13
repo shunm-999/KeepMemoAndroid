@@ -72,7 +72,7 @@ private fun KeepMemoAppContent() {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute =
-        navBackStackEntry?.destination?.route ?: KeepMemoNavigation.Home.route
+        navBackStackEntry?.destination?.route ?: HomeDestination.route
 
     ModalDrawer(
         drawerContent = {
@@ -87,7 +87,7 @@ private fun KeepMemoAppContent() {
             )
         },
         drawerState = drawerState,
-        gesturesEnabled = currentRoute in listOf(KeepMemoNavigation.Home.route)
+        gesturesEnabled = currentRoute in listOf(HomeDestination.route)
     ) {
         Surface(
             modifier = Modifier
