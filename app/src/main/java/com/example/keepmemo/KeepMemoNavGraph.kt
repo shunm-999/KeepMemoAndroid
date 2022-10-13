@@ -22,14 +22,14 @@ fun KeepMemoNavGraph(
     navController: NavHostController = rememberNavController(),
     navigationActions: KeepMemoNavigationActions = rememberKeepMemoNavigationActions(navController),
     openDrawer: () -> Unit = {},
-    startDestination: String = KeepMemoNavigation.Home.route
+    startDestination: String = HomeDestination.route
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(KeepMemoNavigation.Home.route) {
+        composable(HomeDestination.route) {
             val valueScreenResult = navController.currentBackStackEntry
                 ?.savedStateHandle
                 ?.getLiveData<String>("addOrEditKeep")?.observeAsState()
@@ -52,22 +52,22 @@ fun KeepMemoNavGraph(
                 addKeepEvent = addKeepEvent
             )
         }
-        composable(KeepMemoNavigation.OpenLicense.route) {
+        composable(OpenLicenseDestination.route) {
             OpenLicenseRoute(onBackPressed = {
                 navController.popBackStack()
             })
         }
         composable(
-            KeepMemoNavigation.AddOrEditKeep.route,
+            AddOrEditKeepDestination.route,
             arguments = listOf(
-                navArgument(KeepMemoNavigation.AddOrEditKeep.QUERY_TARGET_ID) {
+                navArgument(AddOrEditKeepDestination.QUERY_TARGET_ID) {
                     type = NavType.LongType
                     defaultValue = -1L
                 }
             )
         ) { backStackEntry ->
             val targetId: Long =
-                backStackEntry.arguments?.getLong(KeepMemoNavigation.AddOrEditKeep.QUERY_TARGET_ID)
+                backStackEntry.arguments?.getLong(AddOrEditKeepDestination.QUERY_TARGET_ID)
                     ?: -1L
             AddOrEditKeepRoute(
                 targetId = targetId,
