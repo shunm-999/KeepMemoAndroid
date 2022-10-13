@@ -20,16 +20,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
-import com.example.keepmemo.ui.component.AppDrawer
-import com.example.keepmemo.ui.component.CustomAlertDialog
-import com.example.keepmemo.ui.component.DialogType
+import com.example.keepmemo.core.ui.CustomAlertDialog
+import com.example.keepmemo.core.ui.DialogType
+import com.example.keepmemo.ui.KeepMemoAppDrawer
 import com.example.keepmemo.ui.screens.launch.LaunchScreen
 import com.example.keepmemo.ui.screens.launch.MainActivityViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun KeepDemoApp(
     mainActivityViewModel: MainActivityViewModel = hiltViewModel()
@@ -76,7 +74,7 @@ private fun KeepMemoAppContent() {
 
     ModalDrawer(
         drawerContent = {
-            AppDrawer(
+            KeepMemoAppDrawer(
                 currentRoute = currentRoute,
                 navigateToHome = navigationActions.navigateToHome,
                 navigateToLicense = navigationActions.navigationToLicense,
