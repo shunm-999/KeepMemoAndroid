@@ -13,9 +13,8 @@ class AndroidFeaturePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
-                apply("org.jetbrains.kotlin.kapt")
+                apply("keepmemo.android.library")
+                apply("keepmemo.android.hilt")
             }
             extensions.configure<LibraryExtension> {
                 defaultConfig {
@@ -26,8 +25,16 @@ class AndroidFeaturePlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-                // TODO core系のimplementation
                 add("implementation", project(":core:model"))
+                add("implementation", project(":core:ui"))
+                add("implementation", project(":core:designsystem"))
+                add("implementation", project(":core:data"))
+                add("implementation", project(":core:common"))
+                add("implementation", project(":core:navigation"))
+                add("implementation", project(":core:domain"))
+
+                add("testImplementation", project(":core:testing"))
+                add("androidTestImplementation", project(":core:testing"))
 
                 add("implementation", libs.findLibrary("compose.lifecycle.viewmodel").get())
 

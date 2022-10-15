@@ -1,18 +1,11 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">KeepMemo</string>
-    <string name="home_memo_appbar_title">メモを検索</string>
     <string name="alarm_appbar_title">アラーム</string>
     <string name="open_license_appbar_title">オープンライセンス</string>
-
-    <string name="placeholder_keep_title">タイトル</string>
-    <string name="placeholder_keep_body">メモ</string>
 
     <string name="title_home">ホーム</string>
     <string name="title_license">オープンライセンス</string>
     <string name="title_alarm">アラーム</string>
-
-    <!-- Snackbarのメッセージ -->
-    <string name="snackbar_message_add_keep">メモを保存しました</string>
 
     <!-- 通知 -->
     <string name="notification_channel_high_prio">Big popup with snooze and dismiss buttons</string>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_memo_appbar_title">メモを検索</string>
+    <string name="snackbar_message_add_keep">メモを保存しました</string>
+</resources>
