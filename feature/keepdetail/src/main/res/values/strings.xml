@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="placeholder_keep_title">タイトル</string>
+    <string name="placeholder_keep_body">メモ</string>
+</resources>

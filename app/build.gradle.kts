@@ -64,6 +64,10 @@ android {
 
 dependencies {
 
+    implementation(project(":feature:home"))
+    implementation(project(":feature:keepdetail"))
+    implementation(project(":feature:openlicense"))
+
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
@@ -71,6 +75,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:database"))
     implementation(project(":core:data"))
+    implementation(project(":core:domain"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.paging.runtime)
