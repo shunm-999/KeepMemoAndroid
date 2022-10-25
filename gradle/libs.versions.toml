@@ -9,7 +9,7 @@ androidx-constraint = "1.0.1"
 androidx-lifecycle = "2.5.1"
 
 compose-core = "1.2.0-beta01"
-compose-accompanist = "0.24.8-beta"
+compose-accompanist = "0.27.0"
 compose-icons = "1.1.1"
 compose-navigation = "2.4.0"
 
