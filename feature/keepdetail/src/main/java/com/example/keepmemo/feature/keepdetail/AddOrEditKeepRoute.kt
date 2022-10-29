@@ -2,10 +2,10 @@ package com.example.keepmemo.feature.keepdetail
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,7 +29,7 @@ fun AddOrEditKeepRoute(
         editTime = editTime
     ),
     onBackPressed: (AddOrEditKeepRouteEvent) -> Unit,
-    scaffoldState: ScaffoldState = rememberScaffoldState()
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     val coroutineScope = rememberCoroutineScope()
     val uiState = addOrEditMemoViewModel.uiState.collectAsState().value
@@ -55,7 +55,7 @@ fun AddOrEditKeepRoute(
                     onBackPressed(event)
                 }
             },
-            scaffoldState = scaffoldState
+            snackbarHostState = snackbarHostState
         )
         BackHandler(true) {
             coroutineScope.launch {
@@ -83,7 +83,7 @@ fun AddOrEditKeepRoute(
     onTitleChange: (String) -> Unit,
     onBodyChange: (String) -> Unit,
     onBackPressed: () -> Unit,
-    scaffoldState: ScaffoldState
+    snackbarHostState: SnackbarHostState
 ) {
     AddOrEditKeepScreen(
         title = uiState.title,
@@ -91,7 +91,7 @@ fun AddOrEditKeepRoute(
         onTitleChange = onTitleChange,
         onBodyChange = onBodyChange,
         onBackPressed = onBackPressed,
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 }
 

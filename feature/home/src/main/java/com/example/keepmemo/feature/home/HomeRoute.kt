@@ -2,12 +2,12 @@ package com.example.keepmemo.feature.home
 
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -20,7 +20,7 @@ fun HomeRoute(
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
     addKeepEvent: String,
-    scaffoldState: ScaffoldState = rememberScaffoldState()
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     // UiState of the HomeScreen
     val uiState by homeViewModel.uiState.collectAsState()
@@ -41,7 +41,7 @@ fun HomeRoute(
         removeFromSelectedIdList = { memoId ->
             homeViewModel.removeSelectedMemoId(memoId)
         },
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 
     LaunchedEffect(addKeepEvent) {
@@ -64,7 +64,7 @@ fun HomeRoute(
     navigateToEditKeep: (Long) -> Unit,
     addToSelectedIdList: (Long) -> Unit,
     removeFromSelectedIdList: (Long) -> Unit,
-    scaffoldState: ScaffoldState
+    snackbarHostState: SnackbarHostState
 ) {
     val keepListLazyListState = rememberLazyListState()
     val keepListLazyGridState = rememberLazyGridState()
@@ -84,6 +84,6 @@ fun HomeRoute(
         keepListLazyGridState = keepListLazyGridState,
         isShowTopAppBar = true,
         isShowBottomAppBar = true,
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 }

@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
@@ -25,7 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun KeepCard(
     title: String,
@@ -37,20 +39,29 @@ fun KeepCard(
 ) {
     val titleRef = "title"
     val bodyRef = "body"
+
     Card(
         border = if (isSelected) {
             BorderStroke(
                 3.dp,
-                MaterialTheme.colors.primary
+                MaterialTheme.colorScheme.primary
             )
         } else {
             BorderStroke(
                 1.dp,
-                MaterialTheme.colors.onSurface
+                MaterialTheme.colorScheme.onSurface
             )
         },
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) {
+                MaterialTheme.colorScheme.primary.copy(
+                    alpha = 0.1f
+                )
+            } else {
+                MaterialTheme.colorScheme.surface
+            }
+        ),
         shape = RoundedCornerShape(8.dp),
-        elevation = if (isSelected) 8.dp else 1.dp,
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
@@ -72,7 +83,7 @@ fun KeepCard(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.subtitle1.copy(
+                style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 ),

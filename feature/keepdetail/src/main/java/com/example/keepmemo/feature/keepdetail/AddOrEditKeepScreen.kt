@@ -6,31 +6,35 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Surface
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.core.designsystem.component.KeepMemoInputTextField
+import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddOrEditKeepScreen(
     title: String,
@@ -38,21 +42,23 @@ fun AddOrEditKeepScreen(
     onTitleChange: (String) -> Unit,
     onBodyChange: (String) -> Unit,
     onBackPressed: () -> Unit,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
+
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     Scaffold(
-        scaffoldState = scaffoldState,
-        snackbarHost = {},
+        snackbarHost = { KeepMemoSnackbarHost(hostState = snackbarHostState) },
         topBar = {
             AddOrEditKeepTopAppBar(
-                elevation = 0.dp,
+                scrollBehavior = scrollBehavior,
                 onBackPressed = onBackPressed
             )
         },
         bottomBar = {
         },
-        modifier = modifier
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         val contentModifier = Modifier.padding(innerPadding)
         AddOrEditKeepScreenContent(
@@ -82,7 +88,7 @@ fun AddOrEditKeepScreenContent(
             KeepMemoInputTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
-                textStyle = MaterialTheme.typography.h5,
+                textStyle = MaterialTheme.typography.headlineSmall,
                 value = title,
                 onValueChange = onTitleChange,
                 placeholder = stringResource(id = R.string.placeholder_keep_title),
@@ -101,7 +107,7 @@ fun AddOrEditKeepScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                textStyle = MaterialTheme.typography.body1,
+                textStyle = MaterialTheme.typography.bodyLarge,
                 value = body,
                 onValueChange = onBodyChange,
                 placeholder = stringResource(id = R.string.placeholder_keep_body),
@@ -114,9 +120,10 @@ fun AddOrEditKeepScreenContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddOrEditKeepTopAppBar(
-    elevation: Dp,
+    scrollBehavior: TopAppBarScrollBehavior,
     onBackPressed: () -> Unit
 ) {
     TopAppBar(
@@ -126,12 +133,11 @@ private fun AddOrEditKeepTopAppBar(
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = null,
-                    tint = MaterialTheme.colors.primary
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         },
-        backgroundColor = MaterialTheme.colors.surface,
-        elevation = elevation
+        scrollBehavior = scrollBehavior
     )
 }
 
@@ -153,18 +159,19 @@ fun AddOrEditKeepScreenPreview() {
             onTitleChange = {},
             onBodyChange = {},
             onBackPressed = {},
-            scaffoldState = rememberScaffoldState()
+            snackbarHostState = remember { SnackbarHostState() }
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview("AddOrEditKeepTopAppBar")
 @Preview("AddOrEditKeepTopAppBar (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun AddOrEditKeepTopAppBarPreview() {
     KeepMemoTheme {
         AddOrEditKeepTopAppBar(
-            elevation = 0.dp,
+            scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
             onBackPressed = {}
         )
     }

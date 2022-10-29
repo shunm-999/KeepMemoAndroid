@@ -10,17 +10,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NoteAlt
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +46,7 @@ fun KeepMemoAppDrawer(
 ) {
     Column(modifier = modifier.fillMaxSize()) {
         KeepMemoLogo(closeDrawer = closeDrawer)
-        Divider(color = MaterialTheme.colors.onSurface.copy(alpha = .2f))
+        Divider(color = MaterialTheme.colorScheme.onSurface.copy(alpha = .2f))
         destinationList.forEach { destination ->
             DrawerButton(
                 icon = destination.icon,
@@ -74,13 +74,13 @@ private fun KeepMemoLogo(
             Icon(
                 imageVector = Icons.Filled.NoteAlt,
                 contentDescription = null,
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
         }
         Spacer(Modifier.width(4.dp))
         Text(
             text = stringResource(id = R.string.app_name),
-            style = MaterialTheme.typography.subtitle2
+            style = MaterialTheme.typography.titleSmall
         )
     }
 }
@@ -93,7 +93,7 @@ private fun DrawerButton(
     action: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val colors = MaterialTheme.colors
+    val colors = MaterialTheme.colorScheme
     val textIconColor = if (isSelected) {
         colors.primary
     } else {
@@ -130,7 +130,7 @@ private fun DrawerButton(
                 Spacer(Modifier.width(16.dp))
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = textIconColor
                 )
             }

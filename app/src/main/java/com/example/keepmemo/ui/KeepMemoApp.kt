@@ -1,14 +1,17 @@
 package com.example.keepmemo.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.DrawerValue
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalDrawer
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.rememberDrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -32,8 +35,8 @@ fun KeepDemoApp(
 ) {
     KeepMemoTheme {
         val systemUiController = rememberSystemUiController()
-        val darkIcons = MaterialTheme.colors.isLight
-        val systemBarColor = MaterialTheme.colors.surface
+        val darkIcons = isSystemInDarkTheme()
+        val systemBarColor = MaterialTheme.colorScheme.surface
         SideEffect {
             systemUiController.setSystemBarsColor(systemBarColor, darkIcons = darkIcons)
         }
@@ -58,6 +61,7 @@ private fun LaunchContent(onDismissDialog: (Boolean) -> Unit) {
     CustomAlertDialog(dialogType = DialogType.APPLICATION_PRIVACY_POLICY, onDismissDialog)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun KeepMemoAppContent() {
     val navController = rememberNavController()
@@ -66,17 +70,19 @@ private fun KeepMemoAppContent() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
-    ModalDrawer(
+    ModalNavigationDrawer(
         drawerContent = {
-            KeepMemoAppDrawer(
-                currentRoute = navigationAppState.currentDestination?.route,
-                destinationList = navigationAppState.drawerDestinationList,
-                navigateToDestination = navigationAppState::navigate,
-                closeDrawer = { coroutineScope.launch { drawerState.close() } },
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .navigationBarsPadding()
-            )
+            ModalDrawerSheet {
+                KeepMemoAppDrawer(
+                    currentRoute = navigationAppState.currentDestination?.route,
+                    destinationList = navigationAppState.drawerDestinationList,
+                    navigateToDestination = navigationAppState::navigate,
+                    closeDrawer = { coroutineScope.launch { drawerState.close() } },
+                    modifier = Modifier
+                        .statusBarsPadding()
+                        .navigationBarsPadding()
+                )
+            }
         },
         drawerState = drawerState,
         gesturesEnabled = navigationAppState.currentDestination?.route

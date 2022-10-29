@@ -8,10 +8,11 @@ androidx-core = "1.8.0"
 androidx-constraint = "1.0.1"
 androidx-lifecycle = "2.5.1"
 
-compose-core = "1.2.0-beta01"
-compose-accompanist = "0.24.8-beta"
-compose-icons = "1.1.1"
-compose-navigation = "2.4.0"
+androidx-compose-core = "1.2.0-beta01"
+androidx-compose-material3 = "1.0.0-beta03"
+androidx-compose-accompanist = "0.24.8-beta"
+androidx-compose-icons = "1.1.1"
+androidx-compose-navigation = "2.4.0"
 
 room = "2.4.3"
 
@@ -41,39 +42,40 @@ androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-kt
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
 
 # Compose Accompanist
-compose-accompanist-uiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "compose-accompanist" }
-compose-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "compose-accompanist" }
-compose-accompanist-swiperRefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "compose-accompanist" }
-compose-accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "compose-accompanist" }
-compose-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "compose-accompanist" }
-compose-accompanist-webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "compose-accompanist" }
+androidx-compose-accompanist-uiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "androidx-compose-accompanist" }
+androidx-compose-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "androidx-compose-accompanist" }
+androidx-compose-accompanist-swiperRefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "androidx-compose-accompanist" }
+androidx-compose-accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "androidx-compose-accompanist" }
+androidx-compose-accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "androidx-compose-accompanist" }
+androidx-compose-accompanist-webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "androidx-compose-accompanist" }
 
 # Compose Core
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-core" }
-compose-material = { module = "androidx.compose.material:material", version.ref = "compose-core" }
-compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-core" }
-compose-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose-core" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-core" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidx-compose-material3" }
+androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "androidx-compose-material3" }
+androidx-compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-core" }
+androidx-compose-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "androidx-compose-core" }
 
 # Compose Constraint
-compose-constraint = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraint" }
+androidx-compose-constraint = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraint" }
 # Compose Lifecycle
-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+androidx-compose-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 # Compose Activity
-compose-activity = { module = "androidx.activity:activity-compose", version = "1.5.1" }
+androidx-compose-activity = { module = "androidx.activity:activity-compose", version = "1.5.1" }
 # Compose Icons
-compose-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-icons" }
+androidx-compose-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-compose-icons" }
 
 # Compose Coil
-compose-coil = { module = "io.coil-kt:coil-compose", version = "1.4.0" }
+androidx-compose-coil = { module = "io.coil-kt:coil-compose", version = "1.4.0" }
 
 # Compose Navigation
-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
+androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-compose-navigation" }
 # Compose Paging
-compose-paging = { module = "androidx.paging:paging-compose", version = "1.0.0-alpha14" }
+androidx-compose-paging = { module = "androidx.paging:paging-compose", version = "1.0.0-alpha14" }
 
 # Compose Test
-compose-tset-ui-junit4 = { module = "androidx.paging:paging-compose", version.ref = "compose-core" }
-compose-test-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-core" }
+androidx-compose-tset-ui-junit4 = { module = "androidx.paging:paging-compose", version.ref = "androidx-compose-core" }
+androidx-compose-test-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-core" }
 
 # Paging
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version = "3.1.0" }
@@ -126,19 +128,20 @@ androidx-lifecycle = [
     "androidx-lifecycle-runtime",
     "androidx-lifecycle-viewmodel"
 ]
-compose-core = [
-    "compose-ui",
-    "compose-material",
-    "compose-uiToolingPreview",
-    "compose-livedata",
+androidx-compose-core = [
+    "androidx-compose-ui",
+    "androidx-compose-material3",
+    "androidx-compose-material3-windowSizeClass",
+    "androidx-compose-uiToolingPreview",
+    "androidx-compose-livedata",
 ]
-compose-accompanist = [
-    "compose-accompanist-uiController",
-    "compose-accompanist-permissions",
-    "compose-accompanist-swiperRefresh",
-    "compose-accompanist-insets",
-    "compose-accompanist-pager",
-    "compose-accompanist-webview",
+androidx-compose-accompanist = [
+    "androidx-compose-accompanist-uiController",
+    "androidx-compose-accompanist-permissions",
+    "androidx-compose-accompanist-swiperRefresh",
+    "androidx-compose-accompanist-insets",
+    "androidx-compose-accompanist-pager",
+    "androidx-compose-accompanist-webview",
 ]
 
 unit-test = [
@@ -160,6 +163,6 @@ android-test = [
     "androidx-test-junit",
     "androidx-test-truth",
     "androidx-test-espresso",
-    "compose-uiToolingPreview",
+    "androidx-compose-uiToolingPreview",
     "kotlin-coroutine-test"
 ]

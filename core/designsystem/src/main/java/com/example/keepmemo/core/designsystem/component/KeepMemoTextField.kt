@@ -2,12 +2,13 @@ package com.example.keepmemo.core.designsystem.component
 
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.LocalContentAlpha
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -27,8 +28,9 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import com.example.keepmemo.core.designsystem.ktx.interceptKey
+import com.example.keepmemo.core.designsystem.theme.disabled
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun KeepMemoInputTextField(
     modifier: Modifier = Modifier,
@@ -59,14 +61,14 @@ fun KeepMemoInputTextField(
             placeholder = {
                 CompositionLocalProvider(
                     LocalTextStyle provides textStyle,
-                    LocalContentAlpha provides ContentAlpha.disabled
+                    LocalContentColor provides MaterialTheme.colorScheme.onSurface.disabled()
                 ) {
                     Text(placeholder)
                 }
             },
             colors = if (backgroundTransparent) {
                 TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.Transparent,
+                    containerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 )
