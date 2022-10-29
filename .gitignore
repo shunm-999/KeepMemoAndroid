@@ -76,3 +76,6 @@ lint/tmp/
 
 # Danger
 .github/danger/vendor/bundle
+
+# License
+licenses.html
