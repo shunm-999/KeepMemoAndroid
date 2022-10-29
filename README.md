@@ -45,3 +45,4 @@ Android12以上の端末で、Material Youに対応しています
 
 |![Screenshot_20221029-141413](https://user-images.githubusercontent.com/37167834/198816197-90dce303-d42d-4c19-aeb9-2aec18643023.png)|![Screenshot_20221029-141505](https://user-images.githubusercontent.com/37167834/198816202-b2b08a1d-18b1-4201-ae05-72866d97ed19.png)|![Screenshot_20221029-141513](https://user-images.githubusercontent.com/37167834/198816234-acdae3fb-80ce-416a-804f-fc87ce5da0c7.png)|![Screenshot_20221029-141522](https://user-images.githubusercontent.com/37167834/198816241-09fe1d9a-5434-4750-bb7b-baa6ac1f1d01.png)|
 ---|---|---|---|
+|![screenshot](https://user-images.githubusercontent.com/37167834/198826539-9edf54fa-91e2-4200-a9a9-b645869ba777.png)|
