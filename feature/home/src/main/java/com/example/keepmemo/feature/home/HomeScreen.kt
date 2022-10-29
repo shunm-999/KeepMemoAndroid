@@ -46,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
+import com.example.keepmemo.core.designsystem.theme.LocalIsShowingDrawer
 import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.core.model.data.UiMessage
@@ -257,12 +258,15 @@ private fun HomeTopAppBar(
             Text(text = stringResource(id = R.string.home_memo_appbar_title))
         },
         navigationIcon = {
-            IconButton(onClick = openDrawer) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
+            val isShowingDrawer = LocalIsShowingDrawer.current
+            if (isShowingDrawer) {
+                IconButton(onClick = openDrawer) {
+                    Icon(
+                        imageVector = Icons.Filled.Menu,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         },
         actions = {
