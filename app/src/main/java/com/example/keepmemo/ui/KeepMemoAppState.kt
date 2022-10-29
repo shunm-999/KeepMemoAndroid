@@ -32,7 +32,7 @@ fun rememberKeepMemoAppState(
 
 @Stable
 class KeepMemoAppState(
-    val navController: NavController
+    private val navController: NavController
 ) {
 
     val currentDestination: NavDestination?

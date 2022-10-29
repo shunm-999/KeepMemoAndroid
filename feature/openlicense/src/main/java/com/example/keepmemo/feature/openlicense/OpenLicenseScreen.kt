@@ -2,44 +2,48 @@ package com.example.keepmemo.feature.openlicense
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
 import com.google.accompanist.web.WebView
 import com.google.accompanist.web.WebViewState
 import com.google.accompanist.web.rememberWebViewState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenLicenseScreen(
     url: String,
     onBackPressed: () -> Unit,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
     val state = rememberWebViewState(url = url)
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
-        scaffoldState = scaffoldState,
-        snackbarHost = {},
+        snackbarHost = { KeepMemoSnackbarHost(hostState = snackbarHostState) },
         topBar = {
             OpenLicenseAppBar(
                 title = state.pageTitle ?: "",
-                elevation = 0.dp,
+                scrollBehavior = scrollBehavior,
                 onBackPressed = onBackPressed
             )
         },
-        modifier = modifier
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         val contentModifier = Modifier.padding(innerPadding)
         OpenLicenseScreenContent(
@@ -61,11 +65,12 @@ fun OpenLicenseScreenContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OpenLicenseAppBar(
     title: String,
+    scrollBehavior: TopAppBarScrollBehavior,
     onBackPressed: () -> Unit,
-    elevation: Dp
 ) {
     TopAppBar(
         title = {
@@ -76,11 +81,10 @@ private fun OpenLicenseAppBar(
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = null,
-                    tint = MaterialTheme.colors.primary
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         },
-        backgroundColor = MaterialTheme.colors.surface,
-        elevation = elevation
+        scrollBehavior = scrollBehavior
     )
 }

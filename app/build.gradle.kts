@@ -81,15 +81,15 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.bundles.androidx.lifecycle)
 
-    implementation(libs.bundles.compose.core)
-    implementation(libs.bundles.compose.accompanist)
-    implementation(libs.compose.activity)
-    implementation(libs.compose.navigation)
-    implementation(libs.compose.constraint)
-    implementation(libs.compose.lifecycle.viewmodel)
-    implementation(libs.compose.paging)
-    implementation(libs.compose.coil)
-    implementation(libs.compose.icons.extended)
+    implementation(libs.bundles.androidx.compose.core)
+    implementation(libs.bundles.androidx.compose.accompanist)
+    implementation(libs.androidx.compose.activity)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.compose.constraint)
+    implementation(libs.androidx.compose.lifecycle.viewmodel)
+    implementation(libs.androidx.compose.paging)
+    implementation(libs.androidx.compose.coil)
+    implementation(libs.androidx.compose.icons.extended)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
@@ -101,5 +101,5 @@ dependencies {
     kaptTest(libs.hilt.testing.compiler)
 
     androidTestImplementation(libs.bundles.android.test)
-    debugImplementation(libs.compose.test.ui.tooling)
+    debugImplementation(libs.androidx.compose.test.ui.tooling)
 }

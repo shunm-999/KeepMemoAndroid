@@ -1,11 +1,8 @@
 package com.example.keepmemo.feature.home
 
 import android.content.res.Configuration
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -16,46 +13,45 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Splitscreen
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
-import com.example.keepmemo.core.designsystem.ktx.isScrolled
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.core.model.data.UiMessage
 import com.example.keepmemo.core.ui.KeepCard
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     uiMessages: List<UiMessage>,
@@ -73,40 +69,32 @@ fun HomeScreen(
     removeFromSelectedIdList: (Long) -> Unit,
     keepListLazyListState: LazyListState,
     keepListLazyGridState: LazyGridState,
-    scaffoldState: ScaffoldState,
+    snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     Scaffold(
-        scaffoldState = scaffoldState,
-        snackbarHost = { KeepMemoSnackbarHost(hostState = it) },
+        snackbarHost = { KeepMemoSnackbarHost(hostState = snackbarHostState) },
         topBar = {
             if (isShowTopAppBar) {
                 HomeTopAppBar(
                     listPane = listPane,
                     openDrawer = openDrawer,
                     listPaneChange = listPaneChange,
-                    elevation = if (!keepListLazyListState.isScrolled) 0.dp else 4.dp
+                    scrollBehavior = scrollBehavior
                 )
             }
         },
         bottomBar = {
             if (isShowBottomAppBar) {
                 HomeBottomBar(
-                    modifier = Modifier.clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp)),
-                    cutoutShape = CircleShape
+                    onClickFloatingActionButton = navigateToAddKeep,
+                    modifier = Modifier.clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
                 )
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(onClick = navigateToAddKeep) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = null
-                )
-            }
-        },
-        isFloatingActionButtonDocked = true,
-        modifier = modifier
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
         val contentModifier = Modifier.padding(innerPadding)
         HomeScreenContent(
@@ -130,8 +118,8 @@ fun HomeScreen(
         val uiMessageText: String = stringResource(uiMessage.messageId)
         val onMessageDismissState by rememberUpdatedState(onMessageDismiss)
 
-        LaunchedEffect(uiMessageText, scaffoldState) {
-            scaffoldState.snackbarHostState.showSnackbar(
+        LaunchedEffect(uiMessageText, snackbarHostState) {
+            snackbarHostState.showSnackbar(
                 message = uiMessageText
             )
             onMessageDismissState(uiMessage.id)
@@ -214,7 +202,6 @@ fun MemoListOneLine(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MemoListTwoGrid(
     memoList: List<Memo>,
@@ -257,9 +244,10 @@ fun MemoListTwoGrid(
 /**
  * TopAppBar for the Home screen
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeTopAppBar(
-    elevation: Dp,
+    scrollBehavior: TopAppBarScrollBehavior,
     listPane: HomeListPane,
     openDrawer: () -> Unit,
     listPaneChange: (HomeListPane) -> Unit
@@ -273,7 +261,7 @@ private fun HomeTopAppBar(
                 Icon(
                     imageVector = Icons.Filled.Menu,
                     contentDescription = null,
-                    tint = MaterialTheme.colors.primary
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         },
@@ -288,8 +276,8 @@ private fun HomeTopAppBar(
             }) {
                 Icon(
                     imageVector = when (listPane) {
-                        HomeListPane.One -> Icons.Filled.Splitscreen
-                        HomeListPane.Two -> Icons.Filled.GridView
+                        HomeListPane.One -> Icons.Filled.GridView
+                        HomeListPane.Two -> Icons.Filled.Splitscreen
                     },
                     contentDescription = null
                 )
@@ -301,27 +289,27 @@ private fun HomeTopAppBar(
                 )
             }
         },
-        backgroundColor = MaterialTheme.colors.surface,
-        elevation = elevation
+        scrollBehavior = scrollBehavior
     )
 }
 
 @Composable
 private fun HomeBottomBar(
-    modifier: Modifier = Modifier,
-    cutoutShape: Shape? = null
+    onClickFloatingActionButton: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     BottomAppBar(
-        modifier = modifier,
-        cutoutShape = cutoutShape
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-        }
-    }
+        floatingActionButton = {
+            FloatingActionButton(onClick = onClickFloatingActionButton) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = null
+                )
+            }
+        },
+        actions = {},
+        modifier = modifier
+    )
 }
 
 @Preview("HomeScreen")
@@ -367,18 +355,19 @@ fun HomeScreenPreview() {
             removeFromSelectedIdList = {},
             keepListLazyListState = rememberLazyListState(),
             keepListLazyGridState = rememberLazyGridState(),
-            scaffoldState = rememberScaffoldState()
+            snackbarHostState = remember { SnackbarHostState() }
         )
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview("HomeTopAppBar")
 @Preview("HomeTopAppBar (dark)", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun HomeTopAppBarPreview() {
     KeepMemoTheme {
         HomeTopAppBar(
-            elevation = 0.dp,
+            scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
             listPane = HomeListPane.One,
             openDrawer = {},
             listPaneChange = {}

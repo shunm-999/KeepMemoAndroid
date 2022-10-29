@@ -1,23 +1,23 @@
 package com.example.keepmemo.feature.openlicense
 
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun OpenLicenseRoute(
     openLicenseViewModel: OpenLicenseViewModel = hiltViewModel(),
     onBackPressed: () -> Unit,
-    scaffoldState: ScaffoldState = rememberScaffoldState()
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     val uiState by openLicenseViewModel.uiState.collectAsState()
     OpenLicenseRoute(
         uiState = uiState,
         onBackPressed = onBackPressed,
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 }
 
@@ -25,11 +25,11 @@ fun OpenLicenseRoute(
 private fun OpenLicenseRoute(
     uiState: OpenLicenseUiState,
     onBackPressed: () -> Unit,
-    scaffoldState: ScaffoldState
+    snackbarHostState: SnackbarHostState
 ) {
     OpenLicenseScreen(
         url = uiState.url,
         onBackPressed = onBackPressed,
-        scaffoldState = scaffoldState
+        snackbarHostState = snackbarHostState
     )
 }

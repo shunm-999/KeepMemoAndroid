@@ -36,7 +36,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
                 add("testImplementation", project(":core:testing"))
                 add("androidTestImplementation", project(":core:testing"))
 
-                add("implementation", libs.findLibrary("compose.lifecycle.viewmodel").get())
+                add("implementation", libs.findLibrary("androidx.compose.lifecycle.viewmodel").get())
 
                 add("implementation", libs.findLibrary("hilt.navigation").get())
                 add("implementation", libs.findLibrary("hilt.android").get())

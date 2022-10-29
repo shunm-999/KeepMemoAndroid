@@ -2,10 +2,10 @@ package com.example.keepmemo.core.designsystem.component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,9 +30,9 @@ fun NavigationIcon(
     }
 
     val iconTintColor = tintColor ?: if (isSelected) {
-        MaterialTheme.colors.primary
+        MaterialTheme.colorScheme.primary
     } else {
-        MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
+        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
     }
 
     Image(

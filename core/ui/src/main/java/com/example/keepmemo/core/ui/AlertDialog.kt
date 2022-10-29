@@ -3,9 +3,9 @@ package com.example.keepmemo.core.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -63,20 +63,20 @@ private fun BaseAlertDialog(
         title = {
             Text(
                 text = stringResource(id = titleRes),
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.titleLarge
             )
         },
         text = {
             Text(
                 text = stringResource(id = textRes),
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.bodyLarge
             )
         },
         confirmButton = {
             Text(
                 text = stringResource(id = confirmButtonRes),
-                style = MaterialTheme.typography.button,
-                color = MaterialTheme.colors.primary,
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .padding(15.dp)
                     .clickable { onDialogDismiss(true) }
@@ -88,8 +88,8 @@ private fun BaseAlertDialog(
             {
                 Text(
                     text = stringResource(id = dismissButtonRes),
-                    style = MaterialTheme.typography.button,
-                    color = MaterialTheme.colors.primary,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .padding(15.dp)
                         .clickable { onDialogDismiss(false) }
