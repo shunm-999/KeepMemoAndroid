@@ -3,6 +3,8 @@ package com.example.keepmemo.ui
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
@@ -22,22 +24,31 @@ import timber.log.Timber
 
 @Composable
 fun rememberKeepMemoAppState(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    windowSizeClass: WindowSizeClass,
 ): KeepMemoAppState {
     NavigationTrackingSideEffect(navController = navController)
     return remember(navController) {
-        KeepMemoAppState(navController)
+        KeepMemoAppState(
+            navController = navController,
+            windowSizeClass = windowSizeClass
+        )
     }
 }
 
 @Stable
 class KeepMemoAppState(
-    private val navController: NavController
+    private val navController: NavController,
+    private val windowSizeClass: WindowSizeClass,
 ) {
 
     val currentDestination: NavDestination?
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
+
+    val shouldShowDrawer: Boolean
+        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact ||
+            windowSizeClass.widthSizeClass == WindowWidthSizeClass.Medium
 
     val drawerDestinationList: List<DrawerDestination> = listOf(
         DrawerDestination(
