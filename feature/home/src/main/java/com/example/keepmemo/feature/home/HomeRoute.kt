@@ -27,14 +27,14 @@ fun HomeRoute(
     HomeRoute(
         uiState = uiState,
         openDrawer = openDrawer,
-        listPaneChange = { listPane ->
-            homeViewModel.updateListPane(listPane)
-        },
         onMessageDismiss = { id ->
             homeViewModel.onShowMessage(id)
         },
         navigateToAddKeep = navigateToAddKeep,
         navigateToEditKeep = navigateToEditKeep,
+        listPaneChange = { listPane ->
+            homeViewModel.updateListPane(listPane)
+        },
         addToSelectedIdList = { memoId ->
             homeViewModel.addSelectedMemoId(memoId)
         },
@@ -59,9 +59,9 @@ fun HomeRoute(
     uiState: HomeUiState,
     openDrawer: () -> Unit,
     onMessageDismiss: (Long) -> Unit,
-    listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
+    listPaneChange: (HomeListPane) -> Unit,
     addToSelectedIdList: (Long) -> Unit,
     removeFromSelectedIdList: (Long) -> Unit,
     snackbarHostState: SnackbarHostState
@@ -75,15 +75,13 @@ fun HomeRoute(
         selectedMemoIdList = uiState.selectedMemoIdList,
         openDrawer = openDrawer,
         onMessageDismiss = onMessageDismiss,
-        listPaneChange = listPaneChange,
         navigateToAddKeep = navigateToAddKeep,
         navigateToEditKeep = navigateToEditKeep,
+        listPaneChange = listPaneChange,
         addToSelectedIdList = addToSelectedIdList,
         removeFromSelectedIdList = removeFromSelectedIdList,
         keepListLazyListState = keepListLazyListState,
         keepListLazyGridState = keepListLazyGridState,
-        isShowTopAppBar = true,
-        isShowBottomAppBar = true,
         snackbarHostState = snackbarHostState
     )
 }

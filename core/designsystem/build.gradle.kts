@@ -19,5 +19,5 @@ dependencies {
     api(libs.androidx.compose.coil)
     api(libs.androidx.compose.icons.extended)
 
-    debugApi(libs.androidx.compose.test.ui.tooling)
+    debugApi(libs.androidx.compose.ui.tooling)
 }

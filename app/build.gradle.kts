@@ -101,5 +101,5 @@ dependencies {
     kaptTest(libs.hilt.testing.compiler)
 
     androidTestImplementation(libs.bundles.android.test)
-    debugImplementation(libs.androidx.compose.test.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 }

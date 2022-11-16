@@ -53,8 +53,9 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class" }
-androidx-compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 
 # Compose Constraint
 androidx-compose-constraint = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraint" }
@@ -74,8 +75,8 @@ androidx-compose-navigation = { module = "androidx.navigation:navigation-compose
 androidx-compose-paging = { module = "androidx.paging:paging-compose", version = "1.0.0-alpha14" }
 
 # Compose Test
-androidx-compose-tset-ui-junit4 = { module = "androidx.paging:paging-compose" }
-androidx-compose-test-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 # Paging
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version = "3.1.0" }
@@ -116,9 +117,6 @@ kotlin-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-tes
 hilt-testing-core = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt-core" }
 hilt-testing-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-core" }
 
-# Robolectric Test
-robolectric-test = { module = "org.robolectric:robolectric", version = "4.8.2" }
-
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "android-gradle" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -132,7 +130,7 @@ androidx-compose-core = [
     "androidx-compose-ui",
     "androidx-compose-material3",
     "androidx-compose-material3-windowSizeClass",
-    "androidx-compose-uiToolingPreview",
+    "androidx-compose-ui-tooling-preview",
     "androidx-compose-livedata",
 ]
 androidx-compose-accompanist = [
@@ -151,8 +149,7 @@ unit-test = [
     "androidx-test-rules",
     "androidx-test-junit",
     "androidx-test-truth",
-    "kotlin-coroutine-test",
-    "robolectric-test"
+    "kotlin-coroutine-test"
 ]
 
 android-test = [
@@ -163,6 +160,7 @@ android-test = [
     "androidx-test-junit",
     "androidx-test-truth",
     "androidx-test-espresso",
-    "androidx-compose-uiToolingPreview",
+    "androidx-compose-ui-test-junit4",
+    "androidx-compose-ui-tooling-preview",
     "kotlin-coroutine-test"
 ]
