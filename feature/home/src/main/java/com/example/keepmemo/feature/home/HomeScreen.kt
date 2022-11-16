@@ -41,7 +41,10 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
@@ -59,13 +62,11 @@ fun HomeScreen(
     listPane: HomeListPane,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
-    isShowTopAppBar: Boolean,
-    isShowBottomAppBar: Boolean,
     openDrawer: () -> Unit,
     onMessageDismiss: (Long) -> Unit,
-    listPaneChange: (HomeListPane) -> Unit,
     navigateToAddKeep: () -> Unit,
     navigateToEditKeep: (Long) -> Unit,
+    listPaneChange: (HomeListPane) -> Unit,
     addToSelectedIdList: (Long) -> Unit,
     removeFromSelectedIdList: (Long) -> Unit,
     keepListLazyListState: LazyListState,
@@ -78,22 +79,18 @@ fun HomeScreen(
     Scaffold(
         snackbarHost = { KeepMemoSnackbarHost(hostState = snackbarHostState) },
         topBar = {
-            if (isShowTopAppBar) {
-                HomeTopAppBar(
-                    listPane = listPane,
-                    openDrawer = openDrawer,
-                    listPaneChange = listPaneChange,
-                    scrollBehavior = scrollBehavior
-                )
-            }
+            HomeTopAppBar(
+                listPane = listPane,
+                openDrawer = openDrawer,
+                listPaneChange = listPaneChange,
+                scrollBehavior = scrollBehavior
+            )
         },
         bottomBar = {
-            if (isShowBottomAppBar) {
-                HomeBottomBar(
-                    onClickFloatingActionButton = navigateToAddKeep,
-                    modifier = Modifier.clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
-                )
-            }
+            HomeBottomBar(
+                onClickFloatingActionButton = navigateToAddKeep,
+                modifier = Modifier.clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
+            )
         },
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
@@ -176,6 +173,7 @@ fun MemoListOneLine(
     removeFromSelectedIdList: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(all = 16.dp),
@@ -197,7 +195,11 @@ fun MemoListOneLine(
                         addToSelectedIdList(memo.id)
                     }
                 },
-                isSelected = isSelected
+                isSelected = isSelected,
+                modifier = Modifier.semantics {
+                    contentDescription =
+                        context.getString(R.string.modifier_semantics_home_list_keep_card)
+                }
             )
         }
     }
@@ -213,6 +215,7 @@ fun MemoListTwoGrid(
     removeFromSelectedIdList: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     LazyVerticalGrid(
         modifier = modifier,
         state = keepListLazyGridState,
@@ -236,7 +239,11 @@ fun MemoListTwoGrid(
                         addToSelectedIdList(memo.id)
                     }
                 },
-                isSelected = isSelected
+                isSelected = isSelected,
+                modifier = Modifier.semantics {
+                    contentDescription =
+                        context.getString(R.string.modifier_semantics_home_list_keep_card)
+                }
             )
         }
     }
@@ -270,20 +277,30 @@ private fun HomeTopAppBar(
             }
         },
         actions = {
-            IconButton(onClick = {
-                listPaneChange(
-                    when (listPane) {
-                        HomeListPane.One -> HomeListPane.Two
-                        HomeListPane.Two -> HomeListPane.One
-                    }
-                )
-            }) {
+            val context = LocalContext.current
+            IconButton(
+                onClick = {
+                    listPaneChange(
+                        when (listPane) {
+                            HomeListPane.One -> HomeListPane.Two
+                            HomeListPane.Two -> HomeListPane.One
+                        }
+                    )
+                },
+                modifier = Modifier.semantics {
+                    contentDescription =
+                        context.getString(R.string.modifier_semantics_home_list_pane_button)
+                }
+            ) {
                 Icon(
                     imageVector = when (listPane) {
                         HomeListPane.One -> Icons.Filled.GridView
                         HomeListPane.Two -> Icons.Filled.Splitscreen
                     },
-                    contentDescription = null
+                    contentDescription = when (listPane) {
+                        HomeListPane.One -> Icons.Filled.GridView.name
+                        HomeListPane.Two -> Icons.Filled.Splitscreen.name
+                    }
                 )
             }
             IconButton(onClick = { /* TODO: Open search */ }) {
@@ -302,9 +319,16 @@ private fun HomeBottomBar(
     onClickFloatingActionButton: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     BottomAppBar(
         floatingActionButton = {
-            FloatingActionButton(onClick = onClickFloatingActionButton) {
+            FloatingActionButton(
+                onClick = onClickFloatingActionButton,
+                modifier = Modifier.semantics {
+                    contentDescription =
+                        context.getString(R.string.modifier_semantics_add_keep_button)
+                }
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = null
@@ -348,13 +372,11 @@ fun HomeScreenPreview() {
                 )
             ),
             selectedMemoIdList = setOf(1L),
-            isShowTopAppBar = true,
-            isShowBottomAppBar = true,
             openDrawer = {},
             onMessageDismiss = {},
-            listPaneChange = {},
             navigateToAddKeep = {},
             navigateToEditKeep = {},
+            listPaneChange = {},
             addToSelectedIdList = {},
             removeFromSelectedIdList = {},
             keepListLazyListState = rememberLazyListState(),

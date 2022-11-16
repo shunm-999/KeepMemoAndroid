@@ -2,4 +2,9 @@
 <resources>
     <string name="home_memo_appbar_title">メモを検索</string>
     <string name="snackbar_message_add_keep">メモを保存しました</string>
+
+    <!-- Modifier Semantics -->
+    <string name="modifier_semantics_home_list_pane_button">home_list_pane_button</string>
+    <string name="modifier_semantics_home_list_keep_card">keep_card</string>
+    <string name="modifier_semantics_add_keep_button">add_keep_button</string>
 </resources>

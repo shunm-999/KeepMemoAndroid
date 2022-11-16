@@ -1,11 +1,14 @@
 plugins {
-    id("keepmemo.android.library")
     kotlin("kapt")
+    id("keepmemo.android.library")
+    id("keepmemo.android.library.compose")
     id("keepmemo.android.spotless")
     id("dagger.hilt.android.plugin")
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:data"))
     implementation(project(":core:model"))
 
     api(libs.hilt.android)
@@ -15,5 +18,8 @@ dependencies {
     api(libs.timber)
 
     api(libs.bundles.unit.test)
+    api(libs.bundles.android.test)
     kapt(libs.hilt.testing.compiler)
+
+    debugApi(libs.androidx.compose.ui.testManifest)
 }
