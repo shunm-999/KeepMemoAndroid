@@ -59,6 +59,32 @@ android {
         unitTests {
             isIncludeAndroidResources = true
         }
+        managedDevices {
+            devices {
+                maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel2api30").apply {
+                    // Use device profiles you typically see in Android Studio.
+                    device = "Pixel 2"
+                    // Use only API levels 27 and higher.
+                    apiLevel = 30
+                    // To include Google services, use "google".
+                    systemImageSource = "aosp"
+                }
+                maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("nexus9api30").apply {
+                    // Use device profiles you typically see in Android Studio.
+                    device = "Nexus 9"
+                    // Use only API levels 27 and higher.
+                    apiLevel = 30
+                    // To include Google services, use "google".
+                    systemImageSource = "aosp"
+                }
+            }
+            groups {
+                maybeCreate("phoneAndTablet").apply {
+                    targetDevices.add(devices["pixel2api30"])
+                    targetDevices.add(devices["nexus9api30"])
+                }
+            }
+        }
     }
 }
 
@@ -87,6 +113,7 @@ dependencies {
     implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.constraint)
     implementation(libs.androidx.compose.lifecycle.viewmodel)
+    implementation(libs.androidx.compose.lifecycle.runtime)
     implementation(libs.androidx.compose.paging)
     implementation(libs.androidx.compose.coil)
     implementation(libs.androidx.compose.icons.extended)

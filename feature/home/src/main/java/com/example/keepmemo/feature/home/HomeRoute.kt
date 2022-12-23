@@ -1,18 +1,19 @@
 package com.example.keepmemo.feature.home
 
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun HomeRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
@@ -23,7 +24,7 @@ fun HomeRoute(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     // UiState of the HomeScreen
-    val uiState by homeViewModel.uiState.collectAsState()
+    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     HomeRoute(
         uiState = uiState,
         openDrawer = openDrawer,
@@ -66,7 +67,6 @@ fun HomeRoute(
     removeFromSelectedIdList: (Long) -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
-    val keepListLazyListState = rememberLazyListState()
     val keepListLazyGridState = rememberLazyGridState()
     HomeScreen(
         uiMessages = uiState.uiMessages,
@@ -80,7 +80,6 @@ fun HomeRoute(
         listPaneChange = listPaneChange,
         addToSelectedIdList = addToSelectedIdList,
         removeFromSelectedIdList = removeFromSelectedIdList,
-        keepListLazyListState = keepListLazyListState,
         keepListLazyGridState = keepListLazyGridState,
         snackbarHostState = snackbarHostState
     )

@@ -2,7 +2,6 @@ package com.example.keepmemo.feature.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Splitscreen
@@ -220,7 +219,6 @@ private fun HomeScreenTestable(
         },
         addToSelectedIdList = {},
         removeFromSelectedIdList = {},
-        keepListLazyListState = rememberLazyListState(),
         keepListLazyGridState = rememberLazyGridState(),
         snackbarHostState = remember { SnackbarHostState() }
     )

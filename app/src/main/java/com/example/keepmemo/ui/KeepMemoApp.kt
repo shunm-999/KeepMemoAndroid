@@ -19,7 +19,6 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -29,6 +28,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 import com.example.keepmemo.core.designsystem.theme.LocalIsShowingDrawer
@@ -39,6 +40,7 @@ import com.example.keepmemo.navigation.KeepMemoNavHost
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun KeepDemoApp(
     mainActivityViewModel: MainActivityViewModel = hiltViewModel(),
@@ -52,7 +54,7 @@ fun KeepDemoApp(
             systemUiController.setSystemBarsColor(systemBarColor, darkIcons = darkIcons)
         }
 
-        val uiState by mainActivityViewModel.uiState.collectAsState()
+        val uiState by mainActivityViewModel.uiState.collectAsStateWithLifecycle()
 
         when (uiState.launchScreen) {
             LaunchScreen.SPLASH -> {

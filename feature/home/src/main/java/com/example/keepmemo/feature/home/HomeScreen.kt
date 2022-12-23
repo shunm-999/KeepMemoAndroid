@@ -4,15 +4,11 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -69,7 +65,6 @@ fun HomeScreen(
     listPaneChange: (HomeListPane) -> Unit,
     addToSelectedIdList: (Long) -> Unit,
     removeFromSelectedIdList: (Long) -> Unit,
-    keepListLazyListState: LazyListState,
     keepListLazyGridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
@@ -99,7 +94,6 @@ fun HomeScreen(
             listPane = listPane,
             memoList = memoList,
             selectedMemoIdList = selectedMemoIdList,
-            keepListLazyListState = keepListLazyListState,
             keepListLazyGridState = keepListLazyGridState,
             navigateToEditKeep = navigateToEditKeep,
             addToSelectedIdList = addToSelectedIdList,
@@ -130,7 +124,6 @@ fun HomeScreenContent(
     listPane: HomeListPane,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
-    keepListLazyListState: LazyListState,
     keepListLazyGridState: LazyGridState,
     navigateToEditKeep: (Long) -> Unit,
     addToSelectedIdList: (Long) -> Unit,
@@ -138,75 +131,24 @@ fun HomeScreenContent(
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier) {
-        when (listPane) {
-            HomeListPane.One -> {
-                MemoListOneLine(
-                    memoList = memoList,
-                    selectedMemoIdList = selectedMemoIdList,
-                    keepListLazyListState = keepListLazyListState,
-                    navigateToEditKeep = navigateToEditKeep,
-                    addToSelectedIdList = addToSelectedIdList,
-                    removeFromSelectedIdList = removeFromSelectedIdList
-                )
-            }
-            HomeListPane.Two -> {
-                MemoListTwoGrid(
-                    memoList = memoList,
-                    selectedMemoIdList = selectedMemoIdList,
-                    keepListLazyGridState = keepListLazyGridState,
-                    navigateToEditKeep = navigateToEditKeep,
-                    addToSelectedIdList = addToSelectedIdList,
-                    removeFromSelectedIdList = removeFromSelectedIdList
-                )
-            }
-        }
+        MemoListGrid(
+            columns = when (listPane) {
+                HomeListPane.One -> 1
+                HomeListPane.Two -> 2
+            },
+            memoList = memoList,
+            selectedMemoIdList = selectedMemoIdList,
+            keepListLazyGridState = keepListLazyGridState,
+            navigateToEditKeep = navigateToEditKeep,
+            addToSelectedIdList = addToSelectedIdList,
+            removeFromSelectedIdList = removeFromSelectedIdList
+        )
     }
 }
 
 @Composable
-fun MemoListOneLine(
-    memoList: List<Memo>,
-    selectedMemoIdList: Set<Long>,
-    keepListLazyListState: LazyListState,
-    navigateToEditKeep: (Long) -> Unit,
-    addToSelectedIdList: (Long) -> Unit,
-    removeFromSelectedIdList: (Long) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val context = LocalContext.current
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        state = keepListLazyListState
-    ) {
-        items(memoList) { memo ->
-            val isSelected = selectedMemoIdList.contains(memo.id)
-            KeepCard(
-                title = memo.keep.title,
-                body = memo.keep.body,
-                onClick = {
-                    navigateToEditKeep(memo.id)
-                },
-                onLongClick = {
-                    if (isSelected) {
-                        removeFromSelectedIdList(memo.id)
-                    } else {
-                        addToSelectedIdList(memo.id)
-                    }
-                },
-                isSelected = isSelected,
-                modifier = Modifier.semantics {
-                    contentDescription =
-                        context.getString(R.string.modifier_semantics_home_list_keep_card)
-                }
-            )
-        }
-    }
-}
-
-@Composable
-fun MemoListTwoGrid(
+fun MemoListGrid(
+    columns: Int,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
     keepListLazyGridState: LazyGridState,
@@ -219,7 +161,7 @@ fun MemoListTwoGrid(
     LazyVerticalGrid(
         modifier = modifier,
         state = keepListLazyGridState,
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(columns),
         contentPadding = PaddingValues(all = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -379,7 +321,6 @@ fun HomeScreenPreview() {
             listPaneChange = {},
             addToSelectedIdList = {},
             removeFromSelectedIdList = {},
-            keepListLazyListState = rememberLazyListState(),
             keepListLazyGridState = rememberLazyGridState(),
             snackbarHostState = remember { SnackbarHostState() }
         )

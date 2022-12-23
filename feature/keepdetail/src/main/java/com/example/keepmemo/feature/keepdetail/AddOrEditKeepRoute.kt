@@ -4,10 +4,12 @@ import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.feature.keepdetail.di.MainActivityViewModelFactoryProvider
@@ -20,6 +22,7 @@ sealed interface AddOrEditKeepRouteEvent {
     object NONE : AddOrEditKeepRouteEvent
 }
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun AddOrEditKeepRoute(
     targetId: Long,
@@ -32,10 +35,10 @@ fun AddOrEditKeepRoute(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val uiState = addOrEditMemoViewModel.uiState.collectAsState().value
-    if (uiState is AddOrEditKeepUiState.INITIALIZED) {
+    val uiState by addOrEditMemoViewModel.uiState.collectAsStateWithLifecycle()
+    (uiState as? AddOrEditKeepUiState.INITIALIZED)?.let {
         AddOrEditKeepRoute(
-            uiState = uiState,
+            uiState = it,
             onTitleChange = { title -> addOrEditMemoViewModel.updateTitle(title) },
             onBodyChange = { body -> addOrEditMemoViewModel.updateBody(body) },
             onBackPressed = {
