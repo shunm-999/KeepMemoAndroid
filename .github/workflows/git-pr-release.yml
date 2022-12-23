@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
       # Rubyセットアップ
       - name: Set up Ruby 2.6
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6.x
       # ブランチ名の取得

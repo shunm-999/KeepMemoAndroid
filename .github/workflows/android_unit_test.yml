@@ -17,19 +17,14 @@ jobs:
           cache: "gradle"
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-      - name: run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
-          script: ./gradlew connectedCheck
+      - name: Run Instrumented test
+        run: |
+          ./gradlew --no-daemon phoneAndTabletGroupDebugAndroidTest
       - name: Publish Test Report
         if: cancelled() != true
         uses: mikepenz/action-junit-report@v2
         with:
-          report_paths: '**/build/outputs/androidTest-results/*/TEST-*.xml'
+          report_paths: '**/build/outputs/androidTest-results/**/TEST-*.xml'
       - name: notify result
         if: always()
         uses: ./.github/workflows/composite/notify-result-action
