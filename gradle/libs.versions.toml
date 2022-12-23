@@ -15,7 +15,7 @@ androidx-compose-navigation = "2.4.0"
 
 room = "2.4.3"
 
-hilt-core = "2.42"
+hilt-core = "2.44.2"
 
 androidx-test = "1.5.0"
 coroutine-test = "1.6.4"
