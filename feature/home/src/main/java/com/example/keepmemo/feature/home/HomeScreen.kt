@@ -1,9 +1,15 @@
 package com.example.keepmemo.feature.home
 
+import android.content.Context
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -12,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -32,11 +39,14 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.LookaheadLayout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -44,6 +54,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
+import com.example.keepmemo.core.designsystem.ktx.animateConstraints
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 import com.example.keepmemo.core.designsystem.theme.LocalIsShowingDrawer
 import com.example.keepmemo.core.model.data.Keep
@@ -58,18 +69,16 @@ fun HomeScreen(
     listPane: HomeListPane,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
+    fullScreenMemo: Memo?,
     openDrawer: () -> Unit,
     onMessageDismiss: (Long) -> Unit,
-    navigateToAddKeep: () -> Unit,
-    navigateToEditKeep: (Long) -> Unit,
-    listPaneChange: (HomeListPane) -> Unit,
-    addToSelectedIdList: (Long) -> Unit,
-    removeFromSelectedIdList: (Long) -> Unit,
+    onHomeUiEvent: (HomeUiEvent) -> Unit,
     keepListLazyGridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val isFullScreen = fullScreenMemo != null
 
     Scaffold(
         snackbarHost = { KeepMemoSnackbarHost(hostState = snackbarHostState) },
@@ -77,15 +86,31 @@ fun HomeScreen(
             HomeTopAppBar(
                 listPane = listPane,
                 openDrawer = openDrawer,
-                listPaneChange = listPaneChange,
+                onBackPressed = {
+                    onHomeUiEvent(
+                        HomeUiEvent.NavigateToMemoList
+                    )
+                },
+                listPaneChange = { listPane ->
+                    onHomeUiEvent(
+                        HomeUiEvent.HomeListPageChange(listPane)
+                    )
+                },
+                isFullScreen = isFullScreen,
                 scrollBehavior = scrollBehavior
             )
         },
         bottomBar = {
-            HomeBottomBar(
-                onClickFloatingActionButton = navigateToAddKeep,
-                modifier = Modifier.clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
-            )
+            if (!isFullScreen) {
+                HomeBottomBar(
+                    onClickFloatingActionButton = {
+                        onHomeUiEvent(
+                            HomeUiEvent.NavigateToAddKeep
+                        )
+                    },
+                    modifier = Modifier.clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
+                )
+            }
         },
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { innerPadding ->
@@ -94,10 +119,9 @@ fun HomeScreen(
             listPane = listPane,
             memoList = memoList,
             selectedMemoIdList = selectedMemoIdList,
+            fullScreenMemo = fullScreenMemo,
             keepListLazyGridState = keepListLazyGridState,
-            navigateToEditKeep = navigateToEditKeep,
-            addToSelectedIdList = addToSelectedIdList,
-            removeFromSelectedIdList = removeFromSelectedIdList,
+            onHomeUiEvent = onHomeUiEvent,
             modifier = contentModifier
         )
     }
@@ -124,10 +148,9 @@ fun HomeScreenContent(
     listPane: HomeListPane,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
+    fullScreenMemo: Memo?,
     keepListLazyGridState: LazyGridState,
-    navigateToEditKeep: (Long) -> Unit,
-    addToSelectedIdList: (Long) -> Unit,
-    removeFromSelectedIdList: (Long) -> Unit,
+    onHomeUiEvent: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier) {
@@ -138,57 +161,160 @@ fun HomeScreenContent(
             },
             memoList = memoList,
             selectedMemoIdList = selectedMemoIdList,
+            fullScreenMemo = fullScreenMemo,
             keepListLazyGridState = keepListLazyGridState,
-            navigateToEditKeep = navigateToEditKeep,
-            addToSelectedIdList = addToSelectedIdList,
-            removeFromSelectedIdList = removeFromSelectedIdList
+            onHomeUiEvent = onHomeUiEvent
         )
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MemoListGrid(
     columns: Int,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
+    fullScreenMemo: Memo?,
     keepListLazyGridState: LazyGridState,
-    navigateToEditKeep: (Long) -> Unit,
-    addToSelectedIdList: (Long) -> Unit,
-    removeFromSelectedIdList: (Long) -> Unit,
+    onHomeUiEvent: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    LazyVerticalGrid(
-        modifier = modifier,
-        state = keepListLazyGridState,
-        columns = GridCells.Fixed(columns),
-        contentPadding = PaddingValues(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(memoList) { memo ->
-            val isSelected = selectedMemoIdList.contains(memo.id)
-            KeepCard(
-                title = memo.keep.title,
-                body = memo.keep.body,
-                onClick = {
-                    navigateToEditKeep(memo.id)
-                },
-                onLongClick = {
-                    if (isSelected) {
-                        removeFromSelectedIdList(memo.id)
-                    } else {
-                        addToSelectedIdList(memo.id)
-                    }
-                },
-                isSelected = isSelected,
-                modifier = Modifier.semantics {
-                    contentDescription =
-                        context.getString(R.string.modifier_semantics_home_list_keep_card)
-                }
-            )
+
+    val keepCardComponents = remember(memoList) {
+        memoList.associate {
+            it.id to movableKeepCard(context)
         }
     }
+
+    Box {
+        LazyVerticalGrid(
+            modifier = modifier,
+            state = keepListLazyGridState,
+            columns = GridCells.Fixed(columns),
+            contentPadding = PaddingValues(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(
+                items = memoList,
+                key = { memo -> memo.id }
+            ) { memo ->
+                val isSelected = selectedMemoIdList.contains(memo.id)
+                keepCardComponents[memo.id]?.invoke(
+                    MovableContentKeepCard(
+                        title = memo.keep.title,
+                        body = memo.keep.body,
+                        isSelected = isSelected,
+                        isFullScreen = false,
+                        onClick = {
+                            onHomeUiEvent(
+                                HomeUiEvent.NavigateToFullScreen(memo)
+                            )
+                        },
+                        onLongClick = {
+                            if (isSelected) {
+                                onHomeUiEvent(
+                                    HomeUiEvent.RemoveFromSelectedIdList(memo.id)
+                                )
+                            } else {
+                                onHomeUiEvent(
+                                    HomeUiEvent.AddToSelectedIdList(memo.id)
+                                )
+                            }
+                        }
+                    )
+                )
+            }
+        }
+        LookaheadLayout(
+            content = {
+                Column(
+                    modifier = if (fullScreenMemo != null) {
+                        Modifier.fillMaxSize()
+                    } else {
+                        Modifier.size(0.dp)
+                    }.animateConstraints(this@LookaheadLayout)
+                ) {
+                    fullScreenMemo?.let { memo ->
+
+                        keepCardComponents[memo.id]?.invoke(
+                            MovableContentKeepCard(
+                                title = memo.keep.title,
+                                body = memo.keep.body,
+                                isSelected = false,
+                                isFullScreen = true,
+                                onClick = {
+                                },
+                                onLongClick = {
+                                },
+                                onTitleChange = { title ->
+                                    onHomeUiEvent(
+                                        HomeUiEvent.UpdateFullScreenMemoTitle(
+                                            title = title
+                                        )
+                                    )
+                                },
+                                onBodyChange = { body ->
+                                    onHomeUiEvent(
+                                        HomeUiEvent.UpdateFullScreenMemoBody(
+                                            body = body
+                                        )
+                                    )
+                                }
+                            )
+                        )
+                        BackHandler(true) {
+                            onHomeUiEvent(
+                                HomeUiEvent.NavigateToMemoList
+                            )
+                        }
+                    }
+                }
+            }
+        ) { measurables, constraints ->
+            val placeables = measurables.map { it.measure(constraints) }
+            val maxWidth = placeables.maxOf { it.width }
+            val maxHeight = placeables.maxOf { it.height }
+
+            layout(maxWidth, maxHeight) {
+                placeables.forEach {
+                    it.place(0, 0)
+                }
+            }
+        }
+    }
+}
+
+private data class MovableContentKeepCard(
+    val title: String,
+    val body: String,
+    val isSelected: Boolean,
+    val isFullScreen: Boolean,
+    val onClick: () -> Unit,
+    val onLongClick: () -> Unit,
+    val onTitleChange: (String) -> Unit = {},
+    val onBodyChange: (String) -> Unit = {}
+)
+
+private fun movableKeepCard(
+    context: Context
+) = movableContentOf<MovableContentKeepCard>
+{ (title, body, isSelected, isFullScreen, onClick, onLongClick, onTitleChange, onBodyChange) ->
+    KeepCard(
+        title = title,
+        body = body,
+        onClick = onClick,
+        onLongClick = onLongClick,
+        onTitleChange = onTitleChange,
+        onBodyChange = onBodyChange,
+        isSelected = isSelected,
+        isFullScreen = isFullScreen,
+        modifier = Modifier.semantics {
+            contentDescription =
+                context.getString(R.string.modifier_semantics_home_list_keep_card)
+        }
+    )
 }
 
 /**
@@ -200,60 +326,77 @@ private fun HomeTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     listPane: HomeListPane,
     openDrawer: () -> Unit,
-    listPaneChange: (HomeListPane) -> Unit
+    onBackPressed: () -> Unit,
+    listPaneChange: (HomeListPane) -> Unit,
+    isFullScreen: Boolean
 ) {
-    TopAppBar(
-        title = {
-            Text(text = stringResource(id = R.string.home_memo_appbar_title))
-        },
-        navigationIcon = {
-            val isShowingDrawer = LocalIsShowingDrawer.current
-            if (isShowingDrawer) {
-                IconButton(onClick = openDrawer) {
+    if (isFullScreen) {
+        TopAppBar(
+            title = { },
+            navigationIcon = {
+                IconButton(onClick = onBackPressed) {
                     Icon(
-                        imageVector = Icons.Filled.Menu,
+                        imageVector = Icons.Filled.ArrowBack,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
-            }
-        },
-        actions = {
-            val context = LocalContext.current
-            IconButton(
-                onClick = {
-                    listPaneChange(
-                        when (listPane) {
-                            HomeListPane.One -> HomeListPane.Two
-                            HomeListPane.Two -> HomeListPane.One
+            },
+        )
+    } else {
+        TopAppBar(
+            title = {
+                Text(text = stringResource(id = R.string.home_memo_appbar_title))
+            },
+            navigationIcon = {
+                val isShowingDrawer = LocalIsShowingDrawer.current
+                if (isShowingDrawer) {
+                    IconButton(onClick = openDrawer) {
+                        Icon(
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            },
+            actions = {
+                val context = LocalContext.current
+                IconButton(
+                    onClick = {
+                        listPaneChange(
+                            when (listPane) {
+                                HomeListPane.One -> HomeListPane.Two
+                                HomeListPane.Two -> HomeListPane.One
+                            }
+                        )
+                    },
+                    modifier = Modifier.semantics {
+                        contentDescription =
+                            context.getString(R.string.modifier_semantics_home_list_pane_button)
+                    }
+                ) {
+                    Icon(
+                        imageVector = when (listPane) {
+                            HomeListPane.One -> Icons.Filled.GridView
+                            HomeListPane.Two -> Icons.Filled.Splitscreen
+                        },
+                        contentDescription = when (listPane) {
+                            HomeListPane.One -> Icons.Filled.GridView.name
+                            HomeListPane.Two -> Icons.Filled.Splitscreen.name
                         }
                     )
-                },
-                modifier = Modifier.semantics {
-                    contentDescription =
-                        context.getString(R.string.modifier_semantics_home_list_pane_button)
                 }
-            ) {
-                Icon(
-                    imageVector = when (listPane) {
-                        HomeListPane.One -> Icons.Filled.GridView
-                        HomeListPane.Two -> Icons.Filled.Splitscreen
-                    },
-                    contentDescription = when (listPane) {
-                        HomeListPane.One -> Icons.Filled.GridView.name
-                        HomeListPane.Two -> Icons.Filled.Splitscreen.name
-                    }
-                )
-            }
-            IconButton(onClick = { /* TODO: Open search */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = null
-                )
-            }
-        },
-        scrollBehavior = scrollBehavior
-    )
+                IconButton(onClick = { /* TODO: Open search */ }) {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = null
+                    )
+                }
+            },
+            scrollBehavior = scrollBehavior
+        )
+    }
 }
 
 @Composable
@@ -314,13 +457,10 @@ fun HomeScreenPreview() {
                 )
             ),
             selectedMemoIdList = setOf(1L),
+            fullScreenMemo = null,
             openDrawer = {},
             onMessageDismiss = {},
-            navigateToAddKeep = {},
-            navigateToEditKeep = {},
-            listPaneChange = {},
-            addToSelectedIdList = {},
-            removeFromSelectedIdList = {},
+            onHomeUiEvent = {},
             keepListLazyGridState = rememberLazyGridState(),
             snackbarHostState = remember { SnackbarHostState() }
         )
@@ -337,7 +477,9 @@ fun HomeTopAppBarPreview() {
             scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
             listPane = HomeListPane.One,
             openDrawer = {},
-            listPaneChange = {}
+            onBackPressed = {},
+            listPaneChange = {},
+            isFullScreen = false
         )
     }
 }

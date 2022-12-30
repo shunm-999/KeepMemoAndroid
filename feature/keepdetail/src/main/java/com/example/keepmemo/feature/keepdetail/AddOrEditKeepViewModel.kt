@@ -24,7 +24,7 @@ sealed interface AddOrEditKeepUiState {
     ) : AddOrEditKeepUiState
 }
 
-class AddOrEditMemoViewModel @AssistedInject constructor(
+class AddOrEditKeepViewModel @AssistedInject constructor(
     @Assisted("targetId") private val targetId: Long,
     @Assisted("editTime") editTime: Long = System.currentTimeMillis(),
     private val memoUseCase: MemoUseCase
@@ -90,11 +90,15 @@ class AddOrEditMemoViewModel @AssistedInject constructor(
                 body = body
             )
         } else {
-            memoUseCase.invokeAddMemo(
-                title = title,
-                body = body
-            )
-            return Result.Success(Unit)
+            when (
+                val result = memoUseCase.invokeAddMemo(
+                    title = title,
+                    body = body
+                )
+            ) {
+                is Result.Success -> Result.Success(Unit)
+                is Result.Error -> result
+            }
         }
     }
 
@@ -103,7 +107,7 @@ class AddOrEditMemoViewModel @AssistedInject constructor(
         fun create(
             @Assisted("targetId") targetId: Long,
             @Assisted("editTime") editTime: Long
-        ): AddOrEditMemoViewModel
+        ): AddOrEditKeepViewModel
     }
 
     companion object {

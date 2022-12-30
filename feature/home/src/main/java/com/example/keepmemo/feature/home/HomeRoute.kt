@@ -6,12 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -19,28 +21,46 @@ fun HomeRoute(
     homeViewModel: HomeViewModel = hiltViewModel(),
     openDrawer: () -> Unit,
     navigateToAddKeep: () -> Unit,
-    navigateToEditKeep: (Long) -> Unit,
     addKeepEvent: String,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     // UiState of the HomeScreen
+    val coroutineScope = rememberCoroutineScope()
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     HomeRoute(
         uiState = uiState,
         openDrawer = openDrawer,
-        onMessageDismiss = { id ->
-            homeViewModel.onShowMessage(id)
-        },
-        navigateToAddKeep = navigateToAddKeep,
-        navigateToEditKeep = navigateToEditKeep,
-        listPaneChange = { listPane ->
-            homeViewModel.updateListPane(listPane)
-        },
-        addToSelectedIdList = { memoId ->
-            homeViewModel.addSelectedMemoId(memoId)
-        },
-        removeFromSelectedIdList = { memoId ->
-            homeViewModel.removeSelectedMemoId(memoId)
+        onMessageDismiss = homeViewModel::dismissMessage,
+        onHomeUiEvent = { event ->
+            when (event) {
+                HomeUiEvent.NavigateToAddKeep -> {
+                    navigateToAddKeep()
+                }
+                is HomeUiEvent.NavigateToFullScreen -> {
+                    homeViewModel.toFullScreen(event.memo)
+                }
+                HomeUiEvent.NavigateToMemoList -> {
+                    coroutineScope.launch {
+                        homeViewModel.saveKeep()
+                        homeViewModel.toMemoList()
+                    }
+                }
+                is HomeUiEvent.UpdateFullScreenMemoTitle -> {
+                    homeViewModel.updateFullScreenMemoTitle(event.title)
+                }
+                is HomeUiEvent.UpdateFullScreenMemoBody -> {
+                    homeViewModel.updateFullScreenMemoBody(event.body)
+                }
+                is HomeUiEvent.HomeListPageChange -> {
+                    homeViewModel.updateListPane(event.homeListPane)
+                }
+                is HomeUiEvent.AddToSelectedIdList -> {
+                    homeViewModel.addSelectedMemoId(event.keepId)
+                }
+                is HomeUiEvent.RemoveFromSelectedIdList -> {
+                    homeViewModel.removeSelectedMemoId(event.keepId)
+                }
+            }
         },
         snackbarHostState = snackbarHostState
     )
@@ -60,11 +80,7 @@ fun HomeRoute(
     uiState: HomeUiState,
     openDrawer: () -> Unit,
     onMessageDismiss: (Long) -> Unit,
-    navigateToAddKeep: () -> Unit,
-    navigateToEditKeep: (Long) -> Unit,
-    listPaneChange: (HomeListPane) -> Unit,
-    addToSelectedIdList: (Long) -> Unit,
-    removeFromSelectedIdList: (Long) -> Unit,
+    onHomeUiEvent: (HomeUiEvent) -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
     val keepListLazyGridState = rememberLazyGridState()
@@ -73,13 +89,10 @@ fun HomeRoute(
         listPane = uiState.homeListPane,
         memoList = uiState.memoList,
         selectedMemoIdList = uiState.selectedMemoIdList,
+        fullScreenMemo = uiState.fullScreenMemo,
         openDrawer = openDrawer,
         onMessageDismiss = onMessageDismiss,
-        navigateToAddKeep = navigateToAddKeep,
-        navigateToEditKeep = navigateToEditKeep,
-        listPaneChange = listPaneChange,
-        addToSelectedIdList = addToSelectedIdList,
-        removeFromSelectedIdList = removeFromSelectedIdList,
+        onHomeUiEvent = onHomeUiEvent,
         keepListLazyGridState = keepListLazyGridState,
         snackbarHostState = snackbarHostState
     )

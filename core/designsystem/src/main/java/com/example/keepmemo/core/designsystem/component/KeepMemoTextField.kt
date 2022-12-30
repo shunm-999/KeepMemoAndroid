@@ -42,6 +42,7 @@ fun KeepMemoInputTextField(
     onDone: (KeyboardActionScope.() -> Unit)? = null,
     backgroundTransparent: Boolean = true,
     isFocused: Boolean = false,
+    readOnly: Boolean = false,
     focusManager: FocusManager = LocalFocusManager.current,
     focusRequester: FocusRequester = remember { FocusRequester() },
     keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
@@ -76,6 +77,7 @@ fun KeepMemoInputTextField(
                 TextFieldDefaults.textFieldColors()
             },
             singleLine = singleLine,
+            readOnly = readOnly,
             keyboardActions = KeyboardActions(
                 onDone = {
                     if (onDone == null) {

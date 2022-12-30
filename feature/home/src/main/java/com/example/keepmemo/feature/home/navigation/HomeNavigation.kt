@@ -39,7 +39,6 @@ fun NavGraphBuilder.homeGraph(
         HomeRoute(
             openDrawer = openDrawer,
             navigateToAddKeep = navigateToAddKeep,
-            navigateToEditKeep = navigateToEditKeep,
             addKeepEvent = addKeepEvent
         )
     }

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="placeholder_keep_title">タイトル</string>
+    <string name="placeholder_keep_body">メモ</string>
+
     <!-- ダイアログ -->
     <string name="dialog_button_yes">はい</string>
     <string name="dialog_button_close">閉じる</string>

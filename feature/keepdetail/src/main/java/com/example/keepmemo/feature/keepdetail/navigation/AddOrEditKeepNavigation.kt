@@ -6,8 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.keepmemo.core.navigation.KeepMemoDestination
+import com.example.keepmemo.feature.keepdetail.AddOrEditKeepEvent
 import com.example.keepmemo.feature.keepdetail.AddOrEditKeepRoute
-import com.example.keepmemo.feature.keepdetail.AddOrEditKeepRouteEvent
 
 object AddOrEditKeepDestination : KeepMemoDestination {
     const val QUERY_TARGET_ID = "targetId"
@@ -37,7 +37,7 @@ fun NavGraphBuilder.addOrEditKeepGraph(
             targetId = targetId,
             editTime = System.currentTimeMillis(),
             onBackPressed = { event ->
-                if (event is AddOrEditKeepRouteEvent.ADDED) {
+                if (event is AddOrEditKeepEvent.ADDED) {
                     // 新規作成時
                     navController.previousBackStackEntry
                         ?.savedStateHandle
