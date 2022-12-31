@@ -16,10 +16,10 @@ import com.example.keepmemo.feature.keepdetail.di.MainActivityViewModelFactoryPr
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 
-sealed interface AddOrEditKeepRouteEvent {
-    object ADDED : AddOrEditKeepRouteEvent
-    object EDITED : AddOrEditKeepRouteEvent
-    object NONE : AddOrEditKeepRouteEvent
+sealed interface AddOrEditKeepEvent {
+    object ADDED : AddOrEditKeepEvent
+    object EDITED : AddOrEditKeepEvent
+    object NONE : AddOrEditKeepEvent
 }
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
@@ -27,32 +27,32 @@ sealed interface AddOrEditKeepRouteEvent {
 fun AddOrEditKeepRoute(
     targetId: Long,
     editTime: Long,
-    addOrEditMemoViewModel: AddOrEditMemoViewModel = addOrEditKeepViewModel(
+    addOrEditKeepViewModel: AddOrEditKeepViewModel = addOrEditKeepViewModel(
         targetId = targetId,
         editTime = editTime
     ),
-    onBackPressed: (AddOrEditKeepRouteEvent) -> Unit,
+    onBackPressed: (AddOrEditKeepEvent) -> Unit,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val uiState by addOrEditMemoViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by addOrEditKeepViewModel.uiState.collectAsStateWithLifecycle()
     (uiState as? AddOrEditKeepUiState.INITIALIZED)?.let {
         AddOrEditKeepRoute(
             uiState = it,
-            onTitleChange = { title -> addOrEditMemoViewModel.updateTitle(title) },
-            onBodyChange = { body -> addOrEditMemoViewModel.updateBody(body) },
+            onTitleChange = { title -> addOrEditKeepViewModel.updateTitle(title) },
+            onBodyChange = { body -> addOrEditKeepViewModel.updateBody(body) },
             onBackPressed = {
                 coroutineScope.launch {
-                    val event = when (addOrEditMemoViewModel.saveKeep()) {
+                    val event = when (addOrEditKeepViewModel.saveKeep()) {
                         is Result.Success -> {
                             if (targetId > 0) {
-                                AddOrEditKeepRouteEvent.EDITED
+                                AddOrEditKeepEvent.EDITED
                             } else {
-                                AddOrEditKeepRouteEvent.ADDED
+                                AddOrEditKeepEvent.ADDED
                             }
                         }
                         is Result.Error -> {
-                            AddOrEditKeepRouteEvent.NONE
+                            AddOrEditKeepEvent.NONE
                         }
                     }
                     onBackPressed(event)
@@ -62,16 +62,16 @@ fun AddOrEditKeepRoute(
         )
         BackHandler(true) {
             coroutineScope.launch {
-                val event = when (addOrEditMemoViewModel.saveKeep()) {
+                val event = when (addOrEditKeepViewModel.saveKeep()) {
                     is Result.Success -> {
                         if (targetId > 0) {
-                            AddOrEditKeepRouteEvent.EDITED
+                            AddOrEditKeepEvent.EDITED
                         } else {
-                            AddOrEditKeepRouteEvent.ADDED
+                            AddOrEditKeepEvent.ADDED
                         }
                     }
                     is Result.Error -> {
-                        AddOrEditKeepRouteEvent.NONE
+                        AddOrEditKeepEvent.NONE
                     }
                 }
                 onBackPressed(event)
@@ -102,14 +102,14 @@ fun AddOrEditKeepRoute(
 private fun addOrEditKeepViewModel(
     targetId: Long,
     editTime: Long
-): AddOrEditMemoViewModel {
+): AddOrEditKeepViewModel {
     val factory = EntryPointAccessors.fromActivity(
         LocalContext.current as Activity,
         MainActivityViewModelFactoryProvider::class.java
     ).addOrEditKeepViewModelFactory()
 
     return viewModel(
-        factory = AddOrEditMemoViewModel.provideFactory(
+        factory = AddOrEditKeepViewModel.provideFactory(
             factory,
             targetId = targetId,
             editTime = editTime
