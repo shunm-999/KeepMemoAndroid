@@ -17,8 +17,7 @@ object HomeDestination : KeepMemoDestination {
 fun NavGraphBuilder.homeGraph(
     navController: NavController,
     openDrawer: () -> Unit,
-    navigateToAddKeep: () -> Unit,
-    navigateToEditKeep: (Long) -> Unit
+    navigateToAddKeep: () -> Unit
 ) {
     composable(HomeDestination.route) {
         val valueScreenResult = navController.currentBackStackEntry
