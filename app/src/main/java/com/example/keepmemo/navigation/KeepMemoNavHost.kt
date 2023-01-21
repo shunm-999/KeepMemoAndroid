@@ -28,20 +28,13 @@ fun KeepMemoNavHost(
     ) {
         homeGraph(
             navController = navController,
-            openDrawer = openDrawer,
-            navigateToAddKeep = {
-                onNavigationToDestination(
-                    AddOrEditKeepDestination,
-                    AddOrEditKeepDestination.route
-                )
-            },
-            navigateToEditKeep = { keepId ->
-                onNavigationToDestination(
-                    AddOrEditKeepDestination,
-                    AddOrEditKeepDestination.createRoute(keepId)
-                )
-            }
-        )
+            openDrawer = openDrawer
+        ) {
+            onNavigationToDestination(
+                AddOrEditKeepDestination,
+                AddOrEditKeepDestination.route
+            )
+        }
         addOrEditKeepGraph(
             navController = navController,
             onBackClick = onBackClick

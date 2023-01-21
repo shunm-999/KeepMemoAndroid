@@ -3,6 +3,7 @@ package com.example.keepmemo.feature.home
 import android.content.Context
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -154,7 +156,8 @@ fun HomeScreenContent(
     modifier: Modifier = Modifier
 ) {
     Surface(modifier = modifier) {
-        MemoListGrid(
+        // メモのリストと、メモの詳細（フルスクリーン）の表示
+        MemoListAndFullScreen(
             columns = when (listPane) {
                 HomeListPane.One -> 1
                 HomeListPane.Two -> 2
@@ -170,7 +173,7 @@ fun HomeScreenContent(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun MemoListGrid(
+fun MemoListAndFullScreen(
     columns: Int,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
@@ -180,6 +183,7 @@ fun MemoListGrid(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val isFullScreen = fullScreenMemo != null
 
     val keepCardComponents = remember(memoList) {
         memoList.associate {
@@ -187,7 +191,14 @@ fun MemoListGrid(
         }
     }
 
+    BackHandler(isFullScreen) {
+        onHomeUiEvent(
+            HomeUiEvent.NavigateToMemoList
+        )
+    }
+
     Box {
+        // メモのリスト
         LazyVerticalGrid(
             modifier = modifier,
             state = keepListLazyGridState,
@@ -227,16 +238,26 @@ fun MemoListGrid(
                 )
             }
         }
+
+        // メモの詳細
         LookaheadLayout(
             content = {
                 Column(
-                    modifier = if (fullScreenMemo != null) {
+                    modifier = if (isFullScreen) {
                         Modifier.fillMaxSize()
                     } else {
                         Modifier.size(0.dp)
                     }.animateConstraints(this@LookaheadLayout)
                 ) {
-                    fullScreenMemo?.let { memo ->
+                    val savedFullScreenMemo: Memo? by produceState<Memo?>(
+                        initialValue = null,
+                        fullScreenMemo
+                    ) {
+                        if (fullScreenMemo != null) {
+                            value = fullScreenMemo
+                        }
+                    }
+                    savedFullScreenMemo?.let { memo ->
 
                         keepCardComponents[memo.id]?.invoke(
                             MovableContentKeepCard(
@@ -264,11 +285,6 @@ fun MemoListGrid(
                                 }
                             )
                         )
-                        BackHandler(true) {
-                            onHomeUiEvent(
-                                HomeUiEvent.NavigateToMemoList
-                            )
-                        }
                     }
                 }
             }
@@ -320,7 +336,7 @@ private fun movableKeepCard(
 /**
  * TopAppBar for the Home screen
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 private fun HomeTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
@@ -330,10 +346,14 @@ private fun HomeTopAppBar(
     listPaneChange: (HomeListPane) -> Unit,
     isFullScreen: Boolean
 ) {
-    if (isFullScreen) {
-        TopAppBar(
-            title = { },
-            navigationIcon = {
+    TopAppBar(
+        title = {
+            if (!isFullScreen) {
+                Text(text = stringResource(id = R.string.home_memo_appbar_title))
+            }
+        },
+        navigationIcon = {
+            if (isFullScreen) {
                 IconButton(onClick = onBackPressed) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
@@ -341,14 +361,7 @@ private fun HomeTopAppBar(
                         tint = MaterialTheme.colorScheme.primary
                     )
                 }
-            },
-        )
-    } else {
-        TopAppBar(
-            title = {
-                Text(text = stringResource(id = R.string.home_memo_appbar_title))
-            },
-            navigationIcon = {
+            } else {
                 val isShowingDrawer = LocalIsShowingDrawer.current
                 if (isShowingDrawer) {
                     IconButton(onClick = openDrawer) {
@@ -359,8 +372,12 @@ private fun HomeTopAppBar(
                         )
                     }
                 }
-            },
-            actions = {
+            }
+        },
+        actions = if (isFullScreen) {
+            {}
+        } else {
+            {
                 val context = LocalContext.current
                 IconButton(
                     onClick = {
@@ -393,10 +410,14 @@ private fun HomeTopAppBar(
                         contentDescription = null
                     )
                 }
-            },
-            scrollBehavior = scrollBehavior
-        )
-    }
+            }
+        },
+        scrollBehavior = if (isFullScreen) {
+            null
+        } else {
+            scrollBehavior
+        }
+    )
 }
 
 @Composable
