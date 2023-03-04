@@ -4,15 +4,16 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Login
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Splitscreen
@@ -56,6 +58,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
+import com.example.keepmemo.core.designsystem.ktx.ImmutableList.Companion.toImmutableList
 import com.example.keepmemo.core.designsystem.ktx.animateConstraints
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
 import com.example.keepmemo.core.designsystem.theme.LocalIsShowingDrawer
@@ -75,7 +78,6 @@ fun HomeScreen(
     openDrawer: () -> Unit,
     onMessageDismiss: (Long) -> Unit,
     onHomeUiEvent: (HomeUiEvent) -> Unit,
-    keepListLazyGridState: LazyGridState,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier
 ) {
@@ -86,6 +88,8 @@ fun HomeScreen(
         snackbarHost = { KeepMemoSnackbarHost(hostState = snackbarHostState) },
         topBar = {
             HomeTopAppBar(
+                isFullScreen = isFullScreen,
+                scrollBehavior = scrollBehavior,
                 listPane = listPane,
                 openDrawer = openDrawer,
                 onBackPressed = {
@@ -93,13 +97,16 @@ fun HomeScreen(
                         HomeUiEvent.NavigateToMemoList
                     )
                 },
-                listPaneChange = { listPane ->
+                onListPaneChange = { listPane ->
                     onHomeUiEvent(
                         HomeUiEvent.HomeListPageChange(listPane)
                     )
                 },
-                isFullScreen = isFullScreen,
-                scrollBehavior = scrollBehavior
+                onSignIn = {
+                    onHomeUiEvent(
+                        HomeUiEvent.SignIn
+                    )
+                }
             )
         },
         bottomBar = {
@@ -122,7 +129,6 @@ fun HomeScreen(
             memoList = memoList,
             selectedMemoIdList = selectedMemoIdList,
             fullScreenMemo = fullScreenMemo,
-            keepListLazyGridState = keepListLazyGridState,
             onHomeUiEvent = onHomeUiEvent,
             modifier = contentModifier
         )
@@ -151,7 +157,6 @@ fun HomeScreenContent(
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
     fullScreenMemo: Memo?,
-    keepListLazyGridState: LazyGridState,
     onHomeUiEvent: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -165,24 +170,24 @@ fun HomeScreenContent(
             memoList = memoList,
             selectedMemoIdList = selectedMemoIdList,
             fullScreenMemo = fullScreenMemo,
-            keepListLazyGridState = keepListLazyGridState,
             onHomeUiEvent = onHomeUiEvent
         )
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MemoListAndFullScreen(
     columns: Int,
     memoList: List<Memo>,
     selectedMemoIdList: Set<Long>,
     fullScreenMemo: Memo?,
-    keepListLazyGridState: LazyGridState,
     onHomeUiEvent: (HomeUiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+    val keepListLazyGridState = rememberLazyGridState()
+
     val isFullScreen = fullScreenMemo != null
 
     val keepCardComponents = remember(memoList) {
@@ -197,10 +202,12 @@ fun MemoListAndFullScreen(
         )
     }
 
-    Box {
+    Box(
+        modifier = modifier
+    ) {
         // メモのリスト
         LazyVerticalGrid(
-            modifier = modifier,
+            modifier = Modifier.fillMaxHeight(),
             state = keepListLazyGridState,
             columns = GridCells.Fixed(columns),
             contentPadding = PaddingValues(all = 16.dp),
@@ -212,30 +219,35 @@ fun MemoListAndFullScreen(
                 key = { memo -> memo.id }
             ) { memo ->
                 val isSelected = selectedMemoIdList.contains(memo.id)
-                keepCardComponents[memo.id]?.invoke(
-                    MovableContentKeepCard(
-                        title = memo.keep.title,
-                        body = memo.keep.body,
-                        isSelected = isSelected,
-                        isFullScreen = false,
-                        onClick = {
-                            onHomeUiEvent(
-                                HomeUiEvent.NavigateToFullScreen(memo)
-                            )
-                        },
-                        onLongClick = {
-                            if (isSelected) {
+                Column(
+                    modifier = Modifier
+                        .animateItemPlacement()
+                ) {
+                    keepCardComponents[memo.id]?.invoke(
+                        MovableContentKeepCard(
+                            title = memo.keep.title,
+                            body = memo.keep.body,
+                            isSelected = isSelected,
+                            isFullScreen = false,
+                            onClick = {
                                 onHomeUiEvent(
-                                    HomeUiEvent.RemoveFromSelectedIdList(memo.id)
+                                    HomeUiEvent.NavigateToFullScreen(memo)
                                 )
-                            } else {
-                                onHomeUiEvent(
-                                    HomeUiEvent.AddToSelectedIdList(memo.id)
-                                )
+                            },
+                            onLongClick = {
+                                if (isSelected) {
+                                    onHomeUiEvent(
+                                        HomeUiEvent.RemoveFromSelectedIdList(memo.id)
+                                    )
+                                } else {
+                                    onHomeUiEvent(
+                                        HomeUiEvent.AddToSelectedIdList(memo.id)
+                                    )
+                                }
                             }
-                        }
+                        )
                     )
-                )
+                }
             }
         }
 
@@ -339,13 +351,16 @@ private fun movableKeepCard(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 private fun HomeTopAppBar(
+    isFullScreen: Boolean,
     scrollBehavior: TopAppBarScrollBehavior,
     listPane: HomeListPane,
     openDrawer: () -> Unit,
     onBackPressed: () -> Unit,
-    listPaneChange: (HomeListPane) -> Unit,
-    isFullScreen: Boolean
+    onListPaneChange: (HomeListPane) -> Unit,
+    onSignIn: () -> Unit
 ) {
+    val context = LocalContext.current
+
     TopAppBar(
         title = {
             if (!isFullScreen) {
@@ -378,10 +393,9 @@ private fun HomeTopAppBar(
             {}
         } else {
             {
-                val context = LocalContext.current
                 IconButton(
                     onClick = {
-                        listPaneChange(
+                        onListPaneChange(
                             when (listPane) {
                                 HomeListPane.One -> HomeListPane.Two
                                 HomeListPane.Two -> HomeListPane.One
@@ -407,6 +421,12 @@ private fun HomeTopAppBar(
                 IconButton(onClick = { /* TODO: Open search */ }) {
                     Icon(
                         imageVector = Icons.Filled.Search,
+                        contentDescription = null
+                    )
+                }
+                IconButton(onClick = onSignIn) {
+                    Icon(
+                        imageVector = Icons.Filled.Login,
                         contentDescription = null
                     )
                 }
@@ -476,13 +496,12 @@ fun HomeScreenPreview() {
                         body = "body3"
                     )
                 )
-            ),
+            ).toImmutableList(),
             selectedMemoIdList = setOf(1L),
             fullScreenMemo = null,
             openDrawer = {},
             onMessageDismiss = {},
             onHomeUiEvent = {},
-            keepListLazyGridState = rememberLazyGridState(),
             snackbarHostState = remember { SnackbarHostState() }
         )
     }
@@ -495,12 +514,13 @@ fun HomeScreenPreview() {
 fun HomeTopAppBarPreview() {
     KeepMemoTheme {
         HomeTopAppBar(
+            isFullScreen = false,
             scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
             listPane = HomeListPane.One,
             openDrawer = {},
             onBackPressed = {},
-            listPaneChange = {},
-            isFullScreen = false
+            onListPaneChange = {},
+            onSignIn = {}
         )
     }
 }

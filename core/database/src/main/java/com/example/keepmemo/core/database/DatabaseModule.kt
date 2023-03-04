@@ -3,6 +3,7 @@ package com.example.keepmemo.core.database
 import android.content.Context
 import com.example.keepmemo.core.database.dao.KeepDao
 import com.example.keepmemo.core.database.dao.MemoDao
+import com.example.keepmemo.core.database.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +37,13 @@ object DatabaseModule {
         appDatabase: AppDatabase
     ): MemoDao {
         return appDatabase.memoDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserDao(
+        appDatabase: AppDatabase
+    ): UserDao {
+        return appDatabase.userDao()
     }
 }

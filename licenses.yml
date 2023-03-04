@@ -690,3 +690,54 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/JetBrains/java-annotations
+- artifact: androidx.credentials:credentials-play-services-auth:+
+  name: credentials-play-services-auth
+  copyrightHolder: Google Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/jetpack/androidx/releases/credentials#1.0.0-alpha02
+- artifact: androidx.credentials:credentials:+
+  name: credentials
+  copyrightHolder: Google Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/jetpack/androidx/releases/credentials#1.0.0-alpha02
+- artifact: com.google.android.gms:play-services-auth-api-phone:+
+  name: play-services-auth-api-phone
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+- artifact: com.google.android.gms:play-services-auth-base:+
+  name: play-services-auth-base
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+- artifact: com.google.android.gms:play-services-auth:+
+  name: play-services-auth
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+- artifact: com.google.android.gms:play-services-base:+
+  name: play-services-base
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+- artifact: com.google.android.gms:play-services-basement:+
+  name: play-services-basement
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+- artifact: com.google.android.gms:play-services-fido:+
+  name: play-services-fido
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+- artifact: com.google.android.gms:play-services-tasks:+
+  name: play-services-tasks
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+- artifact: com.google.code.gson:gson:+
+  name: gson
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
