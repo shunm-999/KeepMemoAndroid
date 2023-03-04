@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.keepmemo.core.common.result.Result
 import com.example.keepmemo.core.common.util.combine
 import com.example.keepmemo.core.domain.MemoUseCase
+import com.example.keepmemo.core.domain.UserUseCase
 import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.core.model.data.UiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,12 +23,18 @@ enum class HomeListPane {
     Two
 }
 
+enum class LoginFlowState {
+    SignUp,
+    SignIn
+}
+
 data class HomeUiState(
     val homeListPane: HomeListPane = HomeListPane.One,
     val memoList: List<Memo> = emptyList(),
     val selectedMemoIdList: Set<Long> = emptySet(),
     val isLoading: Boolean = false,
     val fullScreenMemo: Memo? = null,
+    val loginFlowState: LoginFlowState? = null,
     val uiMessages: List<UiMessage> = emptyList()
 )
 
@@ -40,11 +47,13 @@ sealed interface HomeUiEvent {
     data class HomeListPageChange(val homeListPane: HomeListPane) : HomeUiEvent
     data class AddToSelectedIdList(val keepId: Long) : HomeUiEvent
     data class RemoveFromSelectedIdList(val keepId: Long) : HomeUiEvent
+    object SignIn : HomeUiEvent
 }
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val memoUseCase: MemoUseCase
+    private val memoUseCase: MemoUseCase,
+    private val userUseCase: UserUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -58,6 +67,8 @@ class HomeViewModel @Inject constructor(
 
     private val _fullScreenMemo = MutableStateFlow<Memo?>(null)
 
+    private val _loginFlowState = MutableStateFlow<LoginFlowState?>(null)
+
     private val _uiMessages = MutableStateFlow(emptyList<UiMessage>())
 
     init {
@@ -68,12 +79,14 @@ class HomeViewModel @Inject constructor(
                 _homeListPane,
                 _isLoading,
                 _fullScreenMemo,
+                _loginFlowState,
                 _uiMessages
             ) { memoList,
                 selectedMemoIdList,
                 homeListPane,
                 isLoading,
                 fullScreenMemo,
+                loginFlowState,
                 uiMessages ->
                 HomeUiState(
                     memoList = when (memoList) {
@@ -84,6 +97,7 @@ class HomeViewModel @Inject constructor(
                     homeListPane = homeListPane,
                     isLoading = isLoading,
                     fullScreenMemo = fullScreenMemo,
+                    loginFlowState = loginFlowState,
                     uiMessages = uiMessages
                 )
             }.collect {
@@ -152,6 +166,33 @@ class HomeViewModel @Inject constructor(
                 body = memo.keep.body
             )
         }
+    }
+
+    fun startSignUpFlow() {
+        _loginFlowState.value = LoginFlowState.SignUp
+    }
+
+    fun startSignInFlow() {
+        _loginFlowState.value = LoginFlowState.SignIn
+    }
+
+    fun finishSignInFlow() {
+        _loginFlowState.value = null
+    }
+
+    suspend fun saveUser(userId: String, userName: String) {
+        userUseCase.invokeSaveUser(
+            userId = userId,
+            userName = userName,
+            isSigned = false
+        )
+    }
+
+    suspend fun updateUser(userId: String, isSigned: Boolean) {
+        userUseCase.invokeUpdateUser(
+            userId = userId,
+            isSigned = isSigned
+        )
     }
 
     fun showMessage(@StringRes messageId: Int) {

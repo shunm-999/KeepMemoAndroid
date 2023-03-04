@@ -2,8 +2,10 @@ package com.example.keepmemo.core.data
 
 import com.example.keepmemo.core.database.entity.KeepEntityImpl
 import com.example.keepmemo.core.database.entity.MemoWithKeepEntityImpl
+import com.example.keepmemo.core.database.entity.UserEntityInterface
 import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.core.model.data.Memo
+import com.example.keepmemo.core.model.data.User
 
 object RoomEntityConverter {
 
@@ -33,6 +35,20 @@ object RoomEntityConverter {
     fun convertToMemo(memoWithKeepEntityImplList: List<MemoWithKeepEntityImpl>): List<Memo> {
         return memoWithKeepEntityImplList.map {
             convertToMemo(it)
+        }
+    }
+
+    fun convertToUser(userEntity: UserEntityInterface): User {
+        return User(
+            userId = userEntity.userId,
+            userName = userEntity.userName,
+            isSigned = userEntity.isSigned
+        )
+    }
+
+    fun convertToUser(userEntityList: List<UserEntityInterface>): List<User> {
+        return userEntityList.map {
+            convertToUser(it)
         }
     }
 }

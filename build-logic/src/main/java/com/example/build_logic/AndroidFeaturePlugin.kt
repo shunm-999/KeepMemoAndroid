@@ -7,6 +7,7 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.project
 
 class AndroidFeaturePlugin : Plugin<Project> {
 
@@ -32,6 +33,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
                 add("implementation", project(":core:common"))
                 add("implementation", project(":core:navigation"))
                 add("implementation", project(":core:domain"))
+                add("implementation", project(":core:authentication"))
 
                 add("testImplementation", project(":core:testing"))
                 add("androidTestImplementation", project(":core:testing"))
@@ -42,6 +44,8 @@ class AndroidFeaturePlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("hilt.navigation").get())
                 add("implementation", libs.findLibrary("hilt.android").get())
                 add("kapt", libs.findLibrary("hilt.compiler").get())
+
+                add("implementation", libs.findLibrary("timber").get())
             }
         }
     }

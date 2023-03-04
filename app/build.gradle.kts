@@ -106,6 +106,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.bundles.androidx.lifecycle)
+    implementation(libs.bundles.androidx.credentials.manager)
 
     implementation(libs.bundles.androidx.compose.core)
     implementation(libs.bundles.androidx.compose.accompanist)
