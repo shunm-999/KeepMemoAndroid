@@ -7,7 +7,7 @@ cookpad-license-tools = "1.2.8"
 androidx-core = "1.8.0"
 androidx-constraint = "1.0.1"
 androidx-lifecycle = "2.5.1"
-androidx-credentials = "1.0.0-alpha02"
+androidx-credentials = "1.0.0-alpha06"
 
 androidx-compose-compiler = "1.4.2"
 androidx-compose-bom = "2022.10.00"
