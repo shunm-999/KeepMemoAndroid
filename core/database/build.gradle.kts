@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "core.database"
     defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf(
