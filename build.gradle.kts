@@ -17,6 +17,15 @@ plugins {
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.cookpad.license.tools)
     alias(libs.plugins.spotless) apply false
+
+    id("keepmemo.android.application.compose") apply false
+    id("keepmemo.android.application") apply false
+    id("keepmemo.android.library.compose") apply false
+    id("keepmemo.android.library") apply false
+    id("keepmemo.android.feature") apply false
+    id("keepmemo.android.test") apply false
+    id("keepmemo.android.hilt") apply false
+    id("keepmemo.android.spotless") apply false
 }
 
 licenseTools {

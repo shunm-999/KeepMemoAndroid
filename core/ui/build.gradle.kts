@@ -4,6 +4,10 @@ plugins {
     id("keepmemo.android.spotless")
 }
 
+android {
+    namespace = "core.ui"
+}
+
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))

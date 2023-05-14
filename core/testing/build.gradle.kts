@@ -6,6 +6,10 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+android {
+    namespace = "core.testing"
+}
+
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))

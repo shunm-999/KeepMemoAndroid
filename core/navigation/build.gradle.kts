@@ -1,4 +1,8 @@
 plugins {
-    id("kotlin")
+    id("keepmemo.android.library")
     id("keepmemo.android.spotless")
+}
+
+android {
+    namespace = "core.navigation"
 }
