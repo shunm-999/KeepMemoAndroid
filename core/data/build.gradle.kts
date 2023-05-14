@@ -4,6 +4,10 @@ plugins {
     id("keepmemo.android.hilt")
 }
 
+android {
+    namespace = "core.data"
+}
+
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:model"))

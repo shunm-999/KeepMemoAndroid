@@ -50,6 +50,7 @@ import com.example.keepmemo.core.model.data.Keep
 import com.example.keepmemo.core.model.data.Memo
 import com.example.keepmemo.core.model.data.UiMessage
 import com.example.keepmemo.core.ui.KeepCard
+import feature.home.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

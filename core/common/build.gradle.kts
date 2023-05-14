@@ -5,6 +5,10 @@ plugins {
     id("kotlin-kapt")
 }
 
+android {
+    namespace = "core.common"
+}
+
 dependencies {
     implementation(libs.kotlinx.coroutines.android)
 }

@@ -3,3 +3,7 @@ plugins {
     id("keepmemo.android.library.compose")
     id("keepmemo.android.spotless")
 }
+
+android {
+    namespace = "feature.home"
+}

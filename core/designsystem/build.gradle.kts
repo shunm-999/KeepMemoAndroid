@@ -4,6 +4,10 @@ plugins {
     id("keepmemo.android.spotless")
 }
 
+android {
+    namespace = "core.designsystem"
+}
+
 dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.paging.runtime)

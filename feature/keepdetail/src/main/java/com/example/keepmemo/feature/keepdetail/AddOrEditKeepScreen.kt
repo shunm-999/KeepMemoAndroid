@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.example.keepmemo.core.designsystem.component.KeepMemoInputTextField
 import com.example.keepmemo.core.designsystem.component.KeepMemoSnackbarHost
 import com.example.keepmemo.core.designsystem.theme.KeepMemoTheme
+import feature.keepdetail.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

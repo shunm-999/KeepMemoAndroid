@@ -16,6 +16,10 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 extensions.configure<BaseAppModuleExtension> {
                     configureKotlinAndroid(this)
                     defaultConfig.targetSdk = 32
+
+                    buildFeatures {
+                        buildConfig = true
+                    }
                 }
             }
         }

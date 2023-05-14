@@ -8,6 +8,7 @@ plugins {
 }
 
 android {
+    namespace = "com.example.keepmemo"
     defaultConfig {
         applicationId = "com.example.keepmemo"
         versionCode = versionCode
