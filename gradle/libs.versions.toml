@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.7.20"
 kotlinxCoroutines = "1.6.4"
-android-gradle = "8.0.1"
+android-gradle = "8.0.2"
 cookpad-license-tools = "1.2.8"
 
 androidx-core = "1.8.0"
