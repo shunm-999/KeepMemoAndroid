@@ -73,14 +73,14 @@ androidx-compose-coil = { module = "io.coil-kt:coil-compose", version = "1.4.0" 
 # Compose Navigation
 androidx-compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-compose-navigation" }
 # Compose Paging
-androidx-compose-paging = { module = "androidx.paging:paging-compose", version = "1.0.0-alpha17" }
+androidx-compose-paging = { module = "androidx.paging:paging-compose", version = "1.0.0-alpha20" }
 
 # Compose Test
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 
 # Paging
-androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version = "3.1.1" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version = "3.2.1" }
 
 # Room
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
